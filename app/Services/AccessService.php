@@ -10,7 +10,7 @@ use Carbon\CarbonInterface;
 
 /**
  * Decides whether a user may use a product, and grants/revokes access from plans.
- * Modules only ever ask hasAccess(); they never look at plans or Stripe.
+ * Modules only ever ask hasAccess(); they never look at plans or PayPal.
  */
 class AccessService
 {

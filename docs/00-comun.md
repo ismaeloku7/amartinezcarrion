@@ -7,7 +7,8 @@ en fase 2, cursos.
 - Laravel (última versión), desplegado con Forge. Convenciones estándar de Laravel.
 - Portal único con suscripciones. No es un SaaS: no hay multi-tenant, ni organizaciones,
   ni espacios por cliente. Un solo sitio, un solo catálogo, usuarios finales.
-- Pagos y suscripciones: Laravel Cashier (Stripe).
+- Pagos y suscripciones: PayPal (API REST: Orders para pago único, Subscriptions para
+  mensual/anual). Ver 05-paypal.md.
 - Multiidioma: archivos de idioma para la interfaz; spatie/laravel-translatable para
   contenido editable. Idiomas gestionados desde el panel.
 - Notificaciones: Web Push (VAPID), suscripciones por dispositivo y por app.
@@ -41,18 +42,19 @@ Reglas:
 - Las compras de pago único generan acceso sin fecha de fin.
 - Puede haber productos gratuitos (acceso para cualquier usuario registrado) y
   contenidos públicos (sin registro).
-- Períodos de prueba configurables por plan.
+- Períodos de prueba configurables por plan. Con PayPal el periodo de prueba se define en el
+  propio plan de PayPal (ciclo TRIAL); el campo `trial_days` del panel es informativo.
 
 ## Modelo de datos común
 - `users`: datos de cuenta, locale, timezone.
 - `products`: key, type (practice|test|content|course), name (traducible), free (bool).
-- `plans`: name (traducible), stripe_price_id, interval (month|year|once), trial_days,
-  active.
+- `plans`: name (traducible), paypal_plan_id (P-…, solo recurrentes), interval
+  (month|year|once), trial_days, active.
 - `plan_product`: plan_id, product_id.
 - `entitlements`: user_id, product_id, source (subscription|purchase|free|manual),
   source_id, starts_at, ends_at (nullable).
-- Tablas de Cashier: subscriptions, subscription_items.
-- `purchases`: user_id, plan_id, stripe_payment_intent_id, paid_at.
+- `paypal_subscriptions`: user_id, plan_id, paypal_id (I-…), status, paid_through_at.
+- `purchases`: user_id, plan_id, paypal_order_id, paypal_capture_id, paid_at.
 - `push_subscriptions`: user_id, app, endpoint, keys, locale.
 - `languages`: code, name, active, default.
 
@@ -61,6 +63,7 @@ Reglas:
 - 02-modulo-fichas.md: libro "El arte de dar forma a tu cerebro". Implementado.
 - 03-modulo-contenidos.md: pendiente de recibir los contenidos.
 - 04a-test-johari.md: test Ventana de Johari. Implementado sobre el motor genérico de tests.
+- 05-paypal.md: configuración de la cuenta de PayPal y flujo de cobro.
 - Resto de tests: pendientes de recibir el material.
 - Cursos: fase 2.
 

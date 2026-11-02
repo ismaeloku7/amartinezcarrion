@@ -1,7 +1,7 @@
 # Portal Antonio Martínez
 
 Portal con suscripciones para los libros, prácticas y tests de Antonio Martínez.
-Laravel 13 · Livewire 4 · Tailwind 4 · Filament 5 · Cashier (Stripe) · Web Push.
+Laravel 13 · Livewire 4 · Tailwind 4 · Filament 5 · PayPal (REST API) · Web Push.
 
 ## Módulos
 
@@ -51,13 +51,15 @@ php artisan test
    ```
 4. Programador de tareas (cron de Forge): `php artisan schedule:run` cada minuto. Envía los recordatorios push.
 5. Cola: `QUEUE_CONNECTION=database` con un worker de Forge, o `sync` si no se quiere worker.
-6. Stripe:
-   - `STRIPE_KEY`, `STRIPE_SECRET` y `STRIPE_WEBHOOK_SECRET` en `.env`.
-   - Webhook en Stripe apuntando a `https://dominio/stripe/webhook` con los eventos
-     `customer.subscription.created`, `customer.subscription.updated`,
-     `customer.subscription.deleted` y `checkout.session.completed`.
-   - Crear en Stripe un precio por plan y pegar su `price_…` en el panel (Planes) o en las
-     variables `STRIPE_PRICE_*` antes del primer seed.
+6. PayPal (guía paso a paso en `docs/05-paypal.md`):
+   - `PAYPAL_CLIENT_ID`, `PAYPAL_SECRET`, `PAYPAL_MODE` (`sandbox` o `live`) y `PAYPAL_WEBHOOK_ID` en `.env`.
+     Mientras falten el client id o el secret, el portal oculta el pago en línea.
+   - Webhook en la app de PayPal apuntando a `https://dominio/paypal/webhook` con los eventos
+     `BILLING.SUBSCRIPTION.*` (activated, updated, cancelled, suspended, expired, payment.failed),
+     `PAYMENT.SALE.COMPLETED`, `CHECKOUT.ORDER.APPROVED` y `PAYMENT.CAPTURE.COMPLETED`.
+   - Para cada plan mensual o anual, crear en PayPal un producto y un plan de suscripción con el mismo
+     importe y periodicidad, y pegar su `P-…` en el panel (Planes) o en las variables `PAYPAL_PLAN_*`
+     antes del primer seed. Los planes de pago único no necesitan nada en PayPal: se cobran por importe.
 7. Web Push: `php artisan webpush:vapid` una vez y guardar `VAPID_PUBLIC_KEY`, `VAPID_PRIVATE_KEY`
    y `VAPID_SUBJECT` en `.env`. Las PWA requieren HTTPS.
 8. Primer administrador: crear el usuario y marcar `is_admin` desde tinker, o editar
@@ -67,6 +69,6 @@ php artisan test
 
 `products` son las cosas con acceso (práctica MDP, práctica Fichas, un test de pago…).
 `plans` son lo que se compra: precio, periodicidad y uno o varios productos.
-`entitlements` es la relación usuario-producto con fechas, generada desde Stripe
-(webhook), desde una compra única o manualmente desde el panel. Los módulos solo
+`entitlements` es la relación usuario-producto con fechas, generada desde PayPal
+(vuelta del pago y webhooks), desde una compra única o manualmente desde el panel. Los módulos solo
 preguntan `hasAccess(user, 'mdp')` a través del middleware `access:mdp`.

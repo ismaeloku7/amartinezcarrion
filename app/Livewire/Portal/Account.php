@@ -43,7 +43,7 @@ class Account extends Component
         return view('livewire.portal.account', [
             'languages' => Language::query()->where('active', true)->orderBy('position')->get(),
             'entitlements' => $user->entitlements()->with('product')->active()->get(),
-            'subscriptions' => $user->subscriptions()->get(),
+            'subscriptions' => $user->paypalSubscriptions()->with('plan')->latest()->get(),
             'timezones' => \DateTimeZone::listIdentifiers(),
         ])->layout('components.layouts.app', ['appKey' => 'portal', 'title' => __('Mi cuenta'), 'back' => route('home')]);
     }

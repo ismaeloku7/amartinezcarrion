@@ -17,7 +17,7 @@ class Plan extends Model
     public const INTERVAL_ONCE = 'once';
 
     protected $fillable = [
-        'key', 'name', 'description', 'stripe_price_id', 'interval',
+        'key', 'name', 'description', 'paypal_plan_id', 'interval',
         'price_cents', 'currency', 'trial_days', 'active', 'position',
     ];
 
@@ -36,6 +36,12 @@ class Plan extends Model
     public function isRecurring(): bool
     {
         return $this->interval !== self::INTERVAL_ONCE;
+    }
+
+    /** Single payments only need a price; subscriptions also need the matching PayPal plan (P-…). */
+    public function isPurchasable(): bool
+    {
+        return $this->active && $this->price_cents > 0 && (! $this->isRecurring() || filled($this->paypal_plan_id));
     }
 
     public function formattedPrice(): string

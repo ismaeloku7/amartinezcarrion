@@ -3,6 +3,7 @@
 namespace App\Livewire\Portal;
 
 use App\Services\AccessService;
+use App\Services\PayPal\PayPalClient;
 use Livewire\Component;
 
 class Paywall extends Component
@@ -23,7 +24,7 @@ class Paywall extends Component
             'productModel' => $product,
             'plans' => $access->plansFor($this->product),
             'hasAccess' => auth()->check() && $access->hasAccess(auth()->user(), $this->product),
-            'paymentsEnabled' => filled(config('cashier.secret')),
+            'paymentsEnabled' => PayPalClient::enabled(),
         ])->layout('components.layouts.app', ['appKey' => 'portal', 'title' => $product->name, 'back' => route('home')]);
     }
 }

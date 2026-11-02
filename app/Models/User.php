@@ -14,13 +14,12 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
-use Laravel\Cashier\Billable;
 use NotificationChannels\WebPush\HasPushSubscriptions;
 
 class User extends Authenticatable implements FilamentUser
 {
     /** @use HasFactory<UserFactory> */
-    use Billable, HasFactory, HasPushSubscriptions, Notifiable;
+    use HasFactory, HasPushSubscriptions, Notifiable;
 
     protected $fillable = ['name', 'email', 'password', 'locale', 'timezone', 'is_admin'];
 
@@ -43,6 +42,11 @@ class User extends Authenticatable implements FilamentUser
     public function purchases(): HasMany
     {
         return $this->hasMany(Purchase::class);
+    }
+
+    public function paypalSubscriptions(): HasMany
+    {
+        return $this->hasMany(PaypalSubscription::class);
     }
 
     public function mdpEnrollment(): HasOne

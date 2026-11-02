@@ -55,10 +55,34 @@
                 <p class="text-sm text-muted">{{ __('No tienes accesos activos.') }}</p>
             @endforelse
         </div>
-        @if ($subscriptions->isNotEmpty())
-            <x-ui.button :href="route('billing.portal')" variant="soft" block class="mt-4">{{ __('Gestionar suscripción y facturas') }}</x-ui.button>
-        @endif
     </x-ui.card>
+
+    @if ($subscriptions->isNotEmpty())
+        <x-ui.card :title="__('Suscripciones')">
+            <div class="divide-y divide-stone-100">
+                @foreach ($subscriptions as $s)
+                    <div class="py-3 first:pt-0 last:pb-0">
+                        <div class="flex items-center justify-between gap-3 text-sm">
+                            <span class="font-medium">{{ $s->plan?->name ?? $s->paypal_plan_id }}</span>
+                            <span class="shrink-0 rounded-full px-2.5 py-1 text-xs font-medium {{ $s->isActive() ? 'bg-emerald-50 text-emerald-700' : 'bg-stone-100 text-stone-600' }}">{{ $s->statusLabel() }}</span>
+                        </div>
+                        @if ($s->paid_through_at)
+                            <div class="mt-1 text-xs text-muted">
+                                {{ $s->isActive() ? __('Próximo cobro: :d', ['d' => $s->paid_through_at->translatedFormat('d M Y')]) : __('Acceso hasta: :d', ['d' => $s->paid_through_at->translatedFormat('d M Y')]) }}
+                            </div>
+                        @endif
+                        @if ($s->isCancellable())
+                            <form method="POST" action="{{ route('billing.cancel', $s) }}" class="mt-3" onsubmit="return confirm(@js(__('¿Seguro que quieres cancelar la suscripción? Conservarás el acceso hasta el final del periodo pagado.')))">
+                                @csrf
+                                <x-ui.button type="submit" variant="secondary" size="sm">{{ __('Cancelar suscripción') }}</x-ui.button>
+                            </form>
+                        @endif
+                    </div>
+                @endforeach
+            </div>
+            <p class="mt-4 text-xs text-muted">{{ __('Los pagos se gestionan a través de PayPal. También puedes revisar o cancelar los pagos automáticos desde tu cuenta de PayPal.') }}</p>
+        </x-ui.card>
+    @endif
 
     <x-ui.card :title="__('Contraseña')">
         <form method="POST" action="{{ route('user-password.update') }}" class="space-y-4">

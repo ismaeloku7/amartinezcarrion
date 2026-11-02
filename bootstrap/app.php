@@ -22,7 +22,7 @@ return Application::configure(basePath: dirname(__DIR__))
             'mdp.enrolled' => EnsureMdpEnrolled::class,
             'cards.enrolled' => EnsureCardsEnrolled::class,
         ]);
-        $middleware->validateCsrfTokens(except: ['stripe/*']);
+        $middleware->validateCsrfTokens(except: ['paypal/*']);
     })
     ->withExceptions(function (Exceptions $exceptions): void {
         $exceptions->shouldRenderJsonWhen(

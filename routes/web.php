@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\CheckoutController;
+use App\Http\Controllers\PayPalWebhookController;
 use App\Http\Controllers\PushController;
 use App\Http\Controllers\PwaController;
 use App\Livewire\Portal\Account;
@@ -11,6 +12,8 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', Home::class)->name('home');
 Route::get('/planes/{product}', Paywall::class)->name('paywall');
 
+Route::post('/paypal/webhook', PayPalWebhookController::class)->name('paypal.webhook');
+
 Route::get('/pwa/{app}/manifest.webmanifest', [PwaController::class, 'manifest'])
     ->where('app', 'portal|mdp|cards')->name('pwa.manifest');
 
@@ -20,10 +23,10 @@ Route::middleware('auth')->group(function () {
     Route::post('/push/subscribe', [PushController::class, 'subscribe'])->name('push.subscribe');
     Route::post('/push/unsubscribe', [PushController::class, 'unsubscribe'])->name('push.unsubscribe');
 
-    Route::get('/checkout/{plan}', [CheckoutController::class, 'checkout'])->name('checkout');
     Route::get('/checkout/success', [CheckoutController::class, 'success'])->name('checkout.success');
     Route::get('/checkout/cancel', [CheckoutController::class, 'cancel'])->name('checkout.cancel');
-    Route::get('/billing', [CheckoutController::class, 'portal'])->name('billing.portal');
+    Route::get('/checkout/{plan}', [CheckoutController::class, 'checkout'])->name('checkout');
+    Route::post('/billing/subscriptions/{subscription}/cancel', [CheckoutController::class, 'cancelSubscription'])->name('billing.cancel');
 });
 
 require __DIR__.'/mdp.php';

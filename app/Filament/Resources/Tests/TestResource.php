@@ -62,6 +62,8 @@ class TestResource extends Resource
             Select::make('profiles_from_test_id')->label(__('Usar los perfiles de otro test (cuestionario puntuado)'))->relationship('profilesSource', 'key')->preload()
                 ->helperText(__('Si dos cuestionarios miden los mismos tipos, uno puede reutilizar los perfiles del otro.')),
             Select::make('product_id')->label(__('Producto de pago (vacío = gratuito)'))->relationship('product', 'key')->preload(),
+            Select::make('related_content_id')->label(__('Artículo recomendado antes del test'))->relationship('relatedContent', 'slug')->preload()->searchable()
+                ->helperText(__('Se muestra como aviso en la página del test: «conviene leerlo antes».')),
             Section::make(__('Parámetros'))->schema([
                 KeyValue::make('config')->label(__('Configuración'))->keyLabel(__('Parámetro'))->valueLabel(__('Valor'))
                     ->helperText(__('Johari: self_positive, self_negative, other_positive, other_negative, min_responses, max_invitations, invitation_days, repeat_allowed (1/0), repeat_after_days. Puntuado: strong_multiplier, per_page, shuffle (1/0), repeat_allowed, repeat_after_days')),

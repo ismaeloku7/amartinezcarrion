@@ -64,6 +64,8 @@ class ContentResource extends Resource
                 DateTimePicker::make('published_at')->label(__('Publicado desde (vacío = borrador)')),
                 Select::make('product_id')->label(__('Producto de pago (vacío = gratuito)'))->relationship('product', 'key')->preload(),
                 Toggle::make('requires_login')->label(__('Solo usuarios registrados')),
+                Toggle::make('listed')->label(__('Aparece en los listados de materiales'))->default(true)
+                    ->helperText(__('Desactívalo para textos que solo se muestran en otro sitio, como las consideraciones antes de un test.')),
             ]),
         ]);
     }

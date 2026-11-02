@@ -2,9 +2,11 @@
 
 namespace App\Livewire\Tests;
 
+use App\Models\Contents\Content;
 use App\Models\Tests\Test;
 use App\Models\Tests\TestTake;
 use App\Services\AccessService;
+use App\Services\Contents\ShortcodeRenderer;
 use App\Services\Tests\JohariService;
 use App\Services\Tests\ScoredTestService;
 use Livewire\Component;
@@ -75,6 +77,9 @@ class Show extends Component
             'canStart' => $engine->canStart(auth()->user(), $this->test),
             'open' => $takes->first(fn ($t) => $t->isOpen()),
             'isScored' => $this->test->isScored(),
+            'related' => $this->test->relatedContent,
+            'considerations' => Content::considerations(),
+            'considerationsHtml' => ($c = Content::considerations()) ? app(ShortcodeRenderer::class)->render($c->body) : '',
             'itemCount' => $this->test->isScored() ? $this->test->items()->count() : null,
         ])->layout('components.layouts.app', ['appKey' => 'portal', 'title' => $this->test->name, 'back' => route('tests.index')]);
     }

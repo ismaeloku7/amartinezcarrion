@@ -5,7 +5,8 @@
     </div>
 
     @if ($page === 0)
-        <x-ui.alert>{{ __('Responde con sinceridad y sin pensarlo demasiado. Puedes dejar en blanco lo que no entiendas y cambiar cualquier respuesta tocándola de nuevo.') }}</x-ui.alert>
+        <x-ui.alert>{{ __('Responde según cómo eres habitualmente, no según cómo te gustaría ser ni según cómo actúas en un marco concreto. Puedes dejar en blanco lo que no entiendas y cambiar cualquier respuesta tocándola de nuevo.') }}
+            @if ($considerations)<a href="{{ route('contents.show', $considerations) }}" class="underline" target="_blank">{{ __('Leer las consideraciones') }}</a>@endif</x-ui.alert>
     @endif
 
     <ol class="space-y-3">

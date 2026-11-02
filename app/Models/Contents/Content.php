@@ -18,14 +18,14 @@ class Content extends Model
 
     protected $fillable = [
         'topic_id', 'slug', 'type', 'title', 'excerpt', 'body', 'cover_color', 'author', 'reading_minutes',
-        'product_id', 'requires_login', 'published_at', 'position',
+        'product_id', 'requires_login', 'listed', 'published_at', 'position',
     ];
 
     public array $translatable = ['title', 'excerpt', 'body'];
 
     protected function casts(): array
     {
-        return ['published_at' => 'datetime', 'requires_login' => 'boolean'];
+        return ['published_at' => 'datetime', 'requires_login' => 'boolean', 'listed' => 'boolean'];
     }
 
     public function topic(): BelongsTo
@@ -41,6 +41,19 @@ class Content extends Model
     public function getRouteKeyName(): string
     {
         return 'slug';
+    }
+
+    public const CONSIDERATIONS_SLUG = 'consideraciones-antes-de-un-test';
+
+    /** The general advice shown before any test starts; edited in the panel like any other content. */
+    public static function considerations(): ?self
+    {
+        return static::query()->where('slug', self::CONSIDERATIONS_SLUG)->published()->first();
+    }
+
+    public function scopeListed(Builder $query): Builder
+    {
+        return $query->where('listed', true);
     }
 
     public function scopePublished(Builder $query): Builder

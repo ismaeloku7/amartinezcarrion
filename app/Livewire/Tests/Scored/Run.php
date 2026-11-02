@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Tests\Scored;
 
+use App\Models\Contents\Content;
 use App\Models\Tests\TestTake;
 use App\Services\Tests\ScoredTestService;
 use Livewire\Component;
@@ -82,6 +83,7 @@ class Run extends Component
             'answered' => count($answers),
             'total' => count($ids),
             'pageAnswered' => collect($pageIds)->every(fn ($id) => isset($answers[(string) $id])),
+            'considerations' => Content::considerations(),
         ])->layout('components.layouts.app', ['appKey' => 'portal', 'title' => $this->take->test->name, 'back' => route('tests.show', $this->take->test)]);
     }
 }

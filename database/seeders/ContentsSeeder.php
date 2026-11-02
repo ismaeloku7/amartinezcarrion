@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use App\Models\Contents\Content;
 use App\Models\Contents\Topic;
+use App\Models\Tests\Test;
 use Illuminate\Database\Seeder;
 
 class ContentsSeeder extends Seeder
@@ -44,6 +45,21 @@ class ContentsSeeder extends Seeder
             $article->save();
         }
 
+        $cons = Content::firstOrNew(['slug' => Content::CONSIDERATIONS_SLUG]);
+        if (! $cons->exists) {
+            $cons->topic_id = $root->id;
+            $cons->type = Content::TYPE_ARTICLE;
+            $cons->setTranslations('title', ['es' => 'Consideraciones antes de hacer un test', 'en' => 'Things to keep in mind before taking a test']);
+            $cons->setTranslations('excerpt', ['es' => 'Cómo responder para que el resultado te sea útil de verdad.']);
+            $cons->setTranslation('body', 'es', $this->considerationsBody());
+            $cons->author = 'Antonio Martínez';
+            $cons->reading_minutes = 2;
+            $cons->listed = false;
+            $cons->published_at = now();
+            $cons->position = 99;
+            $cons->save();
+        }
+
         $johari = Content::firstOrNew(['slug' => 'la-ventana-de-johari']);
         if (! $johari->exists) {
             $johari->topic_id = $root->id;
@@ -56,6 +72,18 @@ class ContentsSeeder extends Seeder
             $johari->published_at = now();
             $johari->position = 2;
             $johari->save();
+        }
+    }
+
+    public static function linkTests(): void
+    {
+        $map = ['eneagrama' => 'los-nueve-eneatipos', 'rheti' => 'los-nueve-eneatipos', 'johari' => 'la-ventana-de-johari'];
+        foreach ($map as $testKey => $slug) {
+            $content = Content::where('slug', $slug)->first();
+            $test = Test::where('key', $testKey)->first();
+            if ($content && $test && ! $test->related_content_id) {
+                $test->forceFill(['related_content_id' => $content->id])->save();
+            }
         }
     }
 
@@ -101,6 +129,21 @@ class ContentsSeeder extends Seeder
 [[test:eneagrama]]
 <p>Si quieres afinar el resultado, existe una versión más extensa, con 75 pares de enunciados:</p>
 [[test:rheti]]
+HTML;
+    }
+
+    protected function considerationsBody(): string
+    {
+        return <<<'HTML'
+<p class="lead">No hay respuestas ni resultados mejores ni peores. Se trata de descubrir el esquema psicológico con el que funcionas. El éxito de la prueba consiste en descubrir para hacer posible la mejora.</p>
+<ul>
+  <li><strong>Responde según cómo eres, no según cómo te gustaría ser.</strong> La tentación de contestar lo que nos gustaría es la primera trampa de cualquier test.</li>
+  <li><strong>Piensa en tu forma de ser habitual, en general.</strong> No en cómo actúas en un marco concreto, como la familia, el trabajo o la comunidad, donde a menudo adoptamos un papel que no es el nuestro.</li>
+  <li><strong>Identifícate con el enunciado completo.</strong> Si consta de varias partes, el sí debe ser a todas. Si no entiendes un enunciado, déjalo en blanco; si no sabrías decir, marca «?».</li>
+  <li><strong>No te identifiques con una sola característica</strong>, por importante que sea, ni tomes rasgos de aquí y de allá: hay coherencia en la estructura de cada tipo.</li>
+  <li><strong>Sin prisa y sin interrupciones.</strong> Busca un momento tranquilo y responde con sinceridad, sin pensarlo demasiado.</li>
+  <li><strong>Que nadie responda por ti.</strong> Las opiniones de los demás tienen su sitio en otros tests, como la ventana de Johari, no en este.</li>
+</ul>
 HTML;
     }
 

@@ -18,6 +18,8 @@ class DatabaseSeeder extends Seeder
             ContentsSeeder::class,
         ]);
 
+        ContentsSeeder::linkTests();
+
         if (app()->environment('local') && ! User::where('email', 'admin@example.com')->exists()) {
             User::factory()->create(['name' => 'Admin', 'email' => 'admin@example.com', 'password' => 'password', 'is_admin' => true]);
         }

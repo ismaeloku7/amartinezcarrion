@@ -44,3 +44,14 @@ Antonio puede añadir las suyas: por ejemplo `top_type = 2` con una conclusión 
 ## Evolución
 Cada toma guarda las nueve puntuaciones. La pantalla de evolución compara tomas y muestra el
 cambio por tipo entre la primera y la última.
+
+## Avisos antes de hacer un test
+- **Artículo recomendado**: cada test puede enlazar un material ("Conviene leerlo antes"), que se
+  muestra en la página del test. Se elige en el panel, en el campo "Artículo recomendado antes del
+  test". Sembrado: los dos cuestionarios del eneagrama enlazan "Los nueve eneatipos"; Johari enlaza
+  "La ventana de Johari".
+- **Consideraciones generales**: al pulsar "Empezar" en cualquier test se abre un aviso con el
+  material "Consideraciones antes de hacer un test" (no responder lo que nos gustaría ser, pensar
+  en cómo somos en general y no en un marco concreto, identificarse con el enunciado completo…).
+  Es un contenido normal del panel con el slug `consideraciones-antes-de-un-test`, oculto de los
+  listados. Antonio lo edita como cualquier artículo.

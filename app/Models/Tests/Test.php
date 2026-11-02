@@ -2,6 +2,7 @@
 
 namespace App\Models\Tests;
 
+use App\Models\Contents\Content;
 use App\Models\Product;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -18,7 +19,7 @@ class Test extends Model
 
     protected $fillable = [
         'key', 'type', 'name', 'description', 'intro', 'general_content', 'config',
-        'product_id', 'word_list_id', 'profiles_from_test_id', 'active', 'position', 'ai_enabled', 'ai_instructions',
+        'product_id', 'related_content_id', 'word_list_id', 'profiles_from_test_id', 'active', 'position', 'ai_enabled', 'ai_instructions',
     ];
 
     public array $translatable = ['name', 'description', 'intro', 'general_content', 'ai_instructions'];
@@ -64,6 +65,11 @@ class Test extends Model
     public function wordList(): BelongsTo
     {
         return $this->belongsTo(WordList::class);
+    }
+
+    public function relatedContent(): BelongsTo
+    {
+        return $this->belongsTo(Content::class, 'related_content_id');
     }
 
     public function profilesSource(): BelongsTo

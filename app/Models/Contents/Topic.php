@@ -40,6 +40,6 @@ class Topic extends Model
     {
         $ids = $this->children()->pluck('id')->push($this->id);
 
-        return Content::query()->whereIn('topic_id', $ids)->published()->orderBy('position')->get();
+        return Content::query()->whereIn('topic_id', $ids)->published()->listed()->orderBy('position')->get();
     }
 }

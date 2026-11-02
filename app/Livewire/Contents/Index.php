@@ -12,7 +12,7 @@ class Index extends Component
     {
         return view('livewire.contents.index', [
             'topics' => TopicModel::query()->whereNull('parent_id')->with('children')->orderBy('position')->get(),
-            'latest' => Content::query()->published()->with('topic')->orderByDesc('published_at')->take(6)->get(),
+            'latest' => Content::query()->published()->listed()->with('topic')->orderByDesc('published_at')->take(6)->get(),
         ])->layout('components.layouts.app', ['appKey' => 'portal', 'title' => __('Materiales'), 'back' => route('home')]);
     }
 }

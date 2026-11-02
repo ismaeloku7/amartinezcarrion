@@ -40,7 +40,7 @@ class CatalogSeeder extends Seeder
             $plan->currency = 'EUR';
             $plan->active = true;
             $plan->position = $i;
-            $plan->stripe_price_id = $plan->stripe_price_id ?? env('STRIPE_PRICE_'.strtoupper(str_replace('-', '_', $key)));
+            $plan->paypal_plan_id = $plan->paypal_plan_id ?? env('PAYPAL_PLAN_'.strtoupper(str_replace('-', '_', $key)));
             $plan->save();
             $plan->products()->sync(collect($products)->pluck('id'));
         }

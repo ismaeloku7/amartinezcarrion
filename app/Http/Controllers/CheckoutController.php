@@ -2,70 +2,72 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Entitlement;
+use App\Models\PaypalSubscription;
 use App\Models\Plan;
-use App\Models\Purchase;
-use App\Services\AccessService;
+use App\Services\PayPal\PayPalBilling;
+use App\Services\PayPal\PayPalClient;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
-use Laravel\Cashier\Cashier;
 
 class CheckoutController extends Controller
 {
-    public function __construct(private AccessService $access) {}
+    public function __construct(private PayPalBilling $billing) {}
 
-    /** Send the user to Stripe Checkout for a plan (subscription or single purchase). */
-    public function checkout(Request $request, Plan $plan)
+    /** Send the user to PayPal to approve a plan (subscription or single purchase). */
+    public function checkout(Request $request, Plan $plan): RedirectResponse
     {
-        abort_unless($plan->active && $plan->stripe_price_id && filled(config('cashier.secret')), 404);
+        abort_unless(PayPalClient::enabled() && $plan->isPurchasable(), 404);
         $user = $request->user();
 
-        $options = [
-            'success_url' => route('checkout.success').'?session_id={CHECKOUT_SESSION_ID}&plan='.$plan->id,
-            'cancel_url' => route('checkout.cancel'),
-            'locale' => app()->getLocale(),
-        ];
+        $returnUrl = route('checkout.success', ['plan' => $plan->id]);
+        $cancelUrl = route('checkout.cancel');
 
-        if ($plan->isRecurring()) {
-            $builder = $user->newSubscription($plan->key, $plan->stripe_price_id);
-            if ($plan->trial_days > 0) {
-                $builder->trialDays($plan->trial_days);
-            }
+        try {
+            $approveUrl = $plan->isRecurring()
+                ? $this->billing->createSubscription($user, $plan, $returnUrl, $cancelUrl)
+                : $this->billing->createOrder($user, $plan, $returnUrl, $cancelUrl);
+        } catch (\Throwable $e) {
+            report($e);
 
-            return $builder->checkout($options);
+            return redirect()->route('paywall', ['product' => $plan->products->first()?->key ?? 'mdp'])
+                ->with('status', __('No se pudo iniciar el pago con PayPal. Inténtalo de nuevo en unos minutos.'));
         }
 
-        return $user->checkout([$plan->stripe_price_id => 1], $options + ['metadata' => ['plan_id' => $plan->id]]);
+        return redirect()->away($approveUrl);
     }
 
-    /** Stripe sends the user back here; webhooks remain the source of truth, this is a fast path. */
+    /**
+     * PayPal sends the user back here after approving. Orders are captured now;
+     * subscriptions are read back from PayPal. Webhooks remain the source of truth.
+     */
     public function success(Request $request): RedirectResponse
     {
         $plan = Plan::find($request->integer('plan'));
         $user = $request->user();
+        $status = __('Pago completado. Ya tienes acceso.');
 
-        if ($plan && $request->filled('session_id')) {
-            try {
-                $session = Cashier::stripe()->checkout->sessions->retrieve($request->input('session_id'));
-
-                if ($session->payment_status === 'paid' || $session->status === 'complete') {
-                    if ($plan->isRecurring()) {
-                        $this->access->grantPlan($user, $plan, Entitlement::SOURCE_SUBSCRIPTION, $session->subscription);
-                    } else {
-                        $purchase = Purchase::firstOrCreate(
-                            ['stripe_checkout_session_id' => $session->id],
-                            ['user_id' => $user->id, 'plan_id' => $plan->id, 'stripe_payment_intent_id' => $session->payment_intent,
-                                'amount_cents' => $session->amount_total ?? $plan->price_cents, 'currency' => strtoupper($session->currency ?? $plan->currency), 'paid_at' => now()],
-                        );
-                        $this->access->grantPlan($user, $plan, Entitlement::SOURCE_PURCHASE, (string) $purchase->id);
-                    }
+        try {
+            if ($plan && $plan->isRecurring() && $request->filled('subscription_id')) {
+                $subscription = $this->billing->refreshSubscription($request->input('subscription_id'));
+                if (! $subscription || $subscription->user_id !== $user->id) {
+                    $status = __('No hemos podido localizar tu suscripción. Escríbenos si el cargo se ha realizado.');
+                } elseif (! $subscription->isActive()) {
+                    $status = __('PayPal está confirmando tu suscripción. El acceso se activará en unos minutos.');
                 }
-            } catch (\Throwable $e) {
-                report($e);
+            } elseif ($plan && ! $plan->isRecurring() && $request->filled('token')) {
+                $purchase = $this->billing->captureOrder($request->input('token'));
+                if (! $purchase || $purchase->user_id !== $user->id) {
+                    $status = __('PayPal está confirmando tu pago. El acceso se activará en unos minutos.');
+                }
+            } else {
+                $status = __('PayPal está confirmando tu pago. El acceso se activará en unos minutos.');
             }
+        } catch (\Throwable $e) {
+            report($e);
+            $status = __('PayPal está confirmando tu pago. El acceso se activará en unos minutos.');
         }
 
-        return redirect()->route('home')->with('status', __('Pago completado. Ya tienes acceso.'));
+        return redirect()->route('home')->with('status', $status);
     }
 
     public function cancel(): RedirectResponse
@@ -73,8 +75,21 @@ class CheckoutController extends Controller
         return redirect()->route('home')->with('status', __('Pago cancelado.'));
     }
 
-    public function portal(Request $request)
+    /** Cancel one of the user's own PayPal subscriptions; access lasts until the paid period ends. */
+    public function cancelSubscription(Request $request, PaypalSubscription $subscription): RedirectResponse
     {
-        return $request->user()->redirectToBillingPortal(route('account'));
+        abort_unless($subscription->user_id === $request->user()->id, 403);
+
+        if ($subscription->isCancellable()) {
+            try {
+                $this->billing->cancelSubscription($subscription);
+            } catch (\Throwable $e) {
+                report($e);
+
+                return redirect()->route('account')->with('status', __('No se pudo cancelar la suscripción. Inténtalo de nuevo o cancélala desde tu cuenta de PayPal.'));
+            }
+        }
+
+        return redirect()->route('account')->with('status', __('Suscripción cancelada. Conservas el acceso hasta el final del periodo pagado.'));
     }
 }

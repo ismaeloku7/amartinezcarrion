@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 class Purchase extends Model
 {
     protected $fillable = [
-        'user_id', 'plan_id', 'stripe_checkout_session_id', 'stripe_payment_intent_id',
+        'user_id', 'plan_id', 'paypal_order_id', 'paypal_capture_id',
         'amount_cents', 'currency', 'paid_at',
     ];
 

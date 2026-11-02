@@ -44,8 +44,9 @@ class PlanResource extends Resource
             ])->required(),
             TextInput::make('price_cents')->label(__('Precio (céntimos)'))->numeric()->required()->minValue(0),
             TextInput::make('currency')->label(__('Moneda'))->default('EUR')->maxLength(3),
-            TextInput::make('stripe_price_id')->label(__('Stripe price ID'))->helperText(__('price_… creado en Stripe con el mismo importe y periodicidad.')),
-            TextInput::make('trial_days')->label(__('Días de prueba'))->numeric()->default(0),
+            TextInput::make('paypal_plan_id')->label(__('PayPal plan ID'))->helperText(__('P-… creado en PayPal (Productos y planes) con el mismo importe y periodicidad. Solo para planes mensuales o anuales; el pago único no lo necesita.')),
+            TextInput::make('trial_days')->label(__('Días de prueba'))->numeric()->default(0)
+                ->helperText(__('Informativo: el periodo de prueba real se configura en el plan de PayPal (ciclo de prueba).')),
             TextInput::make('position')->label(__('Orden'))->numeric()->default(0),
             Toggle::make('active')->label(__('Activo'))->default(true),
         ]);
@@ -60,7 +61,7 @@ class PlanResource extends Resource
                 TextColumn::make('interval')->label(__('Periodicidad'))->badge(),
                 TextColumn::make('price_cents')->label(__('Precio'))->formatStateUsing(fn ($state, Plan $record) => $record->formattedPrice()),
                 TextColumn::make('products.key')->label(__('Productos'))->badge(),
-                IconColumn::make('stripe_price_id')->label('Stripe')->boolean(fn ($state) => filled($state)),
+                IconColumn::make('paypal_plan_id')->label('PayPal')->boolean()->getStateUsing(fn (Plan $record) => $record->isPurchasable()),
                 IconColumn::make('active')->label(__('Activo'))->boolean(),
             ])
             ->defaultSort('position')

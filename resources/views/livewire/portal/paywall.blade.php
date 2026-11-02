@@ -32,8 +32,8 @@
             <div class="mt-4">
                 @guest
                     <x-ui.button :href="route('login')" variant="secondary" block>{{ __('Entrar') }}</x-ui.button>
-                @elseif ($paymentsEnabled && $plan->stripe_price_id)
-                    <x-ui.button :href="route('checkout', $plan)" block>{{ __('Elegir') }}</x-ui.button>
+                @elseif ($paymentsEnabled && $plan->isPurchasable())
+                    <x-ui.button :href="route('checkout', $plan)" block>{{ __('Pagar con PayPal') }}</x-ui.button>
                 @else
                     <p class="rounded-full bg-fill py-3 text-center text-xs text-muted">{{ __('Pago en línea no disponible todavía') }}</p>
                 @endif

@@ -32,23 +32,35 @@ class JohariSeeder extends Seeder
         ['wise', 'sabio', 'positive'], ['witty', 'ocurrente', 'positive'],
     ];
 
+    /** Runs on every deploy: creates the list, its words and the test only when missing. */
     public function run(): void
     {
-        $list = WordList::firstOrNew(['key' => 'johari-classic']);
-        $list->setTranslations('name', ['es' => 'Ventana de Johari (lista clásica)', 'en' => 'Johari window (classic list)']);
-        $list->active = true;
-        $list->is_default = true;
-        $list->save();
+        $list = WordList::query()->where('key', 'johari-classic')->first();
+        if (! $list) {
+            $list = new WordList(['key' => 'johari-classic']);
+            $list->setTranslations('name', ['es' => 'Ventana de Johari (lista clásica)', 'en' => 'Johari window (classic list)']);
+            $list->active = true;
+            $list->is_default = true;
+            $list->save();
+        }
 
+        $existingWords = $list->words()->pluck('key')->all();
         foreach (self::WORDS as $i => [$key, $es, $tone]) {
-            $word = $list->words()->firstOrNew(['key' => $key]);
+            if (in_array($key, $existingWords, true)) {
+                continue;
+            }
+            $word = $list->words()->make(['key' => $key]);
             $word->setTranslations('label', ['es' => $es, 'en' => $key]);
             $word->tone = $tone;
             $word->position = $i + 1;
             $word->save();
         }
 
-        $test = Test::firstOrNew(['key' => 'johari']);
+        if (Test::query()->where('key', 'johari')->exists()) {
+            return;
+        }
+
+        $test = new Test(['key' => 'johari']);
         $test->type = Test::TYPE_JOHARI;
         $test->setTranslations('name', ['es' => 'Ventana de Johari', 'en' => 'Johari window']);
         $test->setTranslations('description', [
@@ -68,18 +80,16 @@ class JohariSeeder extends Seeder
         $test->active = true;
         $test->save();
 
-        if ($test->rules()->count() === 0) {
-            $rules = [
-                ['blind_count', '>=', '4', 'Área ciega amplia', 'Varias personas ven en ti rasgos que tú no habías señalado. Pregúntales con calma qué les hace verlo así.'],
-                ['hidden_count', '>=', '4', 'Área oculta amplia', 'Hay rasgos que tú reconoces y que los demás no perciben. Compartir más de ti puede acercar la imagen que tienen a la que tú tienes.'],
-                ['agreement_pct', '>=', '70', 'Alta coincidencia', 'La mayoría de las palabras que elegiste también fueron elegidas por otros. Tu autoconocimiento está bien asentado.'],
-            ];
-            foreach ($rules as $i => [$ind, $op, $val, $title, $content]) {
-                $rule = new TestResultRule(['test_id' => $test->id, 'indicator' => $ind, 'operator' => $op, 'value' => $val, 'position' => $i]);
-                $rule->setTranslation('title', 'es', $title);
-                $rule->setTranslation('content', 'es', $content);
-                $rule->save();
-            }
+        $rules = [
+            ['blind_count', '>=', '4', 'Área ciega amplia', 'Varias personas ven en ti rasgos que tú no habías señalado. Pregúntales con calma qué les hace verlo así.'],
+            ['hidden_count', '>=', '4', 'Área oculta amplia', 'Hay rasgos que tú reconoces y que los demás no perciben. Compartir más de ti puede acercar la imagen que tienen a la que tú tienes.'],
+            ['agreement_pct', '>=', '70', 'Alta coincidencia', 'La mayoría de las palabras que elegiste también fueron elegidas por otros. Tu autoconocimiento está bien asentado.'],
+        ];
+        foreach ($rules as $i => [$ind, $op, $val, $title, $content]) {
+            $rule = new TestResultRule(['test_id' => $test->id, 'indicator' => $ind, 'operator' => $op, 'value' => $val, 'position' => $i]);
+            $rule->setTranslation('title', 'es', $title);
+            $rule->setTranslation('content', 'es', $content);
+            $rule->save();
         }
     }
 }

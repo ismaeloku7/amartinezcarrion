@@ -12,7 +12,7 @@ Laravel 13 · Livewire 4 · Tailwind 4 · Filament 5 · PayPal (REST API) · Web
 | Fichas | `/fichas` | Programa de las 42 fichas. PWA instalable por separado |
 | Tests | `/tests` | Ventana de Johari y cuestionarios puntuados (eneagrama, con análisis por IA opcional) |
 | Materiales | `/materiales` | Artículos por temáticas, con bloques especiales |
-| Admin | `/admin` | Panel Filament: usuarios, idiomas, productos, planes, accesos, fichas, listas de palabras, tests |
+| Admin | `/admin` | Panel Filament: usuarios, idiomas, productos, planes, cupones, accesos, fichas, listas de palabras, tests, temáticas y materiales |
 
 La especificación funcional está en `docs/`.
 
@@ -47,7 +47,7 @@ php artisan test
    composer install --no-dev --optimize-autoloader
    npm ci && npm run build
    php artisan migrate --force
-   php artisan db:seed --force      # idempotente: solo crea lo que falta
+   php artisan db:seed --force      # solo crea lo que falta; no toca lo editado en el panel
    php artisan optimize
    ```
 4. Programador de tareas (cron de Forge): `php artisan schedule:run` cada minuto. Envía los recordatorios push.
@@ -58,9 +58,9 @@ php artisan test
    - Webhook en la app de PayPal apuntando a `https://dominio/paypal/webhook` con los eventos
      `BILLING.SUBSCRIPTION.*` (activated, updated, cancelled, suspended, expired, payment.failed),
      `PAYMENT.SALE.COMPLETED`, `CHECKOUT.ORDER.APPROVED` y `PAYMENT.CAPTURE.COMPLETED`.
-   - Para cada plan mensual o anual, crear en PayPal un producto y un plan de suscripción con el mismo
-     importe y periodicidad, y pegar su `P-…` en el panel (Planes) o en las variables `PAYPAL_PLAN_*`
-     antes del primer seed. Los planes de pago único no necesitan nada en PayPal: se cobran por importe.
+   - Los planes mensuales y anuales se crean solos en PayPal al guardarlos en el panel (Planes). Para
+     los del catálogo inicial: `php artisan paypal:sync-plans`. Los planes de pago único no necesitan
+     nada en PayPal: se cobran por importe.
 7. Web Push: `php artisan webpush:vapid` una vez y guardar `VAPID_PUBLIC_KEY`, `VAPID_PRIVATE_KEY`
    y `VAPID_SUBJECT` en `.env`. Las PWA requieren HTTPS.
 8. Análisis por IA de los tests: `ANTHROPIC_API_KEY` en `.env` (y opcionalmente `ANTHROPIC_MODEL`). Sin clave, el botón no aparece.

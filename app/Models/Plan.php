@@ -17,7 +17,7 @@ class Plan extends Model
     public const INTERVAL_ONCE = 'once';
 
     protected $fillable = [
-        'key', 'name', 'description', 'paypal_plan_id', 'interval',
+        'key', 'name', 'description', 'paypal_plan_id', 'paypal_product_id', 'interval',
         'price_cents', 'currency', 'trial_days', 'active', 'position',
     ];
 

@@ -6,6 +6,7 @@ El portal cobra con la API REST de PayPal, sin paquetes externos:
 |---|---|---|
 | Pago único (`interval = once`) | Orders v2: se crea la orden con el importe del plan y se captura al volver | `App\Services\PayPal\PayPalBilling::createOrder / captureOrder` |
 | Suscripción (`month` / `year`) | Subscriptions v1: se crea la suscripción sobre el plan de PayPal (`P-…`) del plan | `PayPalBilling::createSubscription / syncSubscription` |
+| Alta de planes | Catalog Products v1 + Billing Plans v1: el panel crea el producto y el plan al guardar | `App\Services\PayPal\PayPalPlans`, `php artisan paypal:sync-plans` |
 | Confirmación | Webhooks firmados (`/paypal/webhook`) | `App\Http\Controllers\PayPalWebhookController` |
 | Cancelación por el usuario | `POST /v1/billing/subscriptions/{id}/cancel` desde Mi cuenta | `CheckoutController::cancelSubscription` |
 
@@ -68,34 +69,30 @@ Sandbox/Live del panel de desarrollador y los valores de `.env`.
    - `Payment capture completed`
 4. Save. Copiar el **Webhook ID** que aparece en la lista → `PAYPAL_WEBHOOK_ID`.
 
-### 3. Productos y planes de suscripción
+### 3. Planes de suscripción: los crea el portal
 
-Solo para los planes mensuales y anuales. El pago único no necesita nada aquí.
+No hay que crear nada a mano en PayPal. Con las credenciales en `.env`, cada vez que se
+guarda un plan mensual o anual en `/admin/plans` el portal:
 
-1. Ir a https://www.paypal.com/billing/plans (en sandbox: entrar en https://www.sandbox.paypal.com
-   con la cuenta *Business* de sandbox que aparece en Developer → **Sandbox → Accounts**, y usar
-   la misma ruta `/billing/plans`).
-2. **Create plan** → *Create product*:
-   - Product name: `Devocional (Método Devocional Proyectivo)` · Type: **Digital** · Category: *Software*.
-   - Repetir después para `Programa de las 42 fichas` y `Los dos libros`.
-3. Para cada producto, crear los planes. Los importes y periodos deben coincidir con los del
-   panel (`/admin/plans`); por defecto:
+1. Crea (una sola vez) un producto digital en el catálogo de PayPal (`paypal_product_id`).
+2. Crea el plan de suscripción con el mismo importe, moneda, periodicidad y días de prueba
+   (ciclo TRIAL gratuito) y guarda su `P-…` en **PayPal plan ID**.
+3. Si después cambias el precio, la periodicidad, la moneda o los días de prueba, crea un
+   plan nuevo y desactiva el anterior (PayPal no permite cambiar el precio de un plan; los
+   suscriptores existentes siguen pagando el precio antiguo). Si solo cambias el nombre o la
+   descripción, actualiza el plan existente. Si desactivas el plan en el panel, lo desactiva
+   también en PayPal.
 
-   | Clave en el panel | Producto en PayPal | Plan name | Precio | Ciclo |
-   |---|---|---|---|---|
-   | `mdp-month` | Devocional | Devocional mensual | 4,99 EUR | cada 1 mes |
-   | `mdp-year` | Devocional | Devocional anual | 39,99 EUR | cada 1 año |
-   | `cards-month` | Fichas | Fichas mensual | 4,99 EUR | cada 1 mes |
-   | `cards-year` | Fichas | Fichas anual | 39,99 EUR | cada 1 año |
-   | `books-year` | Los dos libros | Los dos libros, anual | 59,99 EUR | cada 1 año |
+El botón **Sincronizar con PayPal** (en la lista y en la edición de cada plan) repite esa
+operación a mano, por ejemplo tras configurar las credenciales o tras pasar de sandbox a live.
 
-   En el asistente: **Fixed pricing** → precio y moneda **EUR** → Billing cycle: *Month* o *Year*,
-   «Continue until cancelled» → sin setup fee → **Auto-bill outstanding amounts: ON** → payment
-   failure threshold 2 → si el plan tiene días de prueba, añadir un **Trial period** gratuito de
-   esos días. Impuestos: según corresponda (normalmente «price includes tax»).
-4. Al guardar, cada plan muestra un **Plan ID** `P-XXXXXXXXXXXXXXXXXXXX`. Copiarlo.
-5. En el portal: `/admin/plans` → editar el plan → pegar el `P-…` en **PayPal plan ID** → Guardar.
-   (O ponerlos en `PAYPAL_PLAN_*` de `.env` antes del primer `db:seed`.)
+Para los cinco planes del catálogo inicial, o tras cambiar de cuenta de PayPal, basta con:
+
+```bash
+php artisan paypal:sync-plans
+```
+
+El pago único no necesita nada en PayPal: se cobra por importe en el momento.
 
 ### 4. Probar en sandbox
 
@@ -113,11 +110,34 @@ Solo para los planes mensuales y anuales. El pago único no necesita nada aquí.
 
 ### 5. Pasar a producción
 
-1. Repetir los pasos 1 a 3 con el conmutador en **Live** y con la cuenta Business real.
-2. En el servidor: `PAYPAL_MODE=live`, credenciales live, `PAYPAL_WEBHOOK_ID` del webhook live,
-   y volver a pegar los `P-…` live en el panel (los de sandbox no sirven en live).
-3. `php artisan config:cache` (o `php artisan optimize`) tras cambiar `.env`.
+1. Repetir los pasos 1 y 2 con el conmutador en **Live** y con la cuenta Business real.
+2. En el servidor: `PAYPAL_MODE=live`, credenciales live y `PAYPAL_WEBHOOK_ID` del webhook live.
+3. `php artisan optimize` tras cambiar `.env` y después `php artisan paypal:sync-plans`: los
+   `P-…` de sandbox no existen en live, así que el portal los crea de nuevo.
 4. Hacer una compra real de un plan mensual y cancelarla después para verificar el ciclo completo.
+
+## Cupones y descuentos
+
+PayPal no tiene cupones: el descuento se calcula en el portal y a PayPal solo le llega el
+importe final. No hay que crear ni configurar nada en PayPal para los cupones.
+
+- Se gestionan en `/admin/coupons`: código, porcentaje o importe fijo, planes en los que
+  vale (vacío = todos), usos máximos, un uso por usuario, fechas de validez y, para las
+  suscripciones, si descuenta solo el primer periodo o todos.
+- El usuario lo escribe en la página de planes («¿Tienes un cupón?») o llega por enlace:
+  `https://dominio/planes/mdp?cupon=VERANO20`. Los precios se muestran ya rebajados y el
+  botón de pago lleva el cupón.
+- **Pago único**: la orden de PayPal se crea por el importe rebajado, con el precio
+  completo y el descuento desglosados en el recibo. Un cupón del 100 % concede el acceso
+  directamente, sin pasar por PayPal.
+- **Suscripciones**: como los planes de PayPal tienen precio fijo, el portal crea una
+  variante del plan (`plan_paypal_variants`) con el precio rebajado: un primer ciclo al
+  precio del cupón y después el precio normal («solo el primer periodo»), o el precio
+  rebajado en todos los ciclos («todos los periodos»). Se crea una sola vez por combinación
+  de precios y se reutiliza; el plan base no cambia. Un cupón que deje una suscripción a
+  0 € en todos los periodos se rechaza: ese acceso se da a mano desde el panel (Accesos).
+- Un uso solo cuenta cuando PayPal confirma el pago (`coupon_redemptions.confirmed_at`);
+  los pagos abandonados no gastan el cupón.
 
 ## Notas de funcionamiento
 
@@ -129,5 +149,7 @@ Solo para los planes mensuales y anuales. El pago único no necesita nada aquí.
   reactivación.
 - Las compras y suscripciones son idempotentes: repetir la vuelta de PayPal o recibir el
   mismo webhook varias veces no duplica registros.
-- Cambiar el precio de un plan exige crear un plan nuevo en PayPal (los planes de PayPal no
-  cambian de precio para los suscriptores existentes) y pegar el nuevo `P-…` en el panel.
+- Cambiar el precio de un plan en el panel crea un plan nuevo en PayPal y desactiva el
+  anterior; los suscriptores existentes conservan su precio hasta que cancelen.
+- `PAYPAL_PLAN_*` en `.env` sigue sirviendo para pegar un `P-…` creado a mano antes del primer
+  seed, pero ya no es necesario.

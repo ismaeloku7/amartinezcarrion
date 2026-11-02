@@ -15,6 +15,11 @@ class EditPlan extends EditRecord
 
     protected function getHeaderActions(): array
     {
-        return [DeleteAction::make()];
+        return [PlanResource::paypalAction(), DeleteAction::make()];
+    }
+
+    protected function afterSave(): void
+    {
+        PlanResource::syncWithPayPal($this->record);
     }
 }

@@ -40,21 +40,29 @@ Reglas:
 - Al añadir un producto a un plan desde el panel, los suscriptores activos de ese plan
   obtienen el acceso automáticamente.
 - Las compras de pago único generan acceso sin fecha de fin.
+- Cupones de descuento por plan (ver 05-paypal.md); PayPal solo recibe el importe final.
 - Puede haber productos gratuitos (acceso para cualquier usuario registrado) y
   contenidos públicos (sin registro).
-- Períodos de prueba configurables por plan. Con PayPal el periodo de prueba se define en el
-  propio plan de PayPal (ciclo TRIAL); el campo `trial_days` del panel es informativo.
+- Períodos de prueba configurables por plan; se trasladan al plan de PayPal como ciclo TRIAL
+  gratuito cuando el panel lo crea.
 
 ## Modelo de datos común
 - `users`: datos de cuenta, locale, timezone.
 - `products`: key, type (practice|test|content|course), name (traducible), free (bool).
-- `plans`: name (traducible), paypal_plan_id (P-…, solo recurrentes), interval
+- `plans`: name (traducible), paypal_plan_id (P-…) y paypal_product_id (recurrentes, los crea
+  el panel), interval
   (month|year|once), trial_days, active.
 - `plan_product`: plan_id, product_id.
 - `entitlements`: user_id, product_id, source (subscription|purchase|free|manual),
   source_id, starts_at, ends_at (nullable).
 - `paypal_subscriptions`: user_id, plan_id, paypal_id (I-…), status, paid_through_at.
 - `purchases`: user_id, plan_id, paypal_order_id, paypal_capture_id, paid_at.
+- `coupons` (+ `coupon_plan`): code, type (percent|fixed), value, duration (once|forever),
+  max_redemptions, once_per_user, starts_at, expires_at, active.
+- `coupon_redemptions`: coupon_id, user_id, plan_id, importes, paypal_order_id o
+  paypal_subscription_id, confirmed_at.
+- `plan_paypal_variants`: plan_id, first_cents, recurring_cents, paypal_plan_id (planes de
+  PayPal derivados para cupones).
 - `push_subscriptions`: user_id, app, endpoint, keys, locale.
 - `languages`: code, name, active, default.
 

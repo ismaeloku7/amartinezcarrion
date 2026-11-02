@@ -16,7 +16,7 @@ function show(mode) {
     if (!el || isStandalone() || dismissed()) return;
     if (mode === 'ios') {
         document.getElementById('pwa-install-hint').textContent = 'En Safari: pulsa Compartir y luego «Añadir a pantalla de inicio».';
-        document.getElementById('pwa-install-btn').classList.add('hidden');
+        document.getElementById('pwa-install-btn').style.display = 'none';
     }
     el.classList.remove('hidden');
 }

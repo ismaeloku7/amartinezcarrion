@@ -96,3 +96,28 @@
 @utility pt-safe {
     padding-top: env(safe-area-inset-top);
 }
+
+/* ---- Article layout (Materiales) ---- */
+.article { font-size: 1.0625rem; line-height: 1.75; color: #292524; }
+.article > * + * { margin-top: 1.1em; }
+.article .lead { font-size: 1.25rem; line-height: 1.6; color: #44403c; }
+.article h2 { margin-top: 2.2em; font-size: 1.5rem; font-weight: 700; letter-spacing: -0.01em; line-height: 1.25; color: var(--article-color); }
+.article h2::before { content: ""; display: block; width: 2.5rem; height: 4px; border-radius: 2px; background: var(--article-color); margin-bottom: 0.6rem; opacity: 0.6; }
+.article h3 { margin-top: 1.6em; font-size: 1.15rem; font-weight: 600; }
+.article a { color: var(--article-color); text-decoration: underline; text-underline-offset: 2px; }
+.article blockquote { margin: 1.5em 0; padding: 0.75em 1.25em; border-left: 4px solid var(--article-color); background: color-mix(in srgb, var(--article-color) 7%, white); border-radius: 0 0.75rem 0.75rem 0; font-style: italic; color: #44403c; }
+.article ul { padding-left: 1.25em; list-style: disc; }
+.article ol { padding-left: 1.25em; list-style: decimal; }
+.article img { border-radius: 0.75rem; }
+.article .cards { display: grid; gap: 0.75rem; margin: 1.25em 0; }
+@media (min-width: 640px) { .article .cards { grid-template-columns: repeat(auto-fit, minmax(14rem, 1fr)); } }
+.article .card { padding: 1rem 1.1rem; border-radius: 0.9rem; background: white; border: 1px solid #e7e5e4; box-shadow: 0 1px 2px rgb(0 0 0 / 0.04); font-size: 0.95rem; line-height: 1.5; }
+.article .card.warn { border-color: color-mix(in srgb, var(--article-color) 40%, white); background: color-mix(in srgb, var(--article-color) 6%, white); }
+.article .steps { display: grid; gap: 0.75rem; margin: 1.5em 0; }
+@media (min-width: 640px) { .article .steps { grid-template-columns: repeat(3, 1fr); } }
+.article .steps > div { position: relative; padding: 1.25rem 1rem 1rem; border-radius: 1rem; background: color-mix(in srgb, var(--article-color) 8%, white); display: flex; flex-direction: column; }
+.article .steps span { position: absolute; top: -0.75rem; left: 1rem; width: 1.75rem; height: 1.75rem; border-radius: 999px; background: var(--article-color); color: white; font-weight: 700; font-size: 0.85rem; display: grid; place-items: center; }
+.article .steps strong { font-size: 1.05rem; }
+.article .steps em { font-style: normal; font-size: 0.85rem; color: #57534e; }
+.article table { font-size: 0.9rem; }
+[x-cloak] { display: none !important; }

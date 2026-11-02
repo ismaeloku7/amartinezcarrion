@@ -1,0 +1,1136 @@
+[
+ {
+  "group": 1,
+  "statement": "Tengo una tendencia instintiva a evaluar las situaciones.",
+  "weights": {
+   "1": 1
+  }
+ },
+ {
+  "group": 1,
+  "statement": "Suelo irritarme cuando las cosas no funcionan como deberían.",
+  "weights": {
+   "1": 1
+  }
+ },
+ {
+  "group": 1,
+  "statement": "Soy metódico y organizado en mi trabajo.",
+  "weights": {
+   "1": 1
+  }
+ },
+ {
+  "group": 1,
+  "statement": "Suelo sentirme culpable si las cosas no salen bien.",
+  "weights": {
+   "1": 1
+  }
+ },
+ {
+  "group": 1,
+  "statement": "Mi sentido del deber me lleva a sacrificar el tiempo dedicado al ocio y al descanso.",
+  "weights": {
+   "1": 1
+  }
+ },
+ {
+  "group": 1,
+  "statement": "Tiendo por naturaleza a ser crítico y exigente conmigo mismo y con los demás.",
+  "weights": {
+   "1": 1
+  }
+ },
+ {
+  "group": 1,
+  "statement": "Con frecuencia me siento tenso y frustrado.",
+  "weights": {
+   "1": 1
+  }
+ },
+ {
+  "group": 1,
+  "statement": "Mi conciencia me lleva a obrar rectamente, aun en contra de mis intereses.",
+  "weights": {
+   "1": 1
+  }
+ },
+ {
+  "group": 1,
+  "statement": "A menudo tengo la sensación de que el tiempo pasa excesivamente deprisa y de que aún quedan muchas cosas por hacer.",
+  "weights": {
+   "1": 1
+  }
+ },
+ {
+  "group": 1,
+  "statement": "Tengo tendencia a ser perfeccionista.",
+  "weights": {
+   "1": 1
+  }
+ },
+ {
+  "group": 1,
+  "statement": "Me molestan particularmente las injusticias.",
+  "weights": {
+   "1": 1
+  }
+ },
+ {
+  "group": 1,
+  "statement": "Siento constantemente la necesidad de mejorar las cosas que no van bien.",
+  "weights": {
+   "1": 1
+  }
+ },
+ {
+  "group": 1,
+  "statement": "Tiendo a cuidar los detalles, el orden y la precisión.",
+  "weights": {
+   "1": 1
+  }
+ },
+ {
+  "group": 1,
+  "statement": "El contacto con la naturaleza me ayuda a relajarme.",
+  "weights": {
+   "1": 1
+  }
+ },
+ {
+  "group": 1,
+  "statement": "Me siento inclinado a ver las cosas en términos de \"correcto o incorrecto\", \"bueno o malo\".",
+  "weights": {
+   "1": 1
+  }
+ },
+ {
+  "group": 1,
+  "statement": "Noto enseguida si algo no funciona o está fuera de lugar.",
+  "weights": {
+   "1": 1
+  }
+ },
+ {
+  "group": 1,
+  "statement": "A veces mi cicatería y exigencia con los demás me hace parecer antipático.",
+  "weights": {
+   "1": 1
+  }
+ },
+ {
+  "group": 1,
+  "statement": "Me esfuerzo constantemente por corregir mis defectos.",
+  "weights": {
+   "1": 1
+  }
+ },
+ {
+  "group": 2,
+  "statement": "Muchas personas dependen de mi ayuda y de mi generosidad.",
+  "weights": {
+   "2": 1
+  }
+ },
+ {
+  "group": 2,
+  "statement": "Me gusta sentir que los demás me necesitan.",
+  "weights": {
+   "2": 1
+  }
+ },
+ {
+  "group": 2,
+  "statement": "Tiendo a pensar que los demás se desentienden de mis necesidades.",
+  "weights": {
+   "2": 1
+  }
+ },
+ {
+  "group": 2,
+  "statement": "Me siento inclinado a hacer obsequios a la gente con cierta frecuencia.",
+  "weights": {
+   "2": 1
+  }
+ },
+ {
+  "group": 2,
+  "statement": "Me gusta ayudar a las personas cuando se encuentran en dificultades.",
+  "weights": {
+   "2": 1
+  }
+ },
+ {
+  "group": 2,
+  "statement": "Lo quiera o no, me siento casi obligado a ayudar.",
+  "weights": {
+   "2": 1
+  }
+ },
+ {
+  "group": 2,
+  "statement": "La gente suele acudir a mí en busca de consejo y ayuda.",
+  "weights": {
+   "2": 1
+  }
+ },
+ {
+  "group": 2,
+  "statement": "No me parece tener tantas necesidades como los demás.",
+  "weights": {
+   "2": 1
+  }
+ },
+ {
+  "group": 2,
+  "statement": "A veces siento un cierto resentimiento cuando los demás no muestran su agradecimiento por lo que hago por ellos.",
+  "weights": {
+   "2": 1
+  }
+ },
+ {
+  "group": 2,
+  "statement": "Trato de establecer una relación de intimidad con las personas.",
+  "weights": {
+   "2": 1
+  }
+ },
+ {
+  "group": 2,
+  "statement": "Cuando me encuentro en un grupo, doy más importancia a los contactos con las personas.que a los objetivos de la reunión.",
+  "weights": {
+   "2": 1
+  }
+ },
+ {
+  "group": 2,
+  "statement": "La dimensión afectiva es determinante para mí.",
+  "weights": {
+   "2": 1
+  }
+ },
+ {
+  "group": 2,
+  "statement": "No trato de imponer mis ideas a los demás, pero, si lo hago, es por su bien.",
+  "weights": {
+   "2": 1
+  }
+ },
+ {
+  "group": 2,
+  "statement": "El contacto con los amigos, lo cuido yo más que ellos.",
+  "weights": {
+   "2": 1
+  }
+ },
+ {
+  "group": 2,
+  "statement": "No me importa sacrificarme por los demás, con tal de hacerles felices.",
+  "weights": {
+   "2": 1
+  }
+ },
+ {
+  "group": 2,
+  "statement": "Suelo obedecer a mi instinto y a mi emotividad a la hora de actuar.",
+  "weights": {
+   "2": 1
+  }
+ },
+ {
+  "group": 2,
+  "statement": "A veces tengo el peligro de ser un tanto atosigante y absorbente con los demás.",
+  "weights": {
+   "2": 1
+  }
+ },
+ {
+  "group": 2,
+  "statement": "Necesito contactos para sentirme vivo.",
+  "weights": {
+   "2": 1
+  }
+ },
+ {
+  "group": 4,
+  "statement": "En cualquier relación, lo más importante para mí son los sentimientos.",
+  "weights": {
+   "4": 1
+  }
+ },
+ {
+  "group": 4,
+  "statement": "Soy propenso a la nostalgia y la melancolía, y a revivir el pasado.",
+  "weights": {
+   "4": 1
+  }
+ },
+ {
+  "group": 4,
+  "statement": "Me atrae lo simbólico y me comunico con el lenguaje de los símbolos.",
+  "weights": {
+   "4": 1
+  }
+ },
+ {
+  "group": 4,
+  "statement": "Tiendo con frecuencia a vivir en el mundo de la imaginación y de la fantasía.",
+  "weights": {
+   "4": 1
+  }
+ },
+ {
+  "group": 4,
+  "statement": "A menudo, los demás no entienden cómo me siento.",
+  "weights": {
+   "4": 1
+  }
+ },
+ {
+  "group": 4,
+  "statement": "Soy una persona muy sensible a los sufrimientos de los demás.",
+  "weights": {
+   "4": 1
+  }
+ },
+ {
+  "group": 4,
+  "statement": "Me esfuerzo en hacer las cosas con gusto y por dotar de un estilo propio al ambiente en",
+  "weights": {
+   "4": 1
+  }
+ },
+ {
+  "group": 4,
+  "statement": "Me considero una persona especial.",
+  "weights": {
+   "4": 1
+  }
+ },
+ {
+  "group": 4,
+  "statement": "Pienso con frecuencia en el tema del sufrimiento y de la muerte.",
+  "weights": {
+   "4": 1
+  }
+ },
+ {
+  "group": 4,
+  "statement": "Me siento insatisfecho cuando no consigo expresar bien lo que siento.",
+  "weights": {
+   "4": 1
+  }
+ },
+ {
+  "group": 4,
+  "statement": "Me parece que sufro más que los demás cuando se rompe una relación o se produce un distanciamiento.",
+  "weights": {
+   "4": 1
+  }
+ },
+ {
+  "group": 4,
+  "statement": "Con frecuencia muestro un rostro sonriente aunque por dentro me sienta triste.",
+  "weights": {
+   "4": 1
+  }
+ },
+ {
+  "group": 4,
+  "statement": "Tiendo a idealizar a las personas cuando están lejos.",
+  "weights": {
+   "4": 1
+  }
+ },
+ {
+  "group": 4,
+  "statement": "Con frecuencia tengo la sensación de que me falta algo o alguien en la vida.",
+  "weights": {
+   "4": 1
+  }
+ },
+ {
+  "group": 4,
+  "statement": "La dimensión artística me resulta vital para expresar mis emociones.",
+  "weights": {
+   "4": 1
+  }
+ },
+ {
+  "group": 4,
+  "statement": "Suelo tener cambios de humor muy acusados.",
+  "weights": {
+   "4": 1
+  }
+ },
+ {
+  "group": 4,
+  "statement": "Me identifico de tal modo con los demás que siento como mías sus heridas.",
+  "weights": {
+   "4": 1
+  }
+ },
+ {
+  "group": 4,
+  "statement": "Me gustan las situaciones que provocan emociones intensas y profundas.",
+  "weights": {
+   "4": 1
+  }
+ },
+ {
+  "group": 5,
+  "statement": "Tiendo a ocultar mis sentimientos.",
+  "weights": {
+   "5": 1
+  }
+ },
+ {
+  "group": 5,
+  "statement": "Soy propenso a acumular cosas que un día podrían servirme.",
+  "weights": {
+   "5": 1
+  }
+ },
+ {
+  "group": 5,
+  "statement": "Puedo dar a algunos la impresión de ser frío y distante.",
+  "weights": {
+   "5": 1
+  }
+ },
+ {
+  "group": 5,
+  "statement": "Me gusta examinar y considerar ideas diferentes.",
+  "weights": {
+   "5": 1
+  }
+ },
+ {
+  "group": 5,
+  "statement": "Me disgusta cuando me preguntan qué es lo que siento.",
+  "weights": {
+   "5": 1
+  }
+ },
+ {
+  "group": 5,
+  "statement": "Tengo necesidad de mucho tiempo y mucho espacio para mí.",
+  "weights": {
+   "5": 1
+  }
+ },
+ {
+  "group": 5,
+  "statement": "Prefiero observar, más que ser el centro de atención.",
+  "weights": {
+   "5": 1
+  }
+ },
+ {
+  "group": 5,
+  "statement": "Me estimula todo lo que amplía mis horizontes y mis conocimientos.",
+  "weights": {
+   "5": 1
+  }
+ },
+ {
+  "group": 5,
+  "statement": "Trato de no improvisar una intervención en público, para evitar quedar mal.",
+  "weights": {
+   "5": 1
+  }
+ },
+ {
+  "group": 5,
+  "statement": "Me esfuerzo en hacer que se respeten mi libertad y mi independencia.",
+  "weights": {
+   "5": 1
+  }
+ },
+ {
+  "group": 5,
+  "statement": "Pocuro analizar las cosas y ser objetivo.",
+  "weights": {
+   "5": 1
+  }
+ },
+ {
+  "group": 5,
+  "statement": "No soy propenso a compartir con generosidad lo que tengo (tiempo, ideas, dinero…).",
+  "weights": {
+   "5": 1
+  }
+ },
+ {
+  "group": 5,
+  "statement": "Me fastidian las personas que no son lógicas.",
+  "weights": {
+   "5": 1
+  }
+ },
+ {
+  "group": 5,
+  "statement": "Prefiero trabajar solo, más que en equipo.",
+  "weights": {
+   "5": 1
+  }
+ },
+ {
+  "group": 5,
+  "statement": "Las sorpresas me producen malestar.",
+  "weights": {
+   "5": 1
+  }
+ },
+ {
+  "group": 5,
+  "statement": "Prefiero mantenerme a cierta distancia de la gente.",
+  "weights": {
+   "5": 1
+  }
+ },
+ {
+  "group": 5,
+  "statement": "Me cuesta pedir a los demás que me ayuden.",
+  "weights": {
+   "5": 1
+  }
+ },
+ {
+  "group": 5,
+  "statement": "Por naturaleza soy más bien cauto y reservado.",
+  "weights": {
+   "5": 1
+  }
+ },
+ {
+  "group": 7,
+  "statement": "Son más las cosas que proyecto que las que concluyo.",
+  "weights": {
+   "7": 1
+  }
+ },
+ {
+  "group": 7,
+  "statement": "Me aburren la rutina y la repetición.",
+  "weights": {
+   "7": 1
+  }
+ },
+ {
+  "group": 7,
+  "statement": "Al final, todo se resuelve del mejor modo posible.",
+  "weights": {
+   "7": 1
+  }
+ },
+ {
+  "group": 7,
+  "statement": "Me gusta que los demás me consideren una persona feliz.",
+  "weights": {
+   "7": 1
+  }
+ },
+ {
+  "group": 7,
+  "statement": "Tiendo a ver el lado positivo de la vida, no el negativo.",
+  "weights": {
+   "7": 1
+  }
+ },
+ {
+  "group": 7,
+  "statement": "Me siento a gusto con casi todas las personas con las que me encuentro.",
+  "weights": {
+   "7": 1
+  }
+ },
+ {
+  "group": 7,
+  "statement": "En la vida me gusta disfrutar de todo un poco.",
+  "weights": {
+   "7": 1
+  }
+ },
+ {
+  "group": 7,
+  "statement": "Soy una persona espontánea y tiendo a ser optimista con respecto al futuro.",
+  "weights": {
+   "7": 1
+  }
+ },
+ {
+  "group": 7,
+  "statement": "Con frecuencia me consideran el \"alma\" del grupo.",
+  "weights": {
+   "7": 1
+  }
+ },
+ {
+  "group": 7,
+  "statement": "Me encanta participar en fiestas, viajar, comer en restaurantes,…",
+  "weights": {
+   "7": 1
+  }
+ },
+ {
+  "group": 7,
+  "statement": "Evito pararme a pensar en cosas que podrían deprimirme.",
+  "weights": {
+   "7": 1
+  }
+ },
+ {
+  "group": 7,
+  "statement": "Me esfuerzo por lograr que todo resulte agradable.",
+  "weights": {
+   "7": 1
+  }
+ },
+ {
+  "group": 7,
+  "statement": "Algunas personas me consideran superficial.",
+  "weights": {
+   "7": 1
+  }
+ },
+ {
+  "group": 7,
+  "statement": "Me gusta levantar el ánimo a las personas.",
+  "weights": {
+   "7": 1
+  }
+ },
+ {
+  "group": 7,
+  "statement": "Me da un miedo enorme el sufrimiento.",
+  "weights": {
+   "7": 1
+  }
+ },
+ {
+  "group": 7,
+  "statement": "Me resisto a aceptar compromisos a largo plazo.",
+  "weights": {
+   "7": 1
+  }
+ },
+ {
+  "group": 7,
+  "statement": "Es mucho mayor mi entusiasmo que mi perseverancia.",
+  "weights": {
+   "7": 1
+  }
+ },
+ {
+  "group": 7,
+  "statement": "Prefiero las conversaciones ligeras e intrascendentes que las serias y profundas.",
+  "weights": {
+   "7": 1
+  }
+ },
+ {
+  "group": 8,
+  "statement": "Soy muy capaz de tomar partido y luchar por aquello en lo que creo.",
+  "weights": {
+   "8": 1
+  }
+ },
+ {
+  "group": 8,
+  "statement": "No soporto a quien \"cambia de chaqueta\" en función de las conveniencias.",
+  "weights": {
+   "8": 1
+  }
+ },
+ {
+  "group": 8,
+  "statement": "Expreso fácilmente mi desacuerdo con lo que no comparto.",
+  "weights": {
+   "8": 1
+  }
+ },
+ {
+  "group": 8,
+  "statement": "No me dejo manipular y soy capaz de enfrentarme a cualquiera.",
+  "weights": {
+   "8": 1
+  }
+ },
+ {
+  "group": 8,
+  "statement": "Sé hacer uso de la fuerza, aunque ello pueda intimidar a los demás.",
+  "weights": {
+   "8": 1
+  }
+ },
+ {
+  "group": 8,
+  "statement": "Enseguida veo dónde reside el poder en un grupo.",
+  "weights": {
+   "8": 1
+  }
+ },
+ {
+  "group": 8,
+  "statement": "Soy una persona realista, decidida y resuelta.",
+  "weights": {
+   "8": 1
+  }
+ },
+ {
+  "group": 8,
+  "statement": "No me es fácil expresar mi ternura.",
+  "weights": {
+   "8": 1
+  }
+ },
+ {
+  "group": 8,
+  "statement": "Tiendo más a actuar que a detenerme en los sentimientos.",
+  "weights": {
+   "8": 1
+  }
+ },
+ {
+  "group": 8,
+  "statement": "La justicia y la injusticia son temas importantes para mí.",
+  "weights": {
+   "8": 1
+  }
+ },
+ {
+  "group": 8,
+  "statement": "Cuando tengo que decir \"no\", lo hago sin dudar.",
+  "weights": {
+   "8": 1
+  }
+ },
+ {
+  "group": 8,
+  "statement": "El control es una palabra importante para mí.",
+  "weights": {
+   "8": 1
+  }
+ },
+ {
+  "group": 8,
+  "statement": "No me gusta que me digan que debo conformarme.",
+  "weights": {
+   "8": 1
+  }
+ },
+ {
+  "group": 8,
+  "statement": "Me considero un trabajador empedernido.",
+  "weights": {
+   "8": 1
+  }
+ },
+ {
+  "group": 8,
+  "statement": "Me irrito cuando se da largas a un asunto.",
+  "weights": {
+   "8": 1
+  }
+ },
+ {
+  "group": 8,
+  "statement": "A veces puedo ser demasiado impetuoso e impositivo.",
+  "weights": {
+   "8": 1
+  }
+ },
+ {
+  "group": 8,
+  "statement": "Cuando alguien me resulta antipático, suelo encontrar el modo de que se entere.",
+  "weights": {
+   "8": 1
+  }
+ },
+ {
+  "group": 8,
+  "statement": "Con frecuencia, el parecer de los demás no me interesa.",
+  "weights": {
+   "8": 1
+  }
+ },
+ {
+  "group": 3,
+  "statement": "Tengo un nivel muy alto de energía.",
+  "weights": {
+   "3": 1
+  }
+ },
+ {
+  "group": 3,
+  "statement": "Me gusta trabajar en equipo y lo promuevo eficazmente.",
+  "weights": {
+   "3": 1
+  }
+ },
+ {
+  "group": 3,
+  "statement": "Soy propenso a volorar la eficacia y la profesionalidad.",
+  "weights": {
+   "3": 1
+  }
+ },
+ {
+  "group": 3,
+  "statement": "Me resulta natural procurar la buena organización y el éxito de un proyecto.",
+  "weights": {
+   "3": 1
+  }
+ },
+ {
+  "group": 3,
+  "statement": "Tiendo a tener objetivos claros y a trabajar con tenacidad para conseguirlos.",
+  "weights": {
+   "3": 1
+  }
+ },
+ {
+  "group": 3,
+  "statement": "Trato de disponer de puntos de referencia para evaluar cómo van las cosas.",
+  "weights": {
+   "3": 1
+  }
+ },
+ {
+  "group": 3,
+  "statement": "Tengo necesidad de protagonismo y me esfuerzo en dar una buena imagen de mí mismo.",
+  "weights": {
+   "3": 1
+  }
+ },
+ {
+  "group": 3,
+  "statement": "Para tener éxito, a veces hay que sacrificar los propios principios.",
+  "weights": {
+   "3": 1
+  }
+ },
+ {
+  "group": 3,
+  "statement": "Vivo con cierta tensión, porque me propongo demasiados objetivos.",
+  "weights": {
+   "3": 1
+  }
+ },
+ {
+  "group": 3,
+  "statement": "Me siento molesto cuando critican lo que he hecho.",
+  "weights": {
+   "3": 1
+  }
+ },
+ {
+  "group": 3,
+  "statement": "Me adapto con facilidad a las situaciones.",
+  "weights": {
+   "3": 1
+  }
+ },
+ {
+  "group": 3,
+  "statement": "Puedo identificarme con mi trabajo hasta el punto de descuidar los sentimientos y las relaciones.",
+  "weights": {
+   "3": 1
+  }
+ },
+ {
+  "group": 3,
+  "statement": "Tengo capacidad de ser persuasivo y convincente a la hora de promover una idea o un proyecto.",
+  "weights": {
+   "3": 1
+  }
+ },
+ {
+  "group": 3,
+  "statement": "Soy visto por los demás como una persona segura y decidida.",
+  "weights": {
+   "3": 1
+  }
+ },
+ {
+  "group": 3,
+  "statement": "Puedo servirme de las personas para conseguir mis objetivos.",
+  "weights": {
+   "3": 1
+  }
+ },
+ {
+  "group": 3,
+  "statement": "Soy una persona emprendedora y sostenida por fuertes motivaciones.",
+  "weights": {
+   "3": 1
+  }
+ },
+ {
+  "group": 3,
+  "statement": "Me pongo en acción con mucha facilidad.",
+  "weights": {
+   "3": 1
+  }
+ },
+ {
+  "group": 3,
+  "statement": "Contagio mi entusiasmo y mi optimismo a los demás",
+  "weights": {
+   "3": 1
+  }
+ },
+ {
+  "group": 6,
+  "statement": "Fundamentalmente, soy una persona bastane equilibrada.",
+  "weights": {
+   "6": 1
+  }
+ },
+ {
+  "group": 6,
+  "statement": "Considero importante ser fiel a los compromisos y a las personas.",
+  "weights": {
+   "6": 1
+  }
+ },
+ {
+  "group": 6,
+  "statement": "Me resulta difícil desobedecer a la autoridad y a las normas establecidas.",
+  "weights": {
+   "6": 1
+  }
+ },
+ {
+  "group": 6,
+  "statement": "Antes de tomar una decisión, trato de informarme exhaustivamente para evitar equivocarme.",
+  "weights": {
+   "6": 1
+  }
+ },
+ {
+  "group": 6,
+  "statement": "En mi trabajo necesito conocer las expectativas y las líneas de comportamiento que se esperan de mí.",
+  "weights": {
+   "6": 1
+  }
+ },
+ {
+  "group": 6,
+  "statement": "Cuando se me presiona, me pongo tenso e irascible.",
+  "weights": {
+   "6": 1
+  }
+ },
+ {
+  "group": 6,
+  "statement": "Por naturaleza, soy más bien inseguro e indeciso.",
+  "weights": {
+   "6": 1
+  }
+ },
+ {
+  "group": 6,
+  "statement": "Me resulta sumamente incómoda la ambigüedad.",
+  "weights": {
+   "6": 1
+  }
+ },
+ {
+  "group": 6,
+  "statement": "A menudo hago las cosas movido por el sentido del deber y de la responsabilidad.",
+  "weights": {
+   "6": 1
+  }
+ },
+ {
+  "group": 6,
+  "statement": "Cuando tengo que tomar una decisión, prefiero conocer antes el parecer de los demás.",
+  "weights": {
+   "6": 1
+  }
+ },
+ {
+  "group": 6,
+  "statement": "Aunque suelo hacer lo que se espera de mí, a veces puedo rebelarme.",
+  "weights": {
+   "6": 1
+  }
+ },
+ {
+  "group": 6,
+  "statement": "La prudencia es una virtud muy importante para mí.",
+  "weights": {
+   "6": 1
+  }
+ },
+ {
+  "group": 6,
+  "statement": "Tiendo a criticar a quien se comporta de modo diferente.",
+  "weights": {
+   "6": 1
+  }
+ },
+ {
+  "group": 6,
+  "statement": "Tengo un fuerte sentido del \"grupo\" en todo lo que se refiere a la familia, a las instituciones y a la comunidad.",
+  "weights": {
+   "6": 1
+  }
+ },
+ {
+  "group": 6,
+  "statement": "Soy un buen colaborador, y los demás pueden fiarse de mí.",
+  "weights": {
+   "6": 1
+  }
+ },
+ {
+  "group": 6,
+  "statement": "Tiendo a tener muchas dudas que bloquean mi libertad.",
+  "weights": {
+   "6": 1
+  }
+ },
+ {
+  "group": 6,
+  "statement": "Prefiero sacrificar mi independencia con tal de sentirme más seguro.",
+  "weights": {
+   "6": 1
+  }
+ },
+ {
+  "group": 6,
+  "statement": "Tengo tendencia a anticipar e imaginar muchos peligros.",
+  "weights": {
+   "6": 1
+  }
+ },
+ {
+  "group": 9,
+  "statement": "La mayoría de la gente se precipita en exceso.",
+  "weights": {
+   "9": 1
+  }
+ },
+ {
+  "group": 9,
+  "statement": "Soy de carácter pacífico, tranquilo y acomodaticio.",
+  "weights": {
+   "9": 1
+  }
+ },
+ {
+  "group": 9,
+  "statement": "Me gustan la rutina y las cosas conocidas y familiares.",
+  "weights": {
+   "9": 1
+  }
+ },
+ {
+  "group": 9,
+  "statement": "Me molestan mucho las situaciones conflictivas.",
+  "weights": {
+   "9": 1
+  }
+ },
+ {
+  "group": 9,
+  "statement": "No soy propenso a juzgar a las personas.",
+  "weights": {
+   "9": 1
+  }
+ },
+ {
+  "group": 9,
+  "statement": "Tengo cierta tendencia a dejar para mañana lo que podría hacer hoy.",
+  "weights": {
+   "9": 1
+  }
+ },
+ {
+  "group": 9,
+  "statement": "La iniciativa no es mi fuerte; necesito estímulos externos para hacer cosas.",
+  "weights": {
+   "9": 1
+  }
+ },
+ {
+  "group": 9,
+  "statement": "Vivir en paz y armonía es lo más hermoso del mundo.",
+  "weights": {
+   "9": 1
+  }
+ },
+ {
+  "group": 9,
+  "statement": "Mi calma y mi lentitud pueden irritar a los demás.",
+  "weights": {
+   "9": 1
+  }
+ },
+ {
+  "group": 9,
+  "statement": "Puedo ser un árbitro imparcial y equilibrado.",
+  "weights": {
+   "9": 1
+  }
+ },
+ {
+  "group": 9,
+  "statement": "Me resulta difícil decir que no.",
+  "weights": {
+   "9": 1
+  }
+ },
+ {
+  "group": 9,
+  "statement": "Soy propenso a reprimir mis sentimientos.",
+  "weights": {
+   "9": 1
+  }
+ },
+ {
+  "group": 9,
+  "statement": "Tiendo a relativizar y minimiñar las tensiones.",
+  "weights": {
+   "9": 1
+  }
+ },
+ {
+  "group": 9,
+  "statement": "Tengo una cierta tendencia a infravalorarme.",
+  "weights": {
+   "9": 1
+  }
+ },
+ {
+  "group": 9,
+  "statement": "Soy bastante conservador en mi escala de valores.",
+  "weights": {
+   "9": 1
+  }
+ },
+ {
+  "group": 9,
+  "statement": "Tengo cierta dificultad en centrar mi atención.",
+  "weights": {
+   "9": 1
+  }
+ },
+ {
+  "group": 9,
+  "statement": "No merece la pena enfadarse cuando las cosas marchan mal.",
+  "weights": {
+   "9": 1
+  }
+ },
+ {
+  "group": 9,
+  "statement": "Soy más propenso a resignarme que a luchar. Se colorearán de azul las barras 4,5,6 y 1. Se coloreará de verde la barra 9. correspondan coloreando sólo la silueta de este complemento.",
+  "weights": {
+   "9": 1
+  }
+ }
+]

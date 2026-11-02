@@ -1,6 +1,7 @@
 <div class="space-y-4" x-data="{ seconds: {{ (int) ($day->duration_seconds ?? 0) }}, running: false, timer: null,
-    start() { if (this.running) return; this.running = true; this.timer = setInterval(() => { this.seconds++; if (this.seconds === 900 || this.seconds === 1200) { try { navigator.vibrate && navigator.vibrate(200) } catch(e) {} } }, 1000) },
+    start() { if (this.running) return; this.running = true; this.timer = setInterval(() => this.tick(), 1000) },
     stop() { this.running = false; clearInterval(this.timer); $wire.saveDuration(this.seconds) },
+    tick() { this.seconds++; if (this.seconds % 30 === 0) $wire.saveDuration(this.seconds); if (this.seconds === 900 || this.seconds === 1200) { try { navigator.vibrate && navigator.vibrate(200) } catch(e) {} } },
     fmt() { const m = Math.floor(this.seconds / 60), s = this.seconds % 60; return `${m}:${s.toString().padStart(2, '0')}` } }">
 
     {{-- progress --}}
@@ -10,8 +11,14 @@
                 <li class="h-1.5 flex-1 rounded-full transition {{ array_search($s, $steps) <= array_search($step, $steps) ? 'bg-app' : 'bg-stone-200' }}"></li>
             @endforeach
         </ol>
-        <div class="mt-2 flex justify-between text-xs text-muted">
+        <div class="mt-2 flex items-center justify-between text-xs text-muted">
             <span class="first-letter:uppercase">{{ $day->date->translatedFormat('l, j \d\e F') }}</span>
+            @if (! in_array($step, ['reading', 'done']))
+                {{-- The reading timer keeps running while texts are written down. --}}
+                <button type="button" x-show="running || seconds > 0" x-cloak x-on:click="running ? stop() : start()" class="inline-flex items-center gap-1.5 rounded-full bg-white px-2.5 py-1 font-mono text-[13px] tabular-nums text-ink shadow-soft" :class="running ? 'ring-1 ring-app/40' : ''" :title="running ? '{{ __('Pausar') }}' : '{{ __('Reanudar') }}'">
+                    <span class="h-2 w-2 rounded-full" :class="running ? 'animate-pulse bg-app' : 'bg-stone-300'"></span><span x-text="fmt()"></span>
+                </button>
+            @endif
             <span>{{ array_search($step, $steps) + 1 }}/{{ count($steps) }} · {{ __('Fase :n', ['n' => $phase]) }}</span>
         </div>
     </div>
@@ -154,11 +161,11 @@
 
     @if ($step !== 'done')
         @if (in_array($step, ['texts', 'select']) && $texts->isNotEmpty())
-            <x-ui.button type="button" wire:click="finishMinimum" variant="ghost" size="sm" block wire:confirm="{{ __('¿Terminar hoy con el mínimo? Cuenta como día hecho.') }}">{{ __('Hoy solo el mínimo') }}</x-ui.button>
+            <x-ui.button type="button" wire:click="finishMinimum" x-on:click="running && stop()" variant="ghost" size="sm" block wire:confirm="{{ __('¿Terminar hoy con el mínimo? Cuenta como día hecho.') }}">{{ __('Hoy solo el mínimo') }}</x-ui.button>
         @endif
         <x-ui.action-bar class="mt-2!">
             <x-ui.button type="button" wire:click="back" variant="secondary" :disabled="$step === $steps[0]" class="w-12 shrink-0 px-0!" aria-label="{{ __('Atrás') }}"><x-ui.icon name="chevron-left" class="h-5 w-5" /></x-ui.button>
-            <x-ui.button type="button" wire:click="next" x-on:click="running && stop()" class="flex-1" size="lg">{{ __('Siguiente') }}<x-ui.icon name="arrow-right" class="h-4 w-4" /></x-ui.button>
+            <x-ui.button type="button" wire:click="next" x-on:click="{{ $step === 'written_prayer' || ($step === 'select' && ! $isFull) ? 'running && stop()' : '' }}" class="flex-1" size="lg">{{ __('Siguiente') }}<x-ui.icon name="arrow-right" class="h-4 w-4" /></x-ui.button>
         </x-ui.action-bar>
     @endif
 </div>

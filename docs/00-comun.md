@@ -69,8 +69,9 @@ Reglas:
 ## Módulos
 - 01-modulo-mdp.md: libro "Dios como mi terapeuta a través de la Biblia". Implementado.
 - 02-modulo-fichas.md: libro "El arte de dar forma a tu cerebro". Implementado.
-- 03-modulo-contenidos.md: pendiente de recibir los contenidos.
+- 03-modulo-contenidos.md: materiales por temáticas con artículo del eneagrama. Implementado.
 - 04a-test-johari.md: test Ventana de Johari. Implementado sobre el motor genérico de tests.
+- 04b-test-eneagrama.md: cuestionarios puntuados del eneagrama con perfiles, conclusiones y análisis por IA. Implementado.
 - 05-paypal.md: configuración de la cuenta de PayPal y flujo de cobro.
 - Resto de tests: pendientes de recibir el material.
 - Cursos: fase 2.

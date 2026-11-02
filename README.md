@@ -10,7 +10,8 @@ Laravel 13 · Livewire 4 · Tailwind 4 · Filament 5 · PayPal (REST API) · Web
 | Portal | `/` | Inicio, planes, cuenta, tests |
 | Devocional (MDP) | `/mdp` | Método Devocional Proyectivo. PWA instalable por separado |
 | Fichas | `/fichas` | Programa de las 42 fichas. PWA instalable por separado |
-| Tests | `/tests` | Motor de tests; implementado el tipo Ventana de Johari |
+| Tests | `/tests` | Ventana de Johari y cuestionarios puntuados (eneagrama, con análisis por IA opcional) |
+| Materiales | `/materiales` | Artículos por temáticas, con bloques especiales |
 | Admin | `/admin` | Panel Filament: usuarios, idiomas, productos, planes, cupones, accesos, fichas, listas de palabras, tests |
 
 La especificación funcional está en `docs/`.
@@ -62,7 +63,8 @@ php artisan test
      nada en PayPal: se cobran por importe.
 7. Web Push: `php artisan webpush:vapid` una vez y guardar `VAPID_PUBLIC_KEY`, `VAPID_PRIVATE_KEY`
    y `VAPID_SUBJECT` en `.env`. Las PWA requieren HTTPS.
-8. Primer administrador: crear el usuario y marcar `is_admin` desde tinker, o editar
+8. Análisis por IA de los tests: `ANTHROPIC_API_KEY` en `.env` (y opcionalmente `ANTHROPIC_MODEL`). Sin clave, el botón no aparece.
+9. Primer administrador: crear el usuario y marcar `is_admin` desde tinker, o editar
    `admin@example.com` creado por el seeder en entorno local.
 
 ## Cómo funciona el acceso

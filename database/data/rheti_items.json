@@ -1,0 +1,2624 @@
+[
+ {
+  "group": 1,
+  "statement": "Sobre todo ha sido romántico e imaginativo.",
+  "weights": {
+   "4": 1
+  }
+ },
+ {
+  "group": 1,
+  "statement": "Sobre todo ha sido pragmático y realista.",
+  "weights": {
+   "6": 1
+  }
+ },
+ {
+  "group": 2,
+  "statement": "Se ha inclinado a enfrentarse a la gente.",
+  "weights": {
+   "8": 1
+  }
+ },
+ {
+  "group": 2,
+  "statement": "Se ha inclinado a evitar los enfrentamientos.",
+  "weights": {
+   "9": 1
+  }
+ },
+ {
+  "group": 3,
+  "statement": "La gente le suele ver como una persona diplomática, encantadora y, al propio tiempo, ambiciosa.",
+  "weights": {
+   "3": 1
+  }
+ },
+ {
+  "group": 3,
+  "statement": "Generalmente le han descrito como una persona idealista, formal y directa.",
+  "weights": {
+   "1": 1
+  }
+ },
+ {
+  "group": 4,
+  "statement": "Se ha inclinado a llevar una vida muy provechosa y centrada.",
+  "weights": {
+   "5": 1
+  }
+ },
+ {
+  "group": 4,
+  "statement": "Sobre todo se ha inclinado a ser espontáneo y divertido.",
+  "weights": {
+   "7": 1
+  }
+ },
+ {
+  "group": 5,
+  "statement": "Ha sido una persona acogedora y ha disfrutado mucho rodeándose de nuevas amistades.",
+  "weights": {
+   "2": 1
+  }
+ },
+ {
+  "group": 5,
+  "statement": "Ha protegido mucho su vida privada no mezclándose demasiado con los demás.",
+  "weights": {
+   "4": 1,
+   "5": 1
+  }
+ },
+ {
+  "group": 6,
+  "statement": "Generalmente es fácil hacerle enfadar",
+  "weights": {
+   "6": 1,
+   "1": 1,
+   "8": 1
+  }
+ },
+ {
+  "group": 6,
+  "statement": "Generalmente es difícil hacerle enfadar",
+  "weights": {
+   "9": 1
+  }
+ },
+ {
+  "group": 7,
+  "statement": "Ha sido más bien una persona que se ha fortalecido haciéndose a sí misma.",
+  "weights": {
+   "1": 1,
+   "8": 1
+  }
+ },
+ {
+  "group": 7,
+  "statement": "Ha sido más bien un idealista de grandes valores.",
+  "weights": {
+   "1": 1
+  }
+ },
+ {
+  "group": 8,
+  "statement": "Se ha inclinado a mostrar su afecto delante de los demás.",
+  "weights": {
+   "2": 1
+  }
+ },
+ {
+  "group": 8,
+  "statement": "Ha preferido mantenerse a cierta distancia de los demás.",
+  "weights": {
+   "4": 1,
+   "5": 1
+  }
+ },
+ {
+  "group": 9,
+  "statement": "Ante nuevas experiencias suele preguntarse si le resultarán útiles y eficaces.",
+  "weights": {
+   "3": 1
+  }
+ },
+ {
+  "group": 9,
+  "statement": "Ante nuevas experiencias suele preguntarse si le resultarán agradables y placenteras.",
+  "weights": {
+   "7": 1
+  }
+ },
+ {
+  "group": 10,
+  "statement": "Se ha inclinado a centrarse sobre todo en sí mismo.",
+  "weights": {
+   "4": 1,
+   "5": 1
+  }
+ },
+ {
+  "group": 10,
+  "statement": "Se ha inclinado a centrarse demasiado en los demás.",
+  "weights": {
+   "9": 1,
+   "2": 1
+  }
+ },
+ {
+  "group": 11,
+  "statement": "Otras personas han dependido de su intuición y sabiduría.",
+  "weights": {
+   "1": 1,
+   "5": 1
+  }
+ },
+ {
+  "group": 11,
+  "statement": "Otras personas han dependido de su fortaleza y capacidad de decisión.",
+  "weights": {
+   "1": 1,
+   "8": 1
+  }
+ },
+ {
+  "group": 12,
+  "statement": "Ha dado la impresión de estar demasiado inseguro de usted mismo.",
+  "weights": {
+   "6": 1
+  }
+ },
+ {
+  "group": 12,
+  "statement": "Ha dado la impresión de estar demasiado seguro de sí mismo.",
+  "weights": {
+   "1": 1,
+   "8": 1
+  }
+ },
+ {
+  "group": 13,
+  "statement": "Se ha orientado más hacia las relaciones interpersonales que hacia la consecución de objetivos.",
+  "weights": {
+   "2": 1
+  }
+ },
+ {
+  "group": 13,
+  "statement": "Se ha orientado más hacia la consecución de objetivos que hacia las relaciones interpersonales.",
+  "weights": {
+   "3": 1
+  }
+ },
+ {
+  "group": 14,
+  "statement": "Se suele inhibir mucho y le cuesta expresarse bien.",
+  "weights": {
+   "4": 1
+  }
+ },
+ {
+  "group": 14,
+  "statement": "Es muy claro; dice lo que otros habrían deseado tener el arrojo de decir",
+  "weights": {
+   "1": 1,
+   "8": 1,
+   "7": 1
+  }
+ },
+ {
+  "group": 15,
+  "statement": "Le ha resultado difícil dejar de considerar las diferentes alternativas y hacer algo definido.",
+  "weights": {
+   "6": 1,
+   "5": 1
+  }
+ },
+ {
+  "group": 15,
+  "statement": "Le ha resultado difícil relajarse y ser más flexible.",
+  "weights": {
+   "1": 1
+  }
+ },
+ {
+  "group": 16,
+  "statement": "Tiende a demorarse y no le gusta tomar la iniciativa.",
+  "weights": {
+   "6": 1
+  }
+ },
+ {
+  "group": 16,
+  "statement": "Tiende tomar la iniciativa y a ser dominante.",
+  "weights": {
+   "3": 1,
+   "8": 1
+  }
+ },
+ {
+  "group": 17,
+  "statement": "Sus dificultades para implicarse con la gente le han causado algunos problemas.",
+  "weights": {
+   "9": 1
+  }
+ },
+ {
+  "group": 17,
+  "statement": "Se siente bien cuando la gente depende en cierta medida de usted, aunque eso, en ocasiones, le causa algunos problemas.",
+  "weights": {
+   "2": 1
+  }
+ },
+ {
+  "group": 18,
+  "statement": "Normalmente ha sido capaz de prescindir de sus sentimientos para hacer bien su trabajo.",
+  "weights": {
+   "6": 1,
+   "3": 1,
+   "1": 1,
+   "8": 1
+  }
+ },
+ {
+  "group": 18,
+  "statement": "Normalmente ha necesitado dar prioridad a sus sentimientos antes de poder actuar.",
+  "weights": {
+   "4": 1
+  }
+ },
+ {
+  "group": 19,
+  "statement": "Sobre todo se ha inclinado a ser cauto y metódico.",
+  "weights": {
+   "6": 1
+  }
+ },
+ {
+  "group": 19,
+  "statement": "Sobre todo se ha inclinado hacia el riesgo y la aventura.",
+  "weights": {
+   "7": 1
+  }
+ },
+ {
+  "group": 20,
+  "statement": "Ha tendido a ser una persona que se entrega a los demás, y ha disfrutado de la compañía de la gente.",
+  "weights": {
+   "2": 1,
+   "8": 1
+  }
+ },
+ {
+  "group": 20,
+  "statement": "Ha tendido a ser una persona reservada y seria, a la que no le gusta hablar y discutir los problemas.",
+  "weights": {
+   "2": 1
+  }
+ },
+ {
+  "group": 21,
+  "statement": "Con frecuencia ha sentido la necesidad de ser como “un pilar de fortaleza”.",
+  "weights": {
+   "8": 1
+  }
+ },
+ {
+  "group": 21,
+  "statement": "Con frecuencia ha sentido la necesidad de hacer las cosas a la perfección.",
+  "weights": {
+   "3": 1,
+   "1": 1
+  }
+ },
+ {
+  "group": 22,
+  "statement": "Normalmente se ha interesado por las preguntas difíciles, siendo, además, una persona que preserva su independencia.",
+  "weights": {
+   "5": 1
+  }
+ },
+ {
+  "group": 22,
+  "statement": "Normalmente se ha interesado en mantener su estabilidad y su paz mental.",
+  "weights": {
+   "9": 1
+  }
+ },
+ {
+  "group": 23,
+  "statement": "Ha sido una persona demasiado escéptica y dura.",
+  "weights": {
+   "6": 1,
+   "1": 1
+  }
+ },
+ {
+  "group": 23,
+  "statement": "Ha sido una persona demasiado sentimental y tierna.",
+  "weights": {
+   "4": 1,
+   "2": 1
+  }
+ },
+ {
+  "group": 24,
+  "statement": "Con frecuencia le preocupa que se vaya a perder las cosas buenas y divertidas de la vida.",
+  "weights": {
+   "7": 1
+  }
+ },
+ {
+  "group": 24,
+  "statement": "Con frecuencia le preocupa que alguien se aproveche si usted baja la guardia.",
+  "weights": {
+   "8": 1
+  }
+ },
+ {
+  "group": 25,
+  "statement": "Su costumbre de ser tan reservado molesta a la gente.",
+  "weights": {
+   "4": 1
+  }
+ },
+ {
+  "group": 25,
+  "statement": "Su costumbre de decir a la gente lo que tienen que hacer les resulta a veces molesto.",
+  "weights": {
+   "1": 1,
+   "8": 1
+  }
+ },
+ {
+  "group": 26,
+  "statement": "Cuando ha tenido problemas, normalmente, ha sido capaz de superarlos.",
+  "weights": {
+   "9": 1,
+   "3": 1,
+   "8": 1
+  }
+ },
+ {
+  "group": 26,
+  "statement": "Cuando ha tenido problemas, normalmente se ha invitado usted mismo a algo que le gusta.",
+  "weights": {
+   "7": 1
+  }
+ },
+ {
+  "group": 27,
+  "statement": "Sobre todo, ha dependido de sus amigos y, por otra parte, ellos han sabido que pueden confiar en usted.",
+  "weights": {
+   "6": 1
+  }
+ },
+ {
+  "group": 27,
+  "statement": "No ha dependido de nadie; hace las cosas por sí mismo.",
+  "weights": {
+   "3": 1,
+   "1": 1,
+   "8": 1
+  }
+ },
+ {
+  "group": 28,
+  "statement": "Tiende a ser voluble y a permanecer en su mundo.",
+  "weights": {
+   "4": 1
+  }
+ },
+ {
+  "group": 28,
+  "statement": "Se ha inclinado a ser bastante despegado.",
+  "weights": {
+   "5": 1
+  }
+ },
+ {
+  "group": 29,
+  "statement": "Ha disfrutado desafiando a la gente y haciéndoles reaccionar.",
+  "weights": {
+   "8": 1
+  }
+ },
+ {
+  "group": 29,
+  "statement": "Ha disfrutado confortando y calmando a los demás.",
+  "weights": {
+   "9": 1,
+   "2": 1
+  }
+ },
+ {
+  "group": 30,
+  "statement": "Generalmente ha sido una persona sociable y extrovertida.",
+  "weights": {
+   "3": 1,
+   "8": 1,
+   "7": 1
+  }
+ },
+ {
+  "group": 30,
+  "statement": "Generalmente ha sido una persona disciplinada y rigurosa.",
+  "weights": {
+   "1": 1
+  }
+ },
+ {
+  "group": 31,
+  "statement": "Normalmente es tímido a la hora de mostrar sus habilidades.",
+  "weights": {
+   "9": 1
+  }
+ },
+ {
+  "group": 31,
+  "statement": "Normalmente le gusta que la gente sepa lo que hace bien.",
+  "weights": {
+   "3": 1,
+   "2": 1,
+   "5": 1
+  }
+ },
+ {
+  "group": 32,
+  "statement": "Para usted ha sido más importante desarrollar sus intereses personales que poseer seguridad y comodidad.",
+  "weights": {
+   "5": 1
+  }
+ },
+ {
+  "group": 32,
+  "statement": "Para usted ha sido más importante disfrutar de la seguridad y la comodidad que desarrollar sus intereses personales.",
+  "weights": {
+   "6": 1
+  }
+ },
+ {
+  "group": 33,
+  "statement": "Sobre todo se ha inclinado a huir de las situaciones conflictivas con los demás.",
+  "weights": {
+   "9": 1,
+   "4": 1
+  }
+ },
+ {
+  "group": 33,
+  "statement": "Rara vez ha huido ante las situaciones conflictivas con los demás.",
+  "weights": {
+   "8": 1
+  }
+ },
+ {
+  "group": 34,
+  "statement": "Normalmente ha cedido con facilidad y se ha dejado manejar por los demás.",
+  "weights": {
+   "9": 1
+  }
+ },
+ {
+  "group": 34,
+  "statement": "Normalmente ha sido demasiado intransigente y exigente con los demás.",
+  "weights": {
+   "1": 1
+  }
+ },
+ {
+  "group": 35,
+  "statement": "Le han apreciado por su marcado optimismo y su gran sentido del humor.",
+  "weights": {
+   "7": 1
+  }
+ },
+ {
+  "group": 35,
+  "statement": "Le han apreciado por su gran generosidad y su callada fortaleza.",
+  "weights": {
+   "2": 1
+  }
+ },
+ {
+  "group": 36,
+  "statement": "Gran parte de sus éxitos se han debido a su capacidad para dar una buena impresión.",
+  "weights": {
+   "3": 1
+  }
+ },
+ {
+  "group": 36,
+  "statement": "Gran parte de sus éxitos los ha logrado a pesar de sus limitadas habilidades interpersonales.",
+  "weights": {
+   "1": 1,
+   "5": 1
+  }
+ },
+ {
+  "group": 37,
+  "statement": "Se siente satisfecho por su perseverancia y su sentido común.",
+  "weights": {
+   "6": 1
+  }
+ },
+ {
+  "group": 37,
+  "statement": "Se siente satisfecho de su originalidad y su capacidad de invención.",
+  "weights": {
+   "4": 1
+  }
+ },
+ {
+  "group": 38,
+  "statement": "Básicamente se conforma con facilidad y es agradable.",
+  "weights": {
+   "9": 1
+  }
+ },
+ {
+  "group": 38,
+  "statement": "Básicamente es asertivo y práctico.",
+  "weights": {
+   "3": 1,
+   "8": 1
+  }
+ },
+ {
+  "group": 39,
+  "statement": "Se ha esforzado mucho para que los demás le acepten y quieran.",
+  "weights": {
+   "3": 1,
+   "2": 1
+  }
+ },
+ {
+  "group": 39,
+  "statement": "Para usted ser aceptado y querido no ha sido una de sus prioridades.",
+  "weights": {
+   "1": 1
+  }
+ },
+ {
+  "group": 40,
+  "statement": "Ante la presión de los demás se ha vuelto más huidizo.",
+  "weights": {
+   "5": 1
+  }
+ },
+ {
+  "group": 40,
+  "statement": "Ante la presión de los demás se ha vuelto más agresivo.",
+  "weights": {
+   "7": 1
+  }
+ },
+ {
+  "group": 41,
+  "statement": "Los demás se han interesado en usted porque es extrovertido y se interesa y compromete con ellos.",
+  "weights": {
+   "2": 1
+  }
+ },
+ {
+  "group": 41,
+  "statement": "Los demás se han interesado en usted porque es tranquilo, original y profundo.",
+  "weights": {
+   "4": 1,
+   "5": 1
+  }
+ },
+ {
+  "group": 42,
+  "statement": "El deber y la responsabilidad han sido valores importantes para usted.",
+  "weights": {
+   "6": 1,
+   "1": 1
+  }
+ },
+ {
+  "group": 42,
+  "statement": "El amor y la aceptación han sido valores importantes para usted.",
+  "weights": {
+   "9": 1,
+   "2": 1
+  }
+ },
+ {
+  "group": 43,
+  "statement": "Ha intentado motivar a la gente haciendo grandes planes y promesas.",
+  "weights": {
+   "3": 1,
+   "8": 1
+  }
+ },
+ {
+  "group": 43,
+  "statement": "Ha intentado motivar a la gente señalando lo que ocurrirá si no siguen sus consejos.",
+  "weights": {
+   "1": 1
+  }
+ },
+ {
+  "group": 44,
+  "statement": "Rara vez ha sido demasiado expresivo emocionalmente.",
+  "weights": {
+   "5": 1
+  }
+ },
+ {
+  "group": 44,
+  "statement": "Con frecuencia ha sido bastante expresivo emocionalmente.",
+  "weights": {
+   "2": 1
+  }
+ },
+ {
+  "group": 45,
+  "statement": "Ocuparse de atender a los detalles no ha sido precisamente uno de sus puntos fuertes.",
+  "weights": {
+   "7": 1
+  }
+ },
+ {
+  "group": 45,
+  "statement": "Ha tenido una gran habilidad para ocuparse de los detalles.",
+  "weights": {
+   "3": 1,
+   "1": 1
+  }
+ },
+ {
+  "group": 46,
+  "statement": "Con frecuencia ha destacado cuán diferente es de sus amigos.",
+  "weights": {
+   "4": 1
+  }
+ },
+ {
+  "group": 46,
+  "statement": "Con frecuencia ha destacado cuántas cosas en común tiene con sus amigos.",
+  "weights": {
+   "9": 1
+  }
+ },
+ {
+  "group": 47,
+  "statement": "Cuando las situaciones se han caldeado se ha inclinado a permanecer al margen.",
+  "weights": {
+   "5": 1
+  }
+ },
+ {
+  "group": 47,
+  "statement": "Cuando las situaciones se han caldeado ha ido a afrontarlas directamente por encima de todo.",
+  "weights": {
+   "8": 1
+  }
+ },
+ {
+  "group": 48,
+  "statement": "Ha permanecido junto a sus amigos incluso cuando estaban equivocados.",
+  "weights": {
+   "6": 1
+  }
+ },
+ {
+  "group": 48,
+  "statement": "Nunca ha querido transigir en lo que considera adecuado para las relaciones.",
+  "weights": {
+   "1": 1
+  }
+ },
+ {
+  "group": 49,
+  "statement": "Ha sido un seguidor bien intencionado.",
+  "weights": {
+   "6": 1,
+   "2": 1
+  }
+ },
+ {
+  "group": 49,
+  "statement": "Ha sido una persona ambiciosa, muy motivada.",
+  "weights": {
+   "3": 1
+  }
+ },
+ {
+  "group": 50,
+  "statement": "Rumia sus problemas hasta que puede deshacerse de ellos.",
+  "weights": {
+   "6": 1,
+   "4": 1
+  }
+ },
+ {
+  "group": 50,
+  "statement": "Se suele distraer en otras cosas hasta que ve la forma de solucionar sus problemas.",
+  "weights": {
+   "7": 1
+  }
+ },
+ {
+  "group": 51,
+  "statement": "Generalmente suele tener una gran convicción y sentido de cómo deberían ser las cosas.",
+  "weights": {
+   "1": 1
+  }
+ },
+ {
+  "group": 51,
+  "statement": "Generalmente ha tenido serias dudas y se cuestiona sobre lo que parecen ser las cosas.",
+  "weights": {
+   "5": 1
+  }
+ },
+ {
+  "group": 52,
+  "statement": "Ha tenido problemas con otras personas debido a su pesimismo y quejas.",
+  "weights": {
+   "6": 1
+  }
+ },
+ {
+  "group": 52,
+  "statement": "Ha tenido problemas con otras personas debido a que ha sido demasiado controlador y exigente.",
+  "weights": {
+   "8": 1
+  }
+ },
+ {
+  "group": 53,
+  "statement": "Se ha inclinado a actuar basándose en sus sentimientos y dejar que pase lo que tenga que pasar.",
+  "weights": {
+   "4": 1,
+   "2": 1,
+   "7": 1
+  }
+ },
+ {
+  "group": 53,
+  "statement": "Se ha inclinado a actuar basándose en sus sentimientos, siempre que esto no provoque más problemas.",
+  "weights": {
+   "9": 1
+  }
+ },
+ {
+  "group": 54,
+  "statement": "Normalmente se ha sentido cómodo siendo el centro de atención.",
+  "weights": {
+   "3": 1,
+   "7": 1
+  }
+ },
+ {
+  "group": 54,
+  "statement": "Normalmente no se ha sentido cómodo siendo el centro de atención.",
+  "weights": {
+   "4": 1
+  }
+ },
+ {
+  "group": 55,
+  "statement": "Ha sido cauto y ha intentado estar preparado para los problemas imprevisibles.",
+  "weights": {
+   "6": 1
+  }
+ },
+ {
+  "group": 55,
+  "statement": "Sobre todo ha sido espontáneo y ha preferido solventar los problemas a medida que ocurrían.",
+  "weights": {
+   "7": 1
+  }
+ },
+ {
+  "group": 56,
+  "statement": "Se ha enfadado cuando los demás no han apreciado lo que ha hecho por ellos.",
+  "weights": {
+   "3": 1,
+   "2": 1
+  }
+ },
+ {
+  "group": 56,
+  "statement": "Se ha enfadado cuando los demás no han escuchado lo que usted tenía que decirles.",
+  "weights": {
+   "1": 1
+  }
+ },
+ {
+  "group": 57,
+  "statement": "Para usted ha sido importante mantener su independencia y la confianza en sí mismo.",
+  "weights": {
+   "8": 1
+  }
+ },
+ {
+  "group": 57,
+  "statement": "Para usted ha sido importante sentirse valorado y admirado.",
+  "weights": {
+   "3": 1
+  }
+ },
+ {
+  "group": 58,
+  "statement": "Cuando discute con amigos se inclina a imponer sus ideas.",
+  "weights": {
+   "1": 1,
+   "8": 1,
+   "5": 1
+  }
+ },
+ {
+  "group": 58,
+  "statement": "Cuando discute con amigos se inclina a dejar que las aguas sigan su curso, para no añadir más sinsabores.",
+  "weights": {
+   "9": 1
+  }
+ },
+ {
+  "group": 59,
+  "statement": "Con frecuencia ha sido posesivo con sus seres queridos.",
+  "weights": {
+   "2": 1
+  }
+ },
+ {
+  "group": 59,
+  "statement": "Con frecuencia ha puesto a prueba a sus seres queridos para ver si estaban a su lado.",
+  "weights": {
+   "6": 1
+  }
+ },
+ {
+  "group": 60,
+  "statement": "Uno de sus mayores esfuerzos ha sido la organización de los recursos y hacer que las cosas fueran adelante.",
+  "weights": {
+   "8": 1
+  }
+ },
+ {
+  "group": 60,
+  "statement": "Uno de sus mayores esfuerzos ha sido la creación de nuevas ideas y entusiasmar con ellas a los demás.",
+  "weights": {
+   "3": 1,
+   "7": 1
+  }
+ },
+ {
+  "group": 61,
+  "statement": "Se ha inclinado a ser riguroso y duro consigo mismo.",
+  "weights": {
+   "1": 1,
+   "8": 1
+  }
+ },
+ {
+  "group": 61,
+  "statement": "Se ha inclinado a ser demasiado emotivo y más bien poco disciplinado.",
+  "weights": {
+   "4": 1
+  }
+ },
+ {
+  "group": 62,
+  "statement": "Ha intentado que su vida fuera dinámica, intensa y excitante.",
+  "weights": {
+   "7": 1
+  }
+ },
+ {
+  "group": 62,
+  "statement": "Ha intentado que su vida fuera constante, estable y tranquila.",
+  "weights": {
+   "9": 1
+  }
+ },
+ {
+  "group": 63,
+  "statement": "Le ha resultado difícil realizar los mayores cambios de su vida porque le cuesta bastante renunciar al pasado.",
+  "weights": {
+   "6": 1
+  }
+ },
+ {
+  "group": 63,
+  "statement": "Le ha resultado bastante fácil realizar importantes cambios en su vida porque le cuesta mucho comprometerse a largo plazo.",
+  "weights": {
+   "3": 1,
+   "7": 1
+  }
+ },
+ {
+  "group": 64,
+  "statement": "Generalmente se ha inclinado a enfatizar sus sentimientos y apegarse a ellos durante mucho tiempo.",
+  "weights": {
+   "4": 1
+  }
+ },
+ {
+  "group": 64,
+  "statement": "Generalmente se ha inclinado a minimizar sus sentimientos y a no prestarles mucha atención.",
+  "weights": {
+   "5": 1
+  }
+ },
+ {
+  "group": 65,
+  "statement": "Ha atendido y apoyado a mucha gente.",
+  "weights": {
+   "2": 1
+  }
+ },
+ {
+  "group": 65,
+  "statement": "Ha dirigido y motivado a mucha gente.",
+  "weights": {
+   "3": 1,
+   "8": 1
+  }
+ },
+ {
+  "group": 66,
+  "statement": "En su opinión, o en la de los demás, ha sido demasiado serio y estricto consigo mismo.",
+  "weights": {
+   "1": 1
+  }
+ },
+ {
+  "group": 66,
+  "statement": "En su opinión, o en la de los demás, ha sido demasiado confiado y permisivo consigo mismo.",
+  "weights": {
+   "7": 1
+  }
+ },
+ {
+  "group": 67,
+  "statement": "Sobre todo ha sido asertivo y orientado a la superación.",
+  "weights": {
+   "3": 1,
+   "8": 1
+  }
+ },
+ {
+  "group": 67,
+  "statement": "Sobre todo ha sido modesto y se ha contentado con ir a su propio ritmo.",
+  "weights": {
+   "9": 1
+  }
+ },
+ {
+  "group": 68,
+  "statement": "Se ha sentido satisfecho de ser una persona objetiva y clara.",
+  "weights": {
+   "3": 1,
+   "8": 1,
+   "5": 1
+  }
+ },
+ {
+  "group": 68,
+  "statement": "Se ha sentido satisfecho de ser una persona comprometida en la que se puede confiar.",
+  "weights": {
+   "6": 1
+  }
+ },
+ {
+  "group": 69,
+  "statement": "Ha empleado mucho tiempo en descubrir lo que sus sentimientos e impulsos tienen que decirle.",
+  "weights": {
+   "4": 1
+  }
+ },
+ {
+  "group": 69,
+  "statement": "Estar pendiente de los propios sentimientos es una pérdida de tiempo; lo que importa es actuar.",
+  "weights": {
+   "8": 1
+  }
+ },
+ {
+  "group": 70,
+  "statement": "Normalmente se ha visto a usted mismo como una persona alegre y despreocupada.",
+  "weights": {
+   "9": 1,
+   "7": 1
+  }
+ },
+ {
+  "group": 70,
+  "statement": "Normalmente se ha visto a usted mismo como una persona seria y digna.",
+  "weights": {
+   "1": 1
+  }
+ },
+ {
+  "group": 71,
+  "statement": "Se ha caracterizado por su agudeza mental y por poseer una energía sin límites.",
+  "weights": {
+   "7": 1
+  }
+ },
+ {
+  "group": 71,
+  "statement": "Se ha caracterizado por su profunda dedicación y su preocupación por los demás.",
+  "weights": {
+   "2": 1
+  }
+ },
+ {
+  "group": 72,
+  "statement": "Ha intentado realizar actividades que le proporcionen algún tipo de premio o reconocimiento personal.",
+  "weights": {
+   "3": 1
+  }
+ },
+ {
+  "group": 72,
+  "statement": "Se ha inclinado a anteponer las actividades que realmente le interesaban sobre aquellas que podían proporcionarle alguna recompensa o reconocimiento personal.",
+  "weights": {
+   "5": 1
+  }
+ },
+ {
+  "group": 73,
+  "statement": "Cumplir con las obligaciones sociales no ha sido para usted una de sus prioridades.",
+  "weights": {
+   "4": 1
+  }
+ },
+ {
+  "group": 73,
+  "statement": "Normalmente se ha tomado muy en serio cumplir sus obligaciones sociales.",
+  "weights": {
+   "6": 1
+  }
+ },
+ {
+  "group": 74,
+  "statement": "Casi siempre ha preferido hacerse usted mismo cargo de la situación.",
+  "weights": {
+   "1": 1,
+   "8": 1
+  }
+ },
+ {
+  "group": 74,
+  "statement": "Casi siempre ha preferido que otra persona se hiciera cargo de la situación.",
+  "weights": {
+   "9": 1,
+   "4": 1
+  }
+ },
+ {
+  "group": 75,
+  "statement": "Sus valores y su estilo de vida han cambiado varias veces a lo largo de los años.",
+  "weights": {
+   "3": 1
+  }
+ },
+ {
+  "group": 75,
+  "statement": "Sus valores y su estilo de vida han seguido siendo consistentes y prácticamente los mismos a lo largo de los años.",
+  "weights": {
+   "1": 1
+  }
+ },
+ {
+  "group": 76,
+  "statement": "Normalmente no ha sido demasiado autodisciplinado.",
+  "weights": {
+   "7": 1
+  }
+ },
+ {
+  "group": 76,
+  "statement": "Normalmente no ha estado demasiado en contacto con la gente.",
+  "weights": {
+   "5": 1
+  }
+ },
+ {
+  "group": 77,
+  "statement": "Con frecuencia se ha sentido vulnerable al estar rodeado de gente.",
+  "weights": {
+   "4": 1,
+   "5": 1
+  }
+ },
+ {
+  "group": 77,
+  "statement": "Con frecuencia ha sentido que sus sacrificios se veían como algo normal.",
+  "weights": {
+   "2": 1
+  }
+ },
+ {
+  "group": 78,
+  "statement": "Se ha inclinado a pensar siempre lo peor.",
+  "weights": {
+   "6": 1,
+   "1": 1
+  }
+ },
+ {
+  "group": 78,
+  "statement": "Se ha inclinado a pensar que las cosas siempre saldrían bien.",
+  "weights": {
+   "9": 1,
+   "7": 1
+  }
+ },
+ {
+  "group": 79,
+  "statement": "La gente ha confiado en usted porque es discreto y puede mirar por sus intereses.",
+  "weights": {
+   "8": 1
+  }
+ },
+ {
+  "group": 79,
+  "statement": "La gente ha confiado en usted porque es justo y hace lo que es correcto.",
+  "weights": {
+   "1": 1
+  }
+ },
+ {
+  "group": 80,
+  "statement": "A menudo se implica tanto en sus propios proyectos que con frecuencia se aísla de los demás.",
+  "weights": {
+   "5": 1
+  }
+ },
+ {
+  "group": 80,
+  "statement": "A menudo se implica tanto con los demás que descuida sus propios proyectos.",
+  "weights": {
+   "2": 1
+  }
+ },
+ {
+  "group": 81,
+  "statement": "Cuando le presentan a alguien nuevo suele mostrarse sereno y controlado.",
+  "weights": {
+   "3": 1
+  }
+ },
+ {
+  "group": 81,
+  "statement": "Cuando le presentan a alguien suele ser afectuoso y entretenido.",
+  "weights": {
+   "7": 1
+  }
+ },
+ {
+  "group": 82,
+  "statement": "Hablando de forma general, ha tendido a ser pesimista.",
+  "weights": {
+   "6": 1,
+   "4": 1
+  }
+ },
+ {
+  "group": 82,
+  "statement": "Hablando de forma general, ha tendido a ser optimista.",
+  "weights": {
+   "9": 1,
+   "7": 1
+  }
+ },
+ {
+  "group": 83,
+  "statement": "Ha preferido habitar en su propio y pequeño mundo.",
+  "weights": {
+   "5": 1
+  }
+ },
+ {
+  "group": 83,
+  "statement": "Ha preferido mostrar a los demás quien es.",
+  "weights": {
+   "8": 1
+  }
+ },
+ {
+  "group": 84,
+  "statement": "Sobre todo ha padecido nerviosismo, inseguridad y duda.",
+  "weights": {
+   "6": 1,
+   "4": 1
+  }
+ },
+ {
+  "group": 84,
+  "statement": "Sobre todo ha padecido de impaciencia y de un perfeccionismo muy marcado.",
+  "weights": {
+   "1": 1
+  }
+ },
+ {
+  "group": 85,
+  "statement": "Se da cuenta de que a menudo ha sido demasiado íntimo y personal.",
+  "weights": {
+   "2": 1
+  }
+ },
+ {
+  "group": 85,
+  "statement": "Se da cuenta de que a menudo ha sido demasiado frío y reservado.",
+  "weights": {
+   "3": 1,
+   "1": 1
+  }
+ },
+ {
+  "group": 86,
+  "statement": "Se ha perdido cosas porque no sentía que tenía que aprovechar las oportunidades.",
+  "weights": {
+   "4": 1
+  }
+ },
+ {
+  "group": 86,
+  "statement": "Se ha perdido cosas porque ha perseguido siempre muchas posibilidades.",
+  "weights": {
+   "7": 1
+  }
+ },
+ {
+  "group": 87,
+  "statement": "Generalmente le lleva bastante tiempo empezar a hacer algo.",
+  "weights": {
+   "5": 1
+  }
+ },
+ {
+  "group": 87,
+  "statement": "Generalmente suele empezar a hacer las cosas con rapidez.",
+  "weights": {
+   "3": 1,
+   "1": 1,
+   "8": 1
+  }
+ },
+ {
+  "group": 88,
+  "statement": "Con frecuencia le ha resultado difícil decidirse.",
+  "weights": {
+   "6": 1
+  }
+ },
+ {
+  "group": 88,
+  "statement": "Rara vez le ha resultado difícil decidirse.",
+  "weights": {
+   "8": 1
+  }
+ },
+ {
+  "group": 89,
+  "statement": "Normalmente ha sido excitable muy hablador e ingenioso.",
+  "weights": {
+   "2": 1,
+   "7": 1
+  }
+ },
+ {
+  "group": 89,
+  "statement": "Se ha inclinado a no imponerse lo suficiente ante los demás.",
+  "weights": {
+   "9": 1
+  }
+ },
+ {
+  "group": 90,
+  "statement": "En bastantes ocasiones se ha desviado de su camino para conocer gente nueva y realizar contactos.",
+  "weights": {
+   "3": 1
+  }
+ },
+ {
+  "group": 90,
+  "statement": "Generalmente no se ha desviado de su camino para conocer gente nueva y realizar contactos.",
+  "weights": {
+   "4": 1
+  }
+ },
+ {
+  "group": 91,
+  "statement": "Ha buscado a alguien que le aconsejara cuando no ha estado seguro de qué hacer.",
+  "weights": {
+   "6": 1
+  }
+ },
+ {
+  "group": 91,
+  "statement": "Cuando no ha estado seguro de qué hacer ha probado cosas diferentes para ver cual le resultaba mejor.",
+  "weights": {
+   "7": 1
+  }
+ },
+ {
+  "group": 92,
+  "statement": "Sobre todo ha temido quedarse al margen de las actividades de los demás.",
+  "weights": {
+   "2": 1
+  }
+ },
+ {
+  "group": 92,
+  "statement": "Sobre todo ha temido que las actividades de los demás le distrajeran de lo que usted tenía que hacer.",
+  "weights": {
+   "1": 1,
+   "5": 1
+  }
+ },
+ {
+  "group": 93,
+  "statement": "Normalmente, cuando se ha enfadado, se lo dice a la gente.",
+  "weights": {
+   "8": 1
+  }
+ },
+ {
+  "group": 93,
+  "statement": "Normalmente, cuando se ha enfadado se muestra distante.",
+  "weights": {
+   "3": 1
+  }
+ },
+ {
+  "group": 94,
+  "statement": "Suele tener problemas para dormirse.",
+  "weights": {
+   "5": 1
+  }
+ },
+ {
+  "group": 94,
+  "statement": "Suele dormirse con facilidad.",
+  "weights": {
+   "9": 1
+  }
+ },
+ {
+  "group": 95,
+  "statement": "A menudo ha intentado averiguar cuál es la forma de estar más cerca de los demás.",
+  "weights": {
+   "2": 1
+  }
+ },
+ {
+  "group": 95,
+  "statement": "A menudo ha intentado averiguar que es lo que quieren los demás de usted.",
+  "weights": {
+   "6": 1
+  }
+ },
+ {
+  "group": 96,
+  "statement": "Normalmente ha sido una persona directa y, por otra parte, poco prudente.",
+  "weights": {
+   "7": 1
+  }
+ },
+ {
+  "group": 96,
+  "statement": "Normalmente ha sido excitable, muy hablador y exigente.",
+  "weights": {
+   "8": 1
+  }
+ },
+ {
+  "group": 97,
+  "statement": "Muchas veces no ha dicho nada cuando ha visto que otros se equivocaban.",
+  "weights": {
+   "4": 1
+  }
+ },
+ {
+  "group": 97,
+  "statement": "Muchas veces ha ayudado a los demás para que vieran que estaban equivocados.",
+  "weights": {
+   "1": 1
+  }
+ },
+ {
+  "group": 98,
+  "statement": "A lo largo de su vida, ha sido más bien una persona temperamental y de sentimientos cambiables.",
+  "weights": {
+   "4": 1,
+   "7": 1
+  }
+ },
+ {
+  "group": 98,
+  "statement": "A lo largo de su vida ha sido más bien una persona tranquila. Es como si de su interior fluyera una suave corriente.",
+  "weights": {
+   "9": 1
+  }
+ },
+ {
+  "group": 99,
+  "statement": "Cuando alguien no le cae bien, normalmente, ha intentado ser cordial a pesar de sus sentimientos.",
+  "weights": {
+   "6": 1
+  }
+ },
+ {
+  "group": 99,
+  "statement": "Cuando alguien no le cae bien, normalmente, se lo ha hecho saber de una forma u otra.",
+  "weights": {
+   "3": 1
+  }
+ },
+ {
+  "group": 100,
+  "statement": "Gran parte de sus problemas con los demás provienen de su susceptibilidad y de su forma de tomarse las cosas demasiado personalmente.",
+  "weights": {
+   "4": 1
+  }
+ },
+ {
+  "group": 100,
+  "statement": "Gran parte de sus problemas con los demás provienen de su despreocupación sobre las formas sociales.",
+  "weights": {
+   "5": 1
+  }
+ },
+ {
+  "group": 101,
+  "statement": "Le han caracterizado por apresurarse a rescatar a los demás.",
+  "weights": {
+   "2": 1
+  }
+ },
+ {
+  "group": 101,
+  "statement": "Le han caracterizado por mostrar a los demás cómo ayudarse a sí mismos.",
+  "weights": {
+   "8": 1
+  }
+ },
+ {
+  "group": 102,
+  "statement": "Generalmente le ha gustado dejarse llevar y experimentar más allá de los límites.",
+  "weights": {
+   "7": 1
+  }
+ },
+ {
+  "group": 102,
+  "statement": "Generalmente no le ha gustado dejarse llevar y perder el control.",
+  "weights": {
+   "1": 1
+  }
+ },
+ {
+  "group": 103,
+  "statement": "Se ha centrado demasiado en hacer las cosas mejor que los demás.",
+  "weights": {
+   "3": 1
+  }
+ },
+ {
+  "group": 103,
+  "statement": "Se ha centrado demasiado en hacer las cosas igual que los demás.",
+  "weights": {
+   "9": 1
+  }
+ },
+ {
+  "group": 104,
+  "statement": "Normalmente sus pensamientos han sido especulativos, dando rienda suelta a su imaginación y curiosidad.",
+  "weights": {
+   "5": 1
+  }
+ },
+ {
+  "group": 104,
+  "statement": "Normalmente sus pensamientos han sido prácticos, intentando conseguir que las cosas sigan adelante.",
+  "weights": {
+   "6": 1
+  }
+ },
+ {
+  "group": 105,
+  "statement": "Una de sus cualidades ha sido la habilidad para describir sus estados internos.",
+  "weights": {
+   "4": 1
+  }
+ },
+ {
+  "group": 105,
+  "statement": "Una de sus cualidades ha sido su habilidad para hacerse cargo de las situaciones.",
+  "weights": {
+   "3": 1,
+   "2": 1,
+   "8": 1
+  }
+ },
+ {
+  "group": 106,
+  "statement": "Ha hecho lo necesario para que las cosas se hicieran correctamente, incluso cuando esto molestara a alguien.",
+  "weights": {
+   "1": 1,
+   "8": 1
+  }
+ },
+ {
+  "group": 106,
+  "statement": "No le ha gustado sentirse presionado, por lo que tampoco se ha inclinado a presionar a nadie.",
+  "weights": {
+   "9": 1
+  }
+ },
+ {
+  "group": 107,
+  "statement": "Se ha sentido satisfecho de lo importante que es en la vida de los demás.",
+  "weights": {
+   "2": 1
+  }
+ },
+ {
+  "group": 107,
+  "statement": "Se ha sentido orgulloso de su gusto e inclinación hacia las experiencias nuevas.",
+  "weights": {
+   "7": 1
+  }
+ },
+ {
+  "group": 108,
+  "statement": "Se ha dado cuenta de que a menudo da a los demás la impresión de ser alguien importante, incluso a veces, admirable.",
+  "weights": {
+   "3": 1
+  }
+ },
+ {
+  "group": 108,
+  "statement": "Se ha dado cuenta de que a menudo da a los demás la impresión de ser alguien poco corriente, incluso a veces, excéntrico.",
+  "weights": {
+   "5": 1
+  }
+ },
+ {
+  "group": 109,
+  "statement": "Habitualmente ha hecho lo que tenía que hacer.",
+  "weights": {
+   "6": 1
+  }
+ },
+ {
+  "group": 109,
+  "statement": "Habitualmente ha hecho lo que quería hacer.",
+  "weights": {
+   "4": 1
+  }
+ },
+ {
+  "group": 110,
+  "statement": "Normalmente, le han gustado las situaciones difíciles.",
+  "weights": {
+   "8": 1
+  }
+ },
+ {
+  "group": 110,
+  "statement": "Normalmente le ha disgustado encontrarse en situaciones difíciles y de alta tensión.",
+  "weights": {
+   "9": 1
+  }
+ },
+ {
+  "group": 111,
+  "statement": "Se ha sentido orgulloso de su capacidad para ser flexible; de hecho considera que lo importante o conveniente cambia con frecuencia.",
+  "weights": {
+   "3": 1
+  }
+ },
+ {
+  "group": 111,
+  "statement": "Se ha sentido satisfecho de mantener sus puntos de vista; es firme y congruente con lo que cree.",
+  "weights": {
+   "1": 1
+  }
+ },
+ {
+  "group": 112,
+  "statement": "Su estilo de vida se ha inclinado más hacia la sobriedad y austeridad.",
+  "weights": {
+   "5": 1
+  }
+ },
+ {
+  "group": 112,
+  "statement": "Su estilo de vida se ha inclinado más hacia el exceso y la hiperactividad.",
+  "weights": {
+   "7": 1
+  }
+ },
+ {
+  "group": 113,
+  "statement": "Su deseo de ayudar a los demás ha repercutido en su propia salud y bienestar.",
+  "weights": {
+   "2": 1
+  }
+ },
+ {
+  "group": 113,
+  "statement": "Su deseo de atender sus necesidades personales ha repercutido negativamente en sus relaciones.",
+  "weights": {
+   "4": 1
+  }
+ },
+ {
+  "group": 114,
+  "statement": "En general, ha sido demasiado abierto e ingenuo.",
+  "weights": {
+   "9": 1
+  }
+ },
+ {
+  "group": 114,
+  "statement": "En general, ha sido demasiado cauto y reservado.",
+  "weights": {
+   "6": 1
+  }
+ },
+ {
+  "group": 115,
+  "statement": "A veces, ha irritado a los demás al ser demasiado agresivo.",
+  "weights": {
+   "8": 1
+  }
+ },
+ {
+  "group": 115,
+  "statement": "A veces, ha irritado a los demás al ser demasiado severo y rígido.",
+  "weights": {
+   "1": 1
+  }
+ },
+ {
+  "group": 116,
+  "statement": "Una de sus prioridades ha sido servir y atender las necesidades de los demás.",
+  "weights": {
+   "2": 1
+  }
+ },
+ {
+  "group": 116,
+  "statement": "Una de sus prioridades ha sido buscar formas alternativas de ver y hacer las cosas.",
+  "weights": {
+   "5": 1
+  }
+ },
+ {
+  "group": 117,
+  "statement": "Normalmente no se altera mucho.",
+  "weights": {
+   "9": 1,
+   "3": 1,
+   "2": 1
+  }
+ },
+ {
+  "group": 117,
+  "statement": "Normalmente ha tenido fuertes cambios de estado de ánimo.",
+  "weights": {
+   "4": 1,
+   "7": 1
+  }
+ },
+ {
+  "group": 118,
+  "statement": "Le han atraído las situaciones que le producen emociones intensas y profundas.",
+  "weights": {
+   "4": 1
+  }
+ },
+ {
+  "group": 118,
+  "statement": "Le han atraído las situaciones que le hacen sentir tranquilo y cómodo.",
+  "weights": {
+   "9": 1
+  }
+ },
+ {
+  "group": 119,
+  "statement": "Se ha preocupado más en seguir sus intereses que de conseguir resultados prácticos.",
+  "weights": {
+   "4": 1,
+   "8": 1
+  }
+ },
+ {
+  "group": 119,
+  "statement": "Se ha preocupado más en conseguir resultados prácticos que de seguir sus intereses.",
+  "weights": {
+   "6": 1,
+   "5": 1
+  }
+ },
+ {
+  "group": 120,
+  "statement": "Tiene una fuerte necesidad de pertenencia.",
+  "weights": {
+   "6": 1
+  }
+ },
+ {
+  "group": 120,
+  "statement": "Tiene una fuerte necesidad de sentirse equilibrado.",
+  "weights": {
+   "1": 1
+  }
+ },
+ {
+  "group": 121,
+  "statement": "En el pasado probablemente ha reclamado más cercanía en sus relaciones.",
+  "weights": {
+   "2": 1
+  }
+ },
+ {
+  "group": 121,
+  "statement": "En el pasado probablemente ha mantenido demasiada distancia en sus relaciones.",
+  "weights": {
+   "3": 1
+  }
+ },
+ {
+  "group": 122,
+  "statement": "Con frecuencia se ha inclinado a revivir sentimientos del pasado.",
+  "weights": {
+   "4": 1
+  }
+ },
+ {
+  "group": 122,
+  "statement": "Con frecuencia ha tenido la tendencia de anticipar cosas que iban a ocurrir.",
+  "weights": {
+   "7": 1
+  }
+ },
+ {
+  "group": 123,
+  "statement": "Se ha inclinado a ver que los demás son intrusivos y exigentes.",
+  "weights": {
+   "5": 1
+  }
+ },
+ {
+  "group": 123,
+  "statement": "Se ha inclinado a ver que los demás son desorganizados e irresponsables.",
+  "weights": {
+   "1": 1
+  }
+ },
+ {
+  "group": 124,
+  "statement": "Normalmente no ha confiado demasiado en sí mismo.",
+  "weights": {
+   "6": 1
+  }
+ },
+ {
+  "group": 124,
+  "statement": "Normalmente sólo ha confiado en usted mismo.",
+  "weights": {
+   "1": 1,
+   "8": 1
+  }
+ },
+ {
+  "group": 125,
+  "statement": "Probablemente ha sido demasiado pasivo y poco comprometido.",
+  "weights": {
+   "9": 1
+  }
+ },
+ {
+  "group": 125,
+  "statement": "Probablemente ha sido demasiado controlador y puede llegar a ser algo manipulador.",
+  "weights": {
+   "2": 1
+  }
+ },
+ {
+  "group": 126,
+  "statement": "Con frecuencia las dudas sobre usted mismo le han paralizado.",
+  "weights": {
+   "4": 1
+  }
+ },
+ {
+  "group": 126,
+  "statement": "Rara vez he dejado que las dudas se interpusieran en su camino.",
+  "weights": {
+   "3": 1
+  }
+ },
+ {
+  "group": 127,
+  "statement": "Si se le da a elegir entre algo conocido y algo nuevo tiende a escoger lo nuevo.",
+  "weights": {
+   "7": 1
+  }
+ },
+ {
+  "group": 127,
+  "statement": "Normalmente prefiere lo que le gusta: para qué probar algo que puede ser que no le guste?.",
+  "weights": {
+   "6": 1
+  }
+ },
+ {
+  "group": 128,
+  "statement": "Utiliza mucho contacto físico para reforzar lo que siente sobre la gente.",
+  "weights": {
+   "2": 1
+  }
+ },
+ {
+  "group": 128,
+  "statement": "Generalmente ha sentido que el amor sincero no depende del contacto físico.",
+  "weights": {
+   "1": 1
+  }
+ },
+ {
+  "group": 129,
+  "statement": "Cuando ha necesitado enfrentarse a alguien, con frecuencia ha sido demasiado directo y duro.",
+  "weights": {
+   "8": 1
+  }
+ },
+ {
+  "group": 129,
+  "statement": "Cuando ha necesitado enfrentarse a alguien, con frecuencia se ha ido demasiado por las ramas.",
+  "weights": {
+   "3": 1
+  }
+ },
+ {
+  "group": 130,
+  "statement": "Le han atraído temas que a otras personas pueden parecerles perturbadores e incluso amenazantes.",
+  "weights": {
+   "5": 1
+  }
+ },
+ {
+  "group": 130,
+  "statement": "Ha preferido no gastar tiempo en temas perturbadores o amenazantes.",
+  "weights": {
+   "9": 1
+  }
+ },
+ {
+  "group": 131,
+  "statement": "Ser tan intrusivo y entrometido le ha ocasionado problemas con los demás.",
+  "weights": {
+   "2": 1
+  }
+ },
+ {
+  "group": 131,
+  "statement": "Por ser tan evasivo y poco comunicativo, ha llegado tener problemas con los demás.",
+  "weights": {
+   "6": 1,
+   "5": 1
+  }
+ },
+ {
+  "group": 132,
+  "statement": "Le ha preocupado no tener los recursos necesarios para satisfacer las responsabilidades que ha asumido.",
+  "weights": {
+   "8": 1
+  }
+ },
+ {
+  "group": 132,
+  "statement": "Le ha preocupado no tener la disciplina necesaria para centrarse en aquello que realmente le puede llenar.",
+  "weights": {
+   "7": 1
+  }
+ },
+ {
+  "group": 133,
+  "statement": "Generalmente ha sido una persona individualista e intuitiva.",
+  "weights": {
+   "4": 1
+  }
+ },
+ {
+  "group": 133,
+  "statement": "Generalmente ha sido una persona responsable y bien organizada.",
+  "weights": {
+   "1": 1
+  }
+ },
+ {
+  "group": 134,
+  "statement": "Uno de sus grandes problemas ha sido superar la inercia.",
+  "weights": {
+   "9": 1
+  }
+ },
+ {
+  "group": 134,
+  "statement": "Uno de sus grandes problemas ha sido verse incapaz de reducir su ritmo.",
+  "weights": {
+   "7": 1
+  }
+ },
+ {
+  "group": 135,
+  "statement": "Cuando se siente inseguro reacciona volviéndose arrogante y despreciativo",
+  "weights": {
+   "3": 1
+  }
+ },
+ {
+  "group": 135,
+  "statement": "Cuando se siente inseguro reacciona volviéndose discutidor y poniéndose a la defensiva",
+  "weights": {
+   "6": 1
+  }
+ },
+ {
+  "group": 136,
+  "statement": "Generalmente ha sido abierto y dispuesto a probar enfoque nuevos",
+  "weights": {
+   "4": 1
+  }
+ },
+ {
+  "group": 136,
+  "statement": "Generalmente ha estado dispuesto a ser autorevelador y a compartir sus sentimientos con los demás.",
+  "weights": {
+   "5": 1
+  }
+ },
+ {
+  "group": 137,
+  "statement": "Se muestra ante los demás como una persona más dura de lo que realmente es.",
+  "weights": {
+   "8": 1
+  }
+ },
+ {
+  "group": 137,
+  "statement": "Se muestra ante los demás como una persona más preocupada por ellos de lo que realmente es",
+  "weights": {
+   "2": 1
+  }
+ },
+ {
+  "group": 138,
+  "statement": "Normalmente se deja guiar por la conciencia y la razón.",
+  "weights": {
+   "1": 1
+  }
+ },
+ {
+  "group": 138,
+  "statement": "Normalmente se ha dejado llevar por sus sentimientos e impulsos",
+  "weights": {
+   "7": 1
+  }
+ },
+ {
+  "group": 139,
+  "statement": "La adversidad le ha hecho más duro y resuelto.",
+  "weights": {
+   "3": 1
+  }
+ },
+ {
+  "group": 139,
+  "statement": "La adversidad le ha hecho sentirse más resignado y desanimado.",
+  "weights": {
+   "9": 1
+  }
+ },
+ {
+  "group": 140,
+  "statement": "Normalmente se ha asegurado de que tenía alguna especie de “red de seguridad” por si se caía.",
+  "weights": {
+   "6": 1
+  }
+ },
+ {
+  "group": 140,
+  "statement": "Normalmente ha preferido depender de los demás lo menos posible.",
+  "weights": {
+   "5": 1
+  }
+ },
+ {
+  "group": 141,
+  "statement": "Ha tenido que ser más fuerte par los demás, por lo que no tenido tiempo para ver sentimientos y miedos.",
+  "weights": {
+   "8": 1
+  }
+ },
+ {
+  "group": 141,
+  "statement": "Le ha costado mucho afrontar sus sentimientos y sus miedos, por lo que le resulta difícil ser fuerte para los demás.",
+  "weights": {
+   "4": 1
+  }
+ },
+ {
+  "group": 142,
+  "statement": "Muchas veces se ha preguntado por qué la gente se centra en lo negativo cuando hay tantas cosas maravillosas en la vida.",
+  "weights": {
+   "9": 1
+  }
+ },
+ {
+  "group": 142,
+  "statement": "Muchas veces se ha preguntado por qué la gente es tan alegre cuando tantas cosas de la vida van mal.",
+  "weights": {
+   "1": 1
+  }
+ },
+ {
+  "group": 143,
+  "statement": "Ha procurado que no se le vea como a una persona egoísta.",
+  "weights": {
+   "2": 1
+  }
+ },
+ {
+  "group": 143,
+  "statement": "Ha intentado que no se le vea como una persona aburrida.",
+  "weights": {
+   "7": 1
+  }
+ },
+ {
+  "group": 144,
+  "statement": "Cuando ha temido que las necesidades y demandas de los demás le superasen, ha evitado la intimidad.",
+  "weights": {
+   "5": 1
+  }
+ },
+ {
+  "group": 144,
+  "statement": "Cuando ha temido que no iba a poder cumplir las expectativas que se tenían de usted, ha evitado la intimidad.",
+  "weights": {
+   "3": 1
+  }
+ },
+ {
+  "group": 1,
+  "statement": "Me encanta que la gente se sienta confortable viniendo a verme para que los ayude.",
+  "weights": {
+   "2": 1
+  }
+ },
+ {
+  "group": 2,
+  "statement": "Estar limpio o tener las cosas limpias y ordenadas me ayuda a sentirme más en control de mi vida.",
+  "weights": {
+   "6": 1
+  }
+ },
+ {
+  "group": 3,
+  "statement": "Me focalizo más en lo positivo que en lo negativo",
+  "weights": {
+   "9": 1
+  }
+ },
+ {
+  "group": 4,
+  "statement": "Me encanta estar sólo durante horas en lo que me interesa..",
+  "weights": {
+   "5": 1
+  }
+ },
+ {
+  "group": 5,
+  "statement": "La belleza, el amor, el llanto y el dolor realmente me afectan",
+  "weights": {
+   "4": 1
+  }
+ },
+ {
+  "group": 6,
+  "statement": "Trabajo muy fuerte para cuidar y conseguir cosas para mi gente.",
+  "weights": {
+   "3": 1
+  }
+ },
+ {
+  "group": 7,
+  "statement": "Cuando pasan cosas desagradables alrededor mío, intento pensar en otras cosas.",
+  "weights": {
+   "9": 1
+  }
+ },
+ {
+  "group": 8,
+  "statement": "Me gusta tener claro lo que hay que hacer o donde estoy.",
+  "weights": {
+   "6": 1
+  }
+ },
+ {
+  "group": 9,
+  "statement": "He sido acusado de ser negativo, cínico y sospechoso.",
+  "weights": {
+   "5": 1
+  }
+ },
+ {
+  "group": 10,
+  "statement": "Vivo en el pasado y en el futuro más que en el día a día.",
+  "weights": {
+   "4": 1
+  }
+ },
+ {
+  "group": 11,
+  "statement": "Cuando la gente lo pasa mal intento que vea el lado positivo.",
+  "weights": {
+   "7": 1
+  }
+ },
+ {
+  "group": 12,
+  "statement": "He sido acusado de ser negativo, cínico y sospechoso.",
+  "weights": {
+   "5": 1
+  }
+ },
+ {
+  "group": 13,
+  "statement": "Frecuentemente experimento las críticas como un ataque.",
+  "weights": {
+   "6": 1
+  }
+ },
+ {
+  "group": 14,
+  "statement": "Casi siempre estoy ocupado",
+  "weights": {
+   "3": 1
+  }
+ },
+ {
+  "group": 15,
+  "statement": "Soy muy consciente de la gente que intenta manipularme con líos.",
+  "weights": {
+   "6": 1
+  }
+ },
+ {
+  "group": 16,
+  "statement": "A veces me siento afectado por lo que depende de mí la gente",
+  "weights": {
+   "2": 1
+  }
+ },
+ {
+  "group": 17,
+  "statement": "Trabajo sobre el principio de la inercia, si estoy en marcha es fácil continuar en marcha pero me resulta difícil empezar.",
+  "weights": {
+   "9": 1
+  }
+ },
+ {
+  "group": 18,
+  "statement": "A veces echo de menos lo que otros tienen.",
+  "weights": {
+   "4": 1
+  }
+ },
+ {
+  "group": 19,
+  "statement": "Aprendo observando o leyendo más que haciendo.",
+  "weights": {
+   "5": 1
+  }
+ },
+ {
+  "group": 20,
+  "statement": "Me fastidia la gente pretenciosa.",
+  "weights": {
+   "6": 1
+  }
+ },
+ {
+  "group": 21,
+  "statement": "No me gusta que me hagan sentirme obligado.",
+  "weights": {
+   "7": 1
+  }
+ },
+ {
+  "group": 22,
+  "statement": "Elegir puede ser muy difícil, porque puedo ver las ventajas y desventajas de cada opción.",
+  "weights": {
+   "9": 1
+  }
+ },
+ {
+  "group": 23,
+  "statement": "No me gusta que me digan lo que tengo que hacer, si me aprietan puedo hacer justo lo contrario",
+  "weights": {
+   "4": 1
+  }
+ },
+ {
+  "group": 24,
+  "statement": "Me gusta tener todo bien previsto.",
+  "weights": {
+   "6": 1
+  }
+ },
+ {
+  "group": 25,
+  "statement": "Frecuentemente me siento bien con los grupos.",
+  "weights": {
+   "7": 1
+  }
+ },
+ {
+  "group": 26,
+  "statement": "Tiende a hacer las cosas lo más rápido posible.",
+  "weights": {
+   "3": 1
+  }
+ },
+ {
+  "group": 27,
+  "statement": "En general me fastidian las cosas sociales, prefiero estar sólo y con poca gente bien conocida.",
+  "weights": {
+   "5": 1
+  }
+ },
+ {
+  "group": 28,
+  "statement": "Vacilo al sentirme comprometido y mi deseo es de libertad o independencia.",
+  "weights": {
+   "7": 1
+  }
+ },
+ {
+  "group": 29,
+  "statement": "Me siento mejor dando que recibiendo cosas.",
+  "weights": {
+   "2": 1
+  }
+ },
+ {
+  "group": 30,
+  "statement": "No soy experto en en ninguna cosa pero puedo hacer muchas cosas bien.",
+  "weights": {
+   "7": 1
+  }
+ },
+ {
+  "group": 31,
+  "statement": "Si no tengo alguna estructura a plan o rutina en mi día, casi no hago nada.",
+  "weights": {
+   "9": 1
+  }
+ },
+ {
+  "group": 32,
+  "statement": "Me cansa estar mucho tiempo con la gente.",
+  "weights": {
+   "5": 1
+  }
+ },
+ {
+  "group": 33,
+  "statement": "Me siento nervioso alrededor de ciertas figuras de autoridad.",
+  "weights": {
+   "6": 1
+  }
+ },
+ {
+  "group": 34,
+  "statement": "Tiendo a retrasar las cosas hasta el último minuto, pero generalmente las hago.",
+  "weights": {
+   "9": 1
+  }
+ },
+ {
+  "group": 35,
+  "statement": "Si no estoy tan cercano a los otros como necesito me siento triste, herido y no importante.",
+  "weights": {
+   "2": 1
+  }
+ },
+ {
+  "group": 36,
+  "statement": "Actuar con calma es mi defensa, me hace sentirme con más fuerza.",
+  "weights": {
+   "5": 1
+  }
+ },
+ {
+  "group": 37,
+  "statement": "Generalmente digo lo que pienso, a veces eso me produce problemas.",
+  "weights": {
+   "7": 1
+  }
+ },
+ {
+  "group": 38,
+  "statement": "Es difícil a veces para mí estar en contacto con mis emociones.",
+  "weights": {
+   "3": 1
+  }
+ },
+ {
+  "group": 39,
+  "statement": "Tengo problemas para dar las cosas por terminadas.",
+  "weights": {
+   "9": 1
+  }
+ },
+ {
+  "group": 40,
+  "statement": "Siempre busco mi verdadero yo.",
+  "weights": {
+   "4": 1
+  }
+ },
+ {
+  "group": 41,
+  "statement": "Valoro mi capacidad de crítica y juicio.",
+  "weights": {
+   "5": 1
+  }
+ },
+ {
+  "group": 42,
+  "statement": "Mis amigos piensan de mí como alguien leal, que apoya y compasivo.",
+  "weights": {
+   "6": 1
+  }
+ },
+ {
+  "group": 43,
+  "statement": "Yo puedo ser asertivo y agresivo cuando necesito serlo.",
+  "weights": {
+   "8": 1
+  }
+ },
+ {
+  "group": 44,
+  "statement": "Usualmente prefiero quitarme de en medio cuando no estoy de acuerdo antes de confrontar a nadie.",
+  "weights": {
+   "9": 1
+  }
+ },
+ {
+  "group": 45,
+  "statement": "Me gusta la gente y generalmente les gusto yo.",
+  "weights": {
+   "7": 1
+  }
+ },
+ {
+  "group": 46,
+  "statement": "Me gusta felicitar a la gente y decirles que son especiales para mí.",
+  "weights": {
+   "2": 1
+  }
+ },
+ {
+  "group": 48,
+  "statement": "Trabajo duro y sé como terminar las cosas.",
+  "weights": {
+   "8": 1
+  }
+ },
+ {
+  "group": 49,
+  "statement": "En lugar de hacer lo que tengo que hacer a veces me entrego en cosas no importantes.",
+  "weights": {
+   "9": 1
+  }
+ },
+ {
+  "group": 50,
+  "statement": "La necesito, pero a veces tengo miedo de la intimidad.",
+  "weights": {
+   "2": 1
+  }
+ },
+ {
+  "group": 50,
+  "statement": "Los otros me ven como calmado, pero dentro de mí estoy ansioso.",
+  "weights": {
+   "9": 1
+  }
+ },
+ {
+  "group": 52,
+  "statement": "Soy ocupado y energético, raramente me aburro si estoy a mi aire.",
+  "weights": {
+   "7": 1
+  }
+ },
+ {
+  "group": 53,
+  "statement": "Cuando me siento socialmente mal, lo cual ocurre con cierta frecuencia, quisiera desaparecer.",
+  "weights": {
+   "6": 1,
+   "5": 1
+  }
+ },
+ {
+  "group": 54,
+  "statement": "Me gusta asociarme con gente experta en lo mío",
+  "weights": {
+   "5": 1
+  }
+ },
+ {
+  "group": 55,
+  "statement": "En una relación, la paz es lo más importante.",
+  "weights": {
+   "9": 1
+  }
+ },
+ {
+  "group": 56,
+  "statement": "Me encanta hacerme listas de cosas para hacer, agendas y balances de progreso.",
+  "weights": {
+   "3": 1
+  }
+ },
+ {
+  "group": 57,
+  "statement": "Me gusto a mí mismo y me trato bien.",
+  "weights": {
+   "7": 1
+  }
+ },
+ {
+  "group": 58,
+  "statement": "Me gusta ser visto como alguien especial.",
+  "weights": {
+   "4": 1
+  }
+ },
+ {
+  "group": 59,
+  "statement": "A veces, es difícil para mí saber lo que quiero cuando estoy con otra gente.",
+  "weights": {
+   "9": 1
+  }
+ },
+ {
+  "group": 60,
+  "statement": "Me disgusta mucho mostrarme dependiente.",
+  "weights": {
+   "2": 1
+  }
+ },
+ {
+  "group": 61,
+  "statement": "Frecuentemente estoy sembrado de dudas.",
+  "weights": {
+   "6": 1
+  }
+ },
+ {
+  "group": 62,
+  "statement": "Me encanta la excitación y los viajes.",
+  "weights": {
+   "7": 1
+  }
+ },
+ {
+  "group": 63,
+  "statement": "A veces me siento muy inconfortable y diferente, como aislado, incluso con mis amigos.",
+  "weights": {
+   "4": 1
+  }
+ },
+ {
+  "group": 64,
+  "statement": "Cuando la gente me dice lo que tengo que hacer, o intenta controlarme, me quedo como bloqueado.",
+  "weights": {
+   "9": 1
+  }
+ },
+ {
+  "group": 65,
+  "statement": "Mi estilo de vida va para delante y para atrás de unas cosas a otras; me gusta estar en movimiento .",
+  "weights": {
+   "7": 1
+  }
+ },
+ {
+  "group": 66,
+  "statement": "A veces me siento vacío física y emocionalmente por cuidar de todo el mundo.",
+  "weights": {
+   "2": 1
+  }
+ },
+ {
+  "group": 67,
+  "statement": "Mis humores melancólicos son ciertos, pero no necesariamente me los quiero quitar.",
+  "weights": {
+   "4": 1
+  }
+ },
+ {
+  "group": 68,
+  "statement": "Me gusta tener algún título para sentirme bien.",
+  "weights": {
+   "5": 1
+  }
+ },
+ {
+  "group": 69,
+  "statement": "Estar muy conforme no me gusta.",
+  "weights": {
+   "5": 1
+  }
+ },
+ {
+  "group": 70,
+  "statement": "Es importante para la gente desarrollar todo su potencial .",
+  "weights": {
+   "3": 1
+  }
+ },
+ {
+  "group": 71,
+  "statement": "La gente dice que yo exagero y que soy demasiado emocional.",
+  "weights": {
+   "2": 1
+  }
+ },
+ {
+  "group": 71,
+  "statement": "Le doy mucha importancia a ser organizado.",
+  "weights": {
+   "1": 1
+  }
+ },
+ {
+  "group": 72,
+  "statement": "Yo he saboteado mi propio éxito.",
+  "weights": {
+   "6": 1
+  }
+ },
+ {
+  "group": 73,
+  "statement": "La autoconfianza y la independencia son muy importantes.",
+  "weights": {
+   "8": 1
+  }
+ },
+ {
+  "group": 74,
+  "statement": "En lugar de hacer lo que tengo que hacer a veces me entrego en cosas no importantes.",
+  "weights": {
+   "9": 1
+  }
+ },
+ {
+  "group": 75,
+  "statement": "Puedo ser una persona muy trabajadora",
+  "weights": {
+   "6": 1
+  }
+ }
+]

@@ -12,4 +12,7 @@ Route::prefix('tests')->name('tests.')->middleware('auth')->group(function () {
     Route::get('/johari/{take}/invitar', Tests\Johari\Invite::class)->name('johari.invite');
     Route::get('/johari/{take}/resultados', Tests\Johari\Results::class)->name('johari.results');
     Route::get('/{test:key}/evolucion', Tests\Johari\Evolution::class)->name('johari.evolution');
+    Route::get('/cuestionario/{take}', Tests\Scored\Run::class)->name('scored.run');
+    Route::get('/cuestionario/{take}/resultados', Tests\Scored\Results::class)->name('scored.results');
+    Route::get('/{test:key}/evolucion-puntuaciones', Tests\Scored\Evolution::class)->name('scored.evolution');
 });

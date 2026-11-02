@@ -46,6 +46,7 @@
                 </div>
                 @if ($day->reviews_done < 3)<x-ui.button :href="route('cards.day')" size="sm">{{ __('Repasar') }}</x-ui.button>@endif
             </div>
+            <a href="{{ route('cards.review') }}" class="mt-3 block text-center text-sm text-muted underline underline-offset-2">{{ __('Cambiar la ficha de hoy') }}</a>
             @if ($visualization && $day->chosenCard->number !== 31)
                 <p class="mt-3 rounded-2xl bg-app/5 p-3.5 text-xs leading-relaxed text-stone-600">{{ __('Recuerda la ficha 31: visualiza materializado el contenido de la ficha de hoy.') }}</p>
             @endif

@@ -29,3 +29,4 @@ Route::middleware('auth')->group(function () {
 require __DIR__.'/mdp.php';
 require __DIR__.'/cards.php';
 require __DIR__.'/tests.php';
+require __DIR__.'/contents.php';

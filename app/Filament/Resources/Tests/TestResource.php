@@ -53,16 +53,23 @@ class TestResource extends Resource
 
         return $schema->components([
             TextInput::make('key')->label(__('Clave'))->required()->unique(ignoreRecord: true),
-            Select::make('type')->label(__('Tipo'))->options([Test::TYPE_JOHARI => __('Ventana de Johari')])->required(),
+            Select::make('type')->label(__('Tipo'))->options([Test::TYPE_JOHARI => __('Ventana de Johari'), Test::TYPE_SCORED => __('Cuestionario puntuado (sí/no por escalas)')])->required(),
             Translatable::text('name', __('Nombre'), true),
             Translatable::textarea('description', __('Descripción corta'), false, 2),
             Translatable::textarea('intro', __('Introducción'), false, 4),
             Translatable::textarea('general_content', __('Contenido general al terminar'), false, 5),
-            Select::make('word_list_id')->label(__('Lista de palabras'))->relationship('wordList', 'key')->preload(),
+            Select::make('word_list_id')->label(__('Lista de palabras (Johari)'))->relationship('wordList', 'key')->preload(),
+            Select::make('profiles_from_test_id')->label(__('Usar los perfiles de otro test (cuestionario puntuado)'))->relationship('profilesSource', 'key')->preload()
+                ->helperText(__('Si dos cuestionarios miden los mismos tipos, uno puede reutilizar los perfiles del otro.')),
             Select::make('product_id')->label(__('Producto de pago (vacío = gratuito)'))->relationship('product', 'key')->preload(),
             Section::make(__('Parámetros'))->schema([
                 KeyValue::make('config')->label(__('Configuración'))->keyLabel(__('Parámetro'))->valueLabel(__('Valor'))
-                    ->helperText(__('self_positive, self_negative, other_positive, other_negative, min_responses, max_invitations, invitation_days, repeat_allowed (1/0), repeat_after_days')),
+                    ->helperText(__('Johari: self_positive, self_negative, other_positive, other_negative, min_responses, max_invitations, invitation_days, repeat_allowed (1/0), repeat_after_days. Puntuado: strong_multiplier, per_page, shuffle (1/0), repeat_allowed, repeat_after_days')),
+            ]),
+            Section::make(__('Análisis con IA'))->schema([
+                Toggle::make('ai_enabled')->label(__('Ofrecer análisis personal con IA en los resultados'))
+                    ->helperText(__('Requiere ANTHROPIC_API_KEY en el servidor. La IA solo usa los perfiles y conclusiones de este test.')),
+                Translatable::textarea('ai_instructions', __('Instrucciones adicionales para la IA'), false, 5),
             ]),
             Section::make(__('Contenidos según resultado'))->schema([
                 Repeater::make('rules')->label('')->relationship()->schema($ruleFields)->columns(3)->orderColumn('position')->reorderable()->collapsible()->defaultItems(0)
@@ -73,6 +80,15 @@ class TestResource extends Resource
         ]);
     }
 
+    public static function getRelations(): array
+    {
+        return [
+            RelationManagers\ScalesRelationManager::class,
+            RelationManagers\ProfilesRelationManager::class,
+            RelationManagers\ItemsRelationManager::class,
+        ];
+    }
+
     public static function table(Table $table): Table
     {
         return $table
@@ -80,7 +96,7 @@ class TestResource extends Resource
                 TextColumn::make('key')->label(__('Clave')),
                 TextColumn::make('name')->label(__('Nombre')),
                 TextColumn::make('type')->label(__('Tipo'))->badge(),
-                TextColumn::make('wordList.key')->label(__('Lista')),
+                TextColumn::make('items_count')->counts('items')->label(__('Enunciados')),
                 TextColumn::make('takes_count')->counts('takes')->label(__('Tomas')),
                 IconColumn::make('active')->label(__('Activo'))->boolean(),
             ])

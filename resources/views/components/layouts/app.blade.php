@@ -12,6 +12,7 @@
         'portal' => [
             ['home', __('Inicio'), 'home', ['home', 'paywall']],
             ['tests.index', __('Tests'), 'sparkles', ['tests.*']],
+            ['contents.index', __('Materiales'), 'book', ['contents.*']],
             ['account', __('Cuenta'), 'user', ['account']],
         ],
         'mdp' => [

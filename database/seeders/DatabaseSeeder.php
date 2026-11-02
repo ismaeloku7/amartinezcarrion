@@ -14,6 +14,8 @@ class DatabaseSeeder extends Seeder
             CatalogSeeder::class,
             CardsSeeder::class,
             JohariSeeder::class,
+            EnneagramSeeder::class,
+            ContentsSeeder::class,
         ]);
 
         if (app()->environment('local') && ! User::where('email', 'admin@example.com')->exists()) {

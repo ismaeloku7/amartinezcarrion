@@ -31,6 +31,15 @@
         @endforeach
     </div>
 
+    <a href="{{ route('contents.index') }}" class="flex items-center gap-3.5 rounded-2xl bg-white p-3.5 shadow-soft transition active:scale-[0.99]">
+        <span class="grid h-11 w-11 shrink-0 place-items-center rounded-xl bg-app/10 text-app"><x-ui.icon name="book" class="h-5 w-5" /></span>
+        <span class="min-w-0 flex-1">
+            <span class="block font-medium">{{ __('Materiales') }}</span>
+            <span class="line-clamp-2 text-sm text-muted">{{ __('Artículos y materiales por temáticas: autoconocimiento, eneagrama y más.') }}</span>
+        </span>
+        <x-ui.icon name="chevron-right" class="h-5 w-5 text-stone-300" />
+    </a>
+
     <section>
         <div class="mb-3 flex items-baseline justify-between">
             <h2 class="text-[1.0625rem] font-semibold tracking-tight">{{ __('Tests') }}</h2>

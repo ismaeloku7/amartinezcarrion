@@ -23,6 +23,7 @@ class Paywall extends Component
             'productModel' => $product,
             'plans' => $access->plansFor($this->product),
             'hasAccess' => auth()->check() && $access->hasAccess(auth()->user(), $this->product),
+            'paymentsEnabled' => filled(config('cashier.secret')),
         ])->layout('components.layouts.app', ['appKey' => 'portal', 'title' => $product->name, 'back' => route('home')]);
     }
 }

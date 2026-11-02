@@ -39,4 +39,19 @@ class AccessTest extends TestCase
 
         $this->actingAs($user)->get('/mdp')->assertRedirect('/planes/mdp');
     }
+
+    public function test_paywall_hides_checkout_when_stripe_is_not_configured(): void
+    {
+        config(['cashier.secret' => null]);
+        $product = Product::create(['key' => 'mdp', 'type' => 'practice', 'name' => ['es' => 'MDP']]);
+        $plan = Plan::create(['key' => 'mdp-month', 'name' => ['es' => 'Mensual'], 'interval' => 'month', 'price_cents' => 499, 'stripe_price_id' => 'price_x']);
+        $plan->products()->sync([$product->id]);
+        $user = User::factory()->create();
+
+        $this->actingAs($user)->get('/planes/mdp')
+            ->assertOk()
+            ->assertSee('Pago en línea no disponible todavía')
+            ->assertDontSee('/checkout/');
+        $this->actingAs($user)->get('/checkout/'.$plan->id)->assertNotFound();
+    }
 }

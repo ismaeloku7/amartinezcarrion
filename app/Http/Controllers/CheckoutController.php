@@ -17,7 +17,7 @@ class CheckoutController extends Controller
     /** Send the user to Stripe Checkout for a plan (subscription or single purchase). */
     public function checkout(Request $request, Plan $plan)
     {
-        abort_unless($plan->active && $plan->stripe_price_id, 404);
+        abort_unless($plan->active && $plan->stripe_price_id && filled(config('cashier.secret')), 404);
         $user = $request->user();
 
         $options = [

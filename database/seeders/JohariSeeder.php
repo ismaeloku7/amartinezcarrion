@@ -14,7 +14,7 @@ class JohariSeeder extends Seeder
         ['able', 'capaz', 'positive'], ['accepting', 'receptivo', 'positive'], ['adaptable', 'adaptable', 'positive'],
         ['bold', 'audaz', 'neutral'], ['brave', 'valiente', 'positive'], ['calm', 'tranquilo', 'positive'],
         ['caring', 'atento con los demás', 'positive'], ['cheerful', 'alegre', 'positive'], ['clever', 'listo', 'positive'],
-        ['complex', 'complejo', 'neutral'], ['confident', 'seguro de sí mismo', 'positive'], ['dependable', 'fiable', 'positive'],
+        ['complex', 'complejo', 'uncomfortable'], ['confident', 'seguro de sí mismo', 'positive'], ['dependable', 'fiable', 'positive'],
         ['dignified', 'digno', 'positive'], ['empathetic', 'empático', 'positive'], ['energetic', 'enérgico', 'positive'],
         ['extroverted', 'extrovertido', 'neutral'], ['friendly', 'amistoso', 'positive'], ['giving', 'generoso', 'positive'],
         ['happy', 'feliz', 'positive'], ['helpful', 'servicial', 'positive'], ['idealistic', 'idealista', 'neutral'],
@@ -27,7 +27,7 @@ class JohariSeeder extends Seeder
         ['relaxed', 'relajado', 'positive'], ['religious', 'religioso', 'neutral'], ['responsive', 'sensible a los demás', 'positive'],
         ['searching', 'inquieto, buscador', 'neutral'], ['self-assertive', 'asertivo', 'positive'], ['self-conscious', 'cohibido', 'uncomfortable'],
         ['sensible', 'sensato', 'positive'], ['sentimental', 'sentimental', 'neutral'], ['shy', 'tímido', 'uncomfortable'],
-        ['silly', 'bromista', 'neutral'], ['spontaneous', 'espontáneo', 'neutral'], ['sympathetic', 'comprensivo', 'positive'],
+        ['silly', 'bromista', 'uncomfortable'], ['spontaneous', 'espontáneo', 'neutral'], ['sympathetic', 'comprensivo', 'positive'],
         ['tense', 'tenso', 'uncomfortable'], ['trustworthy', 'digno de confianza', 'positive'], ['warm', 'cálido', 'positive'],
         ['wise', 'sabio', 'positive'], ['witty', 'ocurrente', 'positive'],
     ];
@@ -64,7 +64,7 @@ class JohariSeeder extends Seeder
             'en' => 'The open area grows when you share and when you ask for feedback. Repeat the test in a few months to see how you evolve.',
         ]);
         $test->word_list_id = $list->id;
-        $test->config = ['self_words' => 6, 'other_words' => 6, 'min_responses' => 3, 'max_invitations' => 15, 'invitation_days' => 30, 'repeat_allowed' => true, 'repeat_after_days' => 90];
+        $test->config = ['self_positive' => 6, 'self_negative' => 2, 'other_positive' => 6, 'other_negative' => 2, 'min_responses' => 3, 'max_invitations' => 15, 'invitation_days' => 30, 'repeat_allowed' => true, 'repeat_after_days' => 90];
         $test->active = true;
         $test->save();
 

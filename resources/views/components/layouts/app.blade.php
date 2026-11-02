@@ -34,6 +34,10 @@
             <a href="{{ $current['home'] }}" class="font-semibold tracking-tight">{{ $current['name'] }}</a>
             <div class="ml-auto flex items-center gap-2 text-sm">
                 @auth
+                    <button type="button" id="push-bell" data-app="{{ $appKey }}" class="relative rounded p-1.5 hover:bg-white/10" aria-label="{{ __('Notificaciones') }}" title="{{ __('Activar notificaciones') }}">
+                        <svg class="h-5 w-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15 17h5l-1.4-1.4A2 2 0 0118 14.2V11a6 6 0 10-12 0v3.2c0 .5-.2 1-.6 1.4L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"/></svg>
+                        <span id="push-bell-dot" class="absolute right-1 top-1 hidden h-2 w-2 rounded-full bg-emerald-400"></span>
+                    </button>
                     @if ($appKey !== 'portal')
                         <a href="{{ route('home') }}" class="rounded px-2 py-1 hover:bg-white/10">{{ __('Portal') }}</a>
                     @endif
@@ -54,6 +58,18 @@
         @endif
         {{ $slot }}
     </main>
+
+    <div id="pwa-install" class="fixed inset-x-0 bottom-0 z-30 hidden px-4 pb-4" data-app="{{ $appKey }}">
+        <div class="mx-auto flex max-w-3xl items-center gap-3 rounded-xl border border-stone-200 bg-white p-3 shadow-lg">
+            <img src="{{ asset("images/icons/$appKey-192.png") }}" alt="" class="h-10 w-10 rounded-lg">
+            <div class="flex-1 text-sm">
+                <div class="font-medium">{{ __('Instala :app en tu móvil', ['app' => $current['name']]) }}</div>
+                <div id="pwa-install-hint" class="text-xs text-stone-600">{{ __('Tendrás un icono en la pantalla de inicio y recibirás los recordatorios.') }}</div>
+            </div>
+            <x-ui.button type="button" id="pwa-install-btn" class="shrink-0">{{ __('Instalar') }}</x-ui.button>
+            <button type="button" id="pwa-install-close" class="shrink-0 p-1 text-stone-400 hover:text-stone-700" aria-label="{{ __('Cerrar') }}">✕</button>
+        </div>
+    </div>
 
     @if ($appKey !== 'portal' && auth()->check())
         <nav class="sticky bottom-0 z-20 border-t border-stone-200 bg-white/95 backdrop-blur">

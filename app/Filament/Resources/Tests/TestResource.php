@@ -62,7 +62,7 @@ class TestResource extends Resource
             Select::make('product_id')->label(__('Producto de pago (vacío = gratuito)'))->relationship('product', 'key')->preload(),
             Section::make(__('Parámetros'))->schema([
                 KeyValue::make('config')->label(__('Configuración'))->keyLabel(__('Parámetro'))->valueLabel(__('Valor'))
-                    ->helperText(__('self_words, other_words, min_responses, max_invitations, invitation_days, repeat_allowed (1/0), repeat_after_days')),
+                    ->helperText(__('self_positive, self_negative, other_positive, other_negative, min_responses, max_invitations, invitation_days, repeat_allowed (1/0), repeat_after_days')),
             ]),
             Section::make(__('Contenidos según resultado'))->schema([
                 Repeater::make('rules')->label('')->relationship()->schema($ruleFields)->columns(3)->orderColumn('position')->reorderable()->collapsible()->defaultItems(0)

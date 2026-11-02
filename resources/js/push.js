@@ -59,5 +59,34 @@ async function unsubscribe() {
     }
 }
 
-window.appPush = { subscribe, unsubscribe };
-window.addEventListener('load', () => registration().catch(() => {}));
+// Header bell: green dot when this device is subscribed; click toggles.
+async function isSubscribed() {
+    try {
+        const reg = await navigator.serviceWorker?.getRegistration();
+        return !!(await reg?.pushManager.getSubscription()) && Notification.permission === 'granted';
+    } catch (e) { return false; }
+}
+
+async function refreshBell() {
+    const dot = document.getElementById('push-bell-dot');
+    const bell = document.getElementById('push-bell');
+    if (!dot || !bell) return;
+    const on = await isSubscribed();
+    dot.classList.toggle('hidden', !on);
+    bell.title = on ? 'Notificaciones activas en este dispositivo' : 'Activar notificaciones';
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+    document.getElementById('push-bell')?.addEventListener('click', async (e) => {
+        const app = e.currentTarget.dataset.app;
+        if (await isSubscribed()) {
+            if (confirm('¿Desactivar las notificaciones en este dispositivo?')) await unsubscribe();
+        } else {
+            await subscribe(app);
+        }
+        await refreshBell();
+    });
+});
+
+window.appPush = { subscribe, unsubscribe, refreshBell };
+window.addEventListener('load', () => registration().then(refreshBell).catch(() => {}));

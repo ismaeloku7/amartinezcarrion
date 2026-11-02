@@ -2,18 +2,20 @@
 
 namespace App\Livewire\Tests\Johari;
 
+use App\Livewire\Tests\Concerns\PicksWordsInTwoSteps;
 use App\Models\Tests\JohariInvitation;
+use App\Models\Tests\Test;
 use App\Services\Tests\JohariService;
 use Illuminate\Support\Facades\Cookie;
 use Illuminate\Support\Str;
 use Livewire\Component;
 
-/** Public page: an invited person picks N words about the user. No login. */
+/** Public page: an invited person picks words about the user, in two steps. No login. */
 class Respond extends Component
 {
-    public string $token;
+    use PicksWordsInTwoSteps;
 
-    public array $selected = [];
+    public string $token;
 
     public bool $done = false;
 
@@ -38,29 +40,14 @@ class Respond extends Component
         return JohariInvitation::query()->where('token', $this->token)->with('take.test.wordList.words', 'take.user')->first();
     }
 
-    public function toggle(string $key): void
+    protected function wordTest(): Test
     {
-        $invitation = $this->invitation();
-        $n = (int) app(JohariService::class)->config($invitation->take->test, 'other_words');
-
-        if (in_array($key, $this->selected, true)) {
-            $this->selected = array_values(array_diff($this->selected, [$key]));
-        } elseif (count($this->selected) < $n) {
-            $this->selected[] = $key;
-        }
+        return $this->invitation()->take->test;
     }
 
-    public function send(JohariService $johari): void
+    protected function who(): string
     {
-        $invitation = $this->invitation();
-        $fingerprint = hash('sha256', $this->browserId().'|'.$invitation->take_id);
-
-        try {
-            $johari->respond($invitation, $this->selected, $fingerprint);
-            $this->done = true;
-        } catch (\InvalidArgumentException|\RuntimeException $e) {
-            $this->addError('selected', $e->getMessage());
-        }
+        return 'other';
     }
 
     /** A random id kept in a cookie, so one browser answers one invitation once (no IP, no user agent). */
@@ -76,14 +63,30 @@ class Respond extends Component
         return $id;
     }
 
-    public function render(JohariService $johari)
+    public function send(JohariService $johari): void
     {
         $invitation = $this->invitation();
+        $fingerprint = hash('sha256', $this->browserId().'|'.$invitation->take_id);
+
+        try {
+            $johari->respond($invitation, $this->selectedKeys(), $fingerprint);
+            $this->done = true;
+        } catch (\InvalidArgumentException|\RuntimeException $e) {
+            $this->addError('selected', $e->getMessage());
+        }
+    }
+
+    public function render()
+    {
+        $invitation = $this->invitation();
+        $usable = $invitation && ! $this->error;
 
         return view('livewire.tests.johari.respond', [
             'invitation' => $invitation,
-            'words' => $invitation?->take->test->wordList->words ?? collect(),
-            'n' => $invitation ? (int) $johari->config($invitation->take->test, 'other_words') : 0,
+            'words' => $usable ? $this->wordsFor($this->wordStep) : collect(),
+            'selected' => $this->wordStep === 'negative' ? $this->negative : $this->positive,
+            'n' => $usable ? $this->needed($this->wordStep) : 0,
+            'hasNegative' => $usable && $this->needed('negative') > 0,
             'name' => $invitation?->take->user->name,
         ])->layout('components.layouts.app', ['appKey' => 'portal', 'title' => __('Ventana de Johari')]);
     }

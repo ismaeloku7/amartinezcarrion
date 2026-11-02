@@ -2,38 +2,39 @@
 
 namespace App\Livewire\Tests\Johari;
 
+use App\Livewire\Tests\Concerns\PicksWordsInTwoSteps;
+use App\Models\Tests\Test;
 use App\Models\Tests\TestTake;
 use App\Services\Tests\JohariService;
 use Livewire\Component;
 
 class SelfSelect extends Component
 {
-    public TestTake $take;
+    use PicksWordsInTwoSteps;
 
-    public array $selected = [];
+    public TestTake $take;
 
     public function mount(TestTake $take): void
     {
         abort_unless($take->user_id === auth()->id(), 403);
         $this->take = $take;
-        $this->selected = $take->data('self_words', []);
+        $this->splitExisting($take->data('self_words', []));
     }
 
-    public function toggle(string $key): void
+    protected function wordTest(): Test
     {
-        $n = (int) app(JohariService::class)->config($this->take->test, 'self_words');
+        return $this->take->test;
+    }
 
-        if (in_array($key, $this->selected, true)) {
-            $this->selected = array_values(array_diff($this->selected, [$key]));
-        } elseif (count($this->selected) < $n) {
-            $this->selected[] = $key;
-        }
+    protected function who(): string
+    {
+        return 'self';
     }
 
     public function save(JohariService $johari): void
     {
         try {
-            $johari->saveSelfSelection($this->take, $this->selected);
+            $johari->saveSelfSelection($this->take, $this->selectedKeys());
         } catch (\InvalidArgumentException $e) {
             $this->addError('selected', $e->getMessage());
 
@@ -43,11 +44,13 @@ class SelfSelect extends Component
         $this->redirectRoute('tests.johari.invite', ['take' => $this->take]);
     }
 
-    public function render(JohariService $johari)
+    public function render()
     {
         return view('livewire.tests.johari.self', [
-            'words' => $this->take->test->wordList->words,
-            'n' => (int) $johari->config($this->take->test, 'self_words'),
+            'words' => $this->wordsFor($this->wordStep),
+            'selected' => $this->wordStep === 'negative' ? $this->negative : $this->positive,
+            'n' => $this->needed($this->wordStep),
+            'hasNegative' => $this->needed('negative') > 0,
         ])->layout('components.layouts.app', ['appKey' => 'portal', 'title' => $this->take->test->name, 'back' => route('tests.show', $this->take->test)]);
     }
 }

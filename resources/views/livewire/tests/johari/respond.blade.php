@@ -10,9 +10,16 @@
     @else
         <x-ui.card>
             <p class="text-stone-700">{{ __(':name te pide que elijas las palabras que, en tu opinión, le describen. Tu respuesta es anónima.', ['name' => $name]) }}</p>
-            <div class="mt-4"><x-johari.words :words="$words" :selected="$selected" :n="$n" /></div>
+            <ol class="my-3 flex gap-1">
+                <li class="h-1.5 flex-1 rounded-full bg-[color:var(--app-color)]"></li>
+                @if ($hasNegative)<li class="h-1.5 flex-1 rounded-full {{ $wordStep === 'negative' ? 'bg-amber-700' : 'bg-stone-200' }}"></li>@endif
+            </ol>
+            @if ($wordStep === 'negative')
+                <p class="mb-3 text-sm text-stone-600">{{ __('Ahora los rasgos menos cómodos. Responde con sinceridad: es anónimo y le ayudará.') }}</p>
+            @endif
+            <x-johari.words :words="$words" :selected="$selected" :n="$n" :step="$wordStep" />
             @error('selected')<p class="mt-2 text-xs text-red-600">{{ $message }}</p>@enderror
-            <div class="mt-4 flex justify-end"><x-ui.button wire:click="send" :disabled="count($selected) !== $n">{{ __('Enviar') }}</x-ui.button></div>
+            <x-johari.steps :step="$wordStep" :has-negative="$hasNegative" :complete="$wordStep === 'negative' ? $this->selectionComplete() : count($selected) === $n" action="send" :action-label="__('Enviar')" />
         </x-ui.card>
     @endif
 </div>

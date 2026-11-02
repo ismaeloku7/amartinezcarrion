@@ -46,7 +46,7 @@ php artisan test
    composer install --no-dev --optimize-autoloader
    npm ci && npm run build
    php artisan migrate --force
-   php artisan db:seed --force      # idempotente: solo crea lo que falta
+   php artisan db:seed --force      # solo crea lo que falta; no toca lo editado en el panel
    php artisan optimize
    ```
 4. Programador de tareas (cron de Forge): `php artisan schedule:run` cada minuto. Envía los recordatorios push.

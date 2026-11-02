@@ -11,8 +11,15 @@ class CardsSeeder extends Seeder
     {
         $cards = json_decode(file_get_contents(database_path('data/cards.json')), true);
 
+        // Runs on every deploy: cards edited in the panel are left as they are.
+        $existing = Card::query()->pluck('number')->all();
+
         foreach ($cards as $c) {
-            $card = Card::firstOrNew(['number' => $c['number']]);
+            if (in_array($c['number'], $existing, true)) {
+                continue;
+            }
+
+            $card = new Card(['number' => $c['number']]);
             $card->group_index = $c['group'];
             $card->selectable = $c['selectable'];
             $card->image_path = sprintf('images/cards/card-%02d.png', $c['number']);

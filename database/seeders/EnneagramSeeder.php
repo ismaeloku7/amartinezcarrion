@@ -6,6 +6,7 @@ use App\Models\Tests\Test;
 use App\Models\Tests\TestItem;
 use App\Models\Tests\TestProfile;
 use App\Models\Tests\TestResultRule;
+use App\Models\Tests\TestScale;
 use Illuminate\Database\Seeder;
 
 class EnneagramSeeder extends Seeder
@@ -59,17 +60,18 @@ class EnneagramSeeder extends Seeder
             $test->position = $key === 'eneagrama' ? 10 : 11;
             $test->ai_enabled = true;
         }
-        $test->profiles_from_test_id = $attrs['profiles_from_test_id'] ?? null;
+        if ($isNew) {
+            $test->profiles_from_test_id = $attrs['profiles_from_test_id'] ?? null;
+        }
         $test->save();
 
+        // Scales are only created once; colours, groups and names edited in the panel are kept.
         foreach (self::SCALES as $k => [$name, $color, $group]) {
-            $scale = $test->scales()->firstOrNew(['key' => $k]);
-            if (! $scale->exists) {
-                $scale->setTranslation('name', 'es', $name);
+            if ($test->scales()->where('key', $k)->exists()) {
+                continue;
             }
-            $scale->color = $color;
-            $scale->group = $group;
-            $scale->position = (int) $k;
+            $scale = new TestScale(['test_id' => $test->id, 'key' => $k, 'color' => $color, 'group' => $group, 'position' => (int) $k]);
+            $scale->setTranslation('name', 'es', $name);
             $scale->save();
         }
 

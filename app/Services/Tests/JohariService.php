@@ -7,6 +7,7 @@ use App\Models\Tests\JohariResponse;
 use App\Models\Tests\Test;
 use App\Models\Tests\TestResultRule;
 use App\Models\Tests\TestTake;
+use App\Models\Tests\Word;
 use App\Models\User;
 use Illuminate\Support\Str;
 
@@ -17,8 +18,10 @@ use Illuminate\Support\Str;
 class JohariService
 {
     public const DEFAULTS = [
-        'self_words' => 6,
-        'other_words' => 6,
+        'self_positive' => 6,
+        'self_negative' => 2,
+        'other_positive' => 6,
+        'other_negative' => 2,
         'min_responses' => 3,
         'max_invitations' => 15,
         'invitation_days' => 30,
@@ -29,6 +32,54 @@ class JohariService
     public function config(Test $test, string $key): mixed
     {
         return $test->config($key, self::DEFAULTS[$key] ?? null);
+    }
+
+    /** Words are picked in two steps: the positive/neutral ones and the uncomfortable ones. */
+    public static function isNegative(Word $word): bool
+    {
+        return $word->tone === 'uncomfortable';
+    }
+
+    /** @return array{positive: array<int,string>, negative: array<int,string>} */
+    public function groupedKeys(Test $test): array
+    {
+        $words = $test->wordList->words;
+
+        return [
+            'positive' => $words->reject(fn (Word $w) => self::isNegative($w))->pluck('key')->values()->all(),
+            'negative' => $words->filter(fn (Word $w) => self::isNegative($w))->pluck('key')->values()->all(),
+        ];
+    }
+
+    /**
+     * Validate a selection against the per-group counts; returns the cleaned keys.
+     *
+     * @param  array<int, string>  $wordKeys
+     * @return array<int, string>
+     */
+    protected function validateSelection(Test $test, array $wordKeys, string $who): array
+    {
+        $groups = $this->groupedKeys($test);
+        $wordKeys = array_values(array_unique($wordKeys));
+        $positive = array_values(array_intersect($wordKeys, $groups['positive']));
+        $negative = array_values(array_intersect($wordKeys, $groups['negative']));
+        $needPositive = (int) $this->config($test, "{$who}_positive");
+        $needNegative = min((int) $this->config($test, "{$who}_negative"), count($groups['negative']));
+
+        if (count($positive) !== $needPositive) {
+            throw new \InvalidArgumentException(__('Debes elegir exactamente :n palabras positivas.', ['n' => $needPositive]));
+        }
+        if (count($negative) !== $needNegative) {
+            throw new \InvalidArgumentException(__('Debes elegir exactamente :n palabras incómodas.', ['n' => $needNegative]));
+        }
+
+        return array_merge($positive, $negative);
+    }
+
+    /** Effective number of negative words to pick (never more than the list offers). */
+    public function negativeCount(Test $test, string $who): int
+    {
+        return min((int) $this->config($test, "{$who}_negative"), count($this->groupedKeys($test)['negative']));
     }
 
     public function canStart(User $user, Test $test): bool
@@ -66,13 +117,7 @@ class JohariService
     /** @param array<int, string> $wordKeys */
     public function saveSelfSelection(TestTake $take, array $wordKeys): void
     {
-        $n = (int) $this->config($take->test, 'self_words');
-        $valid = $take->test->wordList->words->pluck('key')->all();
-        $wordKeys = array_values(array_unique(array_intersect($wordKeys, $valid)));
-
-        if (count($wordKeys) !== $n) {
-            throw new \InvalidArgumentException(__('Debes elegir exactamente :n palabras.', ['n' => $n]));
-        }
+        $wordKeys = $this->validateSelection($take->test, $wordKeys, 'self');
 
         $take->forceFill([
             'data' => array_merge($take->data ?? [], ['self_words' => $wordKeys]),
@@ -105,13 +150,7 @@ class JohariService
         }
 
         $take = $invitation->take;
-        $n = (int) $this->config($take->test, 'other_words');
-        $valid = $take->test->wordList->words->pluck('key')->all();
-        $wordKeys = array_values(array_unique(array_intersect($wordKeys, $valid)));
-
-        if (count($wordKeys) !== $n) {
-            throw new \InvalidArgumentException(__('Debes elegir exactamente :n palabras.', ['n' => $n]));
-        }
+        $wordKeys = $this->validateSelection($take->test, $wordKeys, 'other');
 
         if ($fingerprint && $take->responses()->where('fingerprint', $fingerprint)->exists()) {
             throw new \RuntimeException(__('Ya has respondido a esta invitación.'));

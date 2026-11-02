@@ -127,8 +127,10 @@ Requisitos de una lista:
 | Parámetro | Valor por defecto | Rango |
 |---|---|---|
 | Lista de palabras | Lista Johari clásica | Cualquier lista activa |
-| Palabras que elige el usuario | 6 | 3 a 10 |
-| Palabras que elige cada invitado | 6 | 3 a 10 (puede ser distinto del usuario) |
+| Palabras positivas que elige el usuario | 6 | 3 a 10 |
+| Palabras incómodas que elige el usuario | 2 | 0 a 5 (nunca más de las que tenga la lista) |
+| Palabras positivas que elige cada invitado | 6 | 3 a 10 |
+| Palabras incómodas que elige cada invitado | 2 | 0 a 5 |
 | Mínimo de respuestas para ver resultados | 3 | 1 a 10 |
 | Máximo de invitados | 15 | 1 a 50 |
 | Caducidad del enlace de invitación | 30 días | 1 a 90 días |
@@ -143,8 +145,9 @@ Requisitos de una lista:
 
 1. **Inicio**. Explicación breve del test, qué va a necesitar (invitar a personas de
    confianza) y tiempo estimado. Si el test es de pago, comprobación de acceso.
-2. **Autoevaluación**. Lista de palabras en tarjetas. El usuario marca exactamente N.
-   Contador visible. No puede continuar con menos ni con más.
+2. **Autoevaluación en dos pasos**. Primero las palabras positivas y neutras, después las
+   incómodas (las marcadas con tono "incómodo" en la lista). Contador visible en cada paso.
+   No puede continuar con menos ni con más. El invitado sigue los mismos dos pasos.
 3. **Invitaciones**. El usuario genera un enlace único y lo envía por el medio que
    quiera (WhatsApp, correo, copiar). Puede generar un enlace por persona o uno
    general con límite de usos. Opcional: etiquetar a quién se lo envía (familia,

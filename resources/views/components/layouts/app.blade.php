@@ -77,6 +77,10 @@
 
             <div class="ml-auto flex items-center gap-2">
                 @auth
+                    <button type="button" id="push-bell" data-app="{{ $appKey }}" class="relative grid h-10 w-10 place-items-center rounded-full bg-white text-stone-600 shadow-soft active:scale-95" aria-label="{{ __('Notificaciones') }}" title="{{ __('Activar notificaciones') }}">
+                        <x-ui.icon name="bell" class="h-5 w-5" />
+                        <span id="push-bell-dot" class="absolute right-2 top-2 hidden h-2 w-2 rounded-full bg-emerald-500 ring-2 ring-white"></span>
+                    </button>
                     @if ($appKey !== 'portal')
                         <a href="{{ route('home') }}" class="grid h-10 w-10 place-items-center rounded-full bg-white text-stone-600 shadow-soft active:scale-95" aria-label="{{ __('Portal') }}" title="{{ __('Portal') }}">
                             <x-ui.icon name="grid" class="h-5 w-5" />
@@ -103,6 +107,19 @@
         @endif
         {{ $slot }}
     </main>
+
+    {{-- Aviso de instalación PWA (resources/js/pwa.js). Queda encima de la barra de pestañas. --}}
+    <div id="pwa-install" class="fixed inset-x-0 bottom-[calc(var(--tabbar)+env(safe-area-inset-bottom))] z-40 hidden px-3 pb-3 md:bottom-0" data-app="{{ $appKey }}">
+        <div class="mx-auto flex max-w-2xl items-center gap-3 rounded-3xl bg-white p-3 shadow-float ring-1 ring-stone-200/60">
+            <img src="{{ asset("images/icons/$appKey-192.png") }}" alt="" class="h-11 w-11 rounded-xl">
+            <div class="min-w-0 flex-1 text-sm">
+                <div class="font-semibold leading-snug">{{ __('Instala :app en tu móvil', ['app' => $current['name']]) }}</div>
+                <div id="pwa-install-hint" class="text-xs leading-snug text-muted">{{ __('Tendrás un icono en la pantalla de inicio y recibirás los recordatorios.') }}</div>
+            </div>
+            <x-ui.button type="button" id="pwa-install-btn" size="sm" class="shrink-0">{{ __('Instalar') }}</x-ui.button>
+            <button type="button" id="pwa-install-close" class="grid h-8 w-8 shrink-0 place-items-center rounded-full text-stone-400 hover:bg-fill hover:text-stone-700" aria-label="{{ __('Cerrar') }}">✕</button>
+        </div>
+    </div>
 
     @if ($showTabs)
         <nav class="pb-safe fixed inset-x-0 bottom-0 z-30 border-t border-stone-200/70 bg-white/95 backdrop-blur-md md:hidden" aria-label="{{ __('Secciones') }}">

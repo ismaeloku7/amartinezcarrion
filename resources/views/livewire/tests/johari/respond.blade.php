@@ -9,11 +9,16 @@
             <x-ui.button :href="route('register')" variant="soft" block class="mt-6">{{ __('¿Quieres hacer tu propio test?') }}</x-ui.button>
         </x-ui.card>
     @else
+        <ol class="flex gap-1">
+            <li class="h-1.5 flex-1 rounded-full bg-app"></li>
+            @if ($hasNegative)<li class="h-1.5 flex-1 rounded-full {{ $wordStep === 'negative' ? 'bg-amber-700' : 'bg-stone-200' }}"></li>@endif
+        </ol>
         <p class="text-[0.9375rem] leading-relaxed text-stone-700">{{ __(':name te pide que elijas las palabras que, en tu opinión, le describen. Tu respuesta es anónima.', ['name' => $name]) }}</p>
-        <x-johari.words :words="$words" :selected="$selected" :n="$n" />
+        @if ($wordStep === 'negative')
+            <p class="rounded-2xl bg-amber-50 p-3.5 text-sm leading-relaxed text-amber-900">{{ __('Ahora los rasgos menos cómodos. Responde con sinceridad: es anónimo y le ayudará.') }}</p>
+        @endif
+        <x-johari.words :words="$words" :selected="$selected" :n="$n" :step="$wordStep" />
         @error('selected')<p class="text-xs text-red-600">{{ $message }}</p>@enderror
-        <x-ui.action-bar>
-            <x-ui.button wire:click="send" :disabled="count($selected) !== $n" block>{{ __('Enviar') }}</x-ui.button>
-        </x-ui.action-bar>
+        <x-johari.steps :step="$wordStep" :has-negative="$hasNegative" :complete="$wordStep === 'negative' ? $this->selectionComplete() : count($selected) === $n" action="send" :action-label="__('Enviar')" />
     @endif
 </div>

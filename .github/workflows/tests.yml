@@ -1,13 +1,10 @@
-name: Tests
+name: Tests y despliegue
 
 on:
   push:
     branches:
-      - master
-      - '*.x'
+      - main
   pull_request:
-  schedule:
-    - cron: '0 0 * * *'
 
 permissions:
   contents: read
@@ -19,7 +16,7 @@ jobs:
     strategy:
       fail-fast: true
       matrix:
-        php: [8.3, 8.4, 8.5]
+        php: ['8.3', '8.4']
 
     name: PHP ${{ matrix.php }}
 
@@ -33,11 +30,20 @@ jobs:
         uses: shivammathur/setup-php@eb7c497e18156a6bbabfef1d3a82760b9eda3962 # v2
         with:
           php-version: ${{ matrix.php }}
-          extensions: dom, curl, libxml, mbstring, zip, pcntl, pdo, sqlite, pdo_sqlite
+          extensions: dom, curl, libxml, mbstring, zip, pcntl, pdo, sqlite, pdo_sqlite, bcmath, gd, intl
           coverage: none
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
 
       - name: Install Composer dependencies
         run: composer install --prefer-dist --no-interaction --no-progress
+
+      - name: Build assets
+        run: npm ci && npm run build
 
       - name: Copy environment file
         run: cp .env.example .env
@@ -47,3 +53,21 @@ jobs:
 
       - name: Execute tests
         run: php artisan test
+
+  deploy:
+    name: Desplegar en Forge
+    needs: tests
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Lanzar el despliegue en Forge
+        env:
+          FORGE_DEPLOY_HOOK: ${{ secrets.FORGE_DEPLOY_HOOK }}
+        run: |
+          if [ -z "$FORGE_DEPLOY_HOOK" ]; then
+            echo "Falta el secreto FORGE_DEPLOY_HOOK en GitHub (Settings > Secrets and variables > Actions)."
+            exit 1
+          fi
+          curl --fail --silent --show-error --request POST "$FORGE_DEPLOY_HOOK"
+          echo "Despliegue solicitado a Forge."

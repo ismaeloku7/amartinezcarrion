@@ -23,8 +23,8 @@ class PwaController extends Controller
             'start_url' => $a['start'],
             'scope' => $a['scope'],
             'display' => 'standalone',
-            'background_color' => '#fafaf9',
-            'theme_color' => $a['color'],
+            'background_color' => '#f5f6fa',
+            'theme_color' => '#f5f6fa', // La cabecera es clara; el color de cada app va en los acentos.
             'lang' => app()->getLocale(),
             'icons' => [
                 ['src' => asset("images/icons/$app-192.png"), 'sizes' => '192x192', 'type' => 'image/png'],

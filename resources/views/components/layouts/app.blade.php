@@ -1,4 +1,4 @@
-@props(['title' => null, 'appKey' => 'portal', 'back' => null])
+@props(['title' => null, 'appKey' => 'portal', 'back' => null, 'plain' => false])
 @php
     $apps = [
         'portal' => ['name' => config('app.name'), 'color' => '#1f3a5f', 'home' => route('home')],
@@ -6,15 +6,41 @@
         'cards' => ['name' => __('Fichas'), 'color' => '#2b5d8c', 'home' => route('cards.today')],
     ];
     $current = $apps[$appKey] ?? $apps['portal'];
+
+    // Pestañas de cada app: [ruta, texto, icono, rutas que también la marcan como activa].
+    $tabs = [
+        'portal' => [
+            ['home', __('Inicio'), 'home', ['home', 'paywall']],
+            ['tests.index', __('Tests'), 'sparkles', ['tests.*']],
+            ['account', __('Cuenta'), 'user', ['account']],
+        ],
+        'mdp' => [
+            ['mdp.today', __('Hoy'), 'sun', ['mdp.today', 'mdp.devotional', 'mdp.rest']],
+            ['mdp.week', __('Semana'), 'calendar', ['mdp.week', 'mdp.month', 'mdp.year']],
+            ['mdp.history', __('Libreta'), 'book', ['mdp.history']],
+            ['mdp.order', __('Lectura'), 'list', ['mdp.order']],
+            ['mdp.settings', __('Ajustes'), 'sliders', ['mdp.settings']],
+        ],
+        'cards' => [
+            ['cards.today', __('Hoy'), 'sun', ['cards.today', 'cards.day', 'cards.review']],
+            ['cards.box', __('Caja'), 'box', ['cards.box', 'cards.show']],
+            ['cards.tracking', __('Planilla'), 'calendar', ['cards.tracking']],
+            ['cards.progress', __('Progreso'), 'chart', ['cards.progress']],
+            ['cards.settings', __('Ajustes'), 'sliders', ['cards.settings']],
+        ],
+    ][$appKey] ?? [];
+    $showTabs = ! $plain && auth()->check() && $tabs !== [];
+    $initial = auth()->check() ? mb_strtoupper(mb_substr(auth()->user()->name, 0, 1)) : null;
 @endphp
 <!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}" class="h-full">
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}" class="h-full bg-canvas">
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <meta name="theme-color" content="{{ $current['color'] }}">
+    <meta name="theme-color" content="#f5f6fa">
     <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
     <meta name="apple-mobile-web-app-title" content="{{ $current['name'] }}">
     <meta name="push-public-key" content="{{ config('webpush.vapid.public_key') }}">
     <meta name="app-context" content="{{ $appKey }}">
@@ -23,47 +49,72 @@
     <link rel="apple-touch-icon" href="{{ asset("images/icons/$appKey-192.png") }}">
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
-<body class="min-h-full bg-stone-50 text-stone-900 antialiased" style="--app-color: {{ $current['color'] }}">
-    <header class="sticky top-0 z-20 text-white shadow" style="background: var(--app-color)">
-        <div class="mx-auto flex max-w-3xl items-center gap-3 px-4 py-3">
+<body class="min-h-full bg-canvas font-sans text-ink antialiased" style="--app-color: {{ $current['color'] }}; --tabbar: {{ $showTabs ? '4.25rem' : '0px' }}">
+    <header class="pt-safe sticky top-0 z-30 bg-canvas/85 backdrop-blur-md">
+        <div class="mx-auto flex h-14 max-w-2xl items-center gap-2 px-4">
             @if ($back)
-                <a href="{{ $back }}" class="rounded p-1 hover:bg-white/10" aria-label="{{ __('Volver') }}">
-                    <svg class="h-5 w-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7"/></svg>
+                <a href="{{ $back }}" class="-ml-1 grid h-10 w-10 place-items-center rounded-full bg-white text-ink shadow-soft active:scale-95" aria-label="{{ __('Volver') }}">
+                    <x-ui.icon name="chevron-left" class="h-5 w-5" />
+                </a>
+            @else
+                <a href="{{ $current['home'] }}" class="flex items-center gap-2.5">
+                    <span class="grid h-9 w-9 place-items-center rounded-xl bg-app text-sm font-bold text-white">{{ mb_substr($current['name'], 0, 1) }}</span>
+                    <span class="text-[0.9375rem] font-semibold tracking-tight">{{ $current['name'] }}</span>
                 </a>
             @endif
-            <a href="{{ $current['home'] }}" class="font-semibold tracking-tight">{{ $current['name'] }}</a>
-            <div class="ml-auto flex items-center gap-2 text-sm">
+
+            @if ($back && $title)
+                <span class="min-w-0 flex-1 truncate text-center text-[0.9375rem] font-semibold md:hidden">{{ $title }}</span>
+            @endif
+
+            @if ($showTabs)
+                <nav class="ml-6 hidden items-center gap-1 md:flex" aria-label="{{ __('Secciones') }}">
+                    @foreach ($tabs as [$routeName, $label, $icon, $active])
+                        <a href="{{ route($routeName) }}" @class(['rounded-full px-3 py-1.5 text-sm font-medium transition', 'bg-app/10 text-app' => request()->routeIs(...$active), 'text-stone-500 hover:text-ink' => ! request()->routeIs(...$active)])>{{ $label }}</a>
+                    @endforeach
+                </nav>
+            @endif
+
+            <div class="ml-auto flex items-center gap-2">
                 @auth
                     @if ($appKey !== 'portal')
-                        <a href="{{ route('home') }}" class="rounded px-2 py-1 hover:bg-white/10">{{ __('Portal') }}</a>
+                        <a href="{{ route('home') }}" class="grid h-10 w-10 place-items-center rounded-full bg-white text-stone-600 shadow-soft active:scale-95" aria-label="{{ __('Portal') }}" title="{{ __('Portal') }}">
+                            <x-ui.icon name="grid" class="h-5 w-5" />
+                        </a>
                     @endif
-                    <a href="{{ route('account') }}" class="rounded px-2 py-1 hover:bg-white/10">{{ __('Cuenta') }}</a>
+                    @unless ($appKey === 'portal' && $showTabs)
+                        <a href="{{ route('account') }}" class="grid h-10 w-10 place-items-center rounded-full bg-app/10 text-sm font-semibold text-app active:scale-95" aria-label="{{ __('Cuenta') }}" title="{{ __('Cuenta') }}">{{ $initial }}</a>
+                    @endunless
                 @else
-                    <a href="{{ route('login') }}" class="rounded px-2 py-1 hover:bg-white/10">{{ __('Entrar') }}</a>
+                    @unless ($plain)
+                        <x-ui.button :href="route('login')" variant="soft" size="sm">{{ __('Entrar') }}</x-ui.button>
+                    @endunless
                 @endauth
             </div>
         </div>
     </header>
 
-    <main class="mx-auto w-full max-w-3xl px-4 py-6">
+    <main @class(['mx-auto w-full max-w-2xl px-4 pt-2', 'pb-tabbar md:pb-12' => $showTabs, 'pb-12' => ! $showTabs])>
         @if (session('status'))
-            <div class="mb-4 rounded-lg border border-emerald-200 bg-emerald-50 px-4 py-3 text-sm text-emerald-800">{{ session('status') }}</div>
+            <x-ui.alert type="success" class="mb-4">{{ session('status') }}</x-ui.alert>
         @endif
-        @if ($title)
-            <h1 class="mb-4 text-2xl font-semibold tracking-tight">{{ $title }}</h1>
+        @if ($title && ! $plain)
+            <h1 @class(['mb-5 text-[1.75rem] font-bold leading-tight tracking-tight', 'hidden md:block' => (bool) $back])>{{ $title }}</h1>
         @endif
         {{ $slot }}
     </main>
 
-    @if ($appKey !== 'portal' && auth()->check())
-        <nav class="sticky bottom-0 z-20 border-t border-stone-200 bg-white/95 backdrop-blur">
-            <div class="mx-auto flex max-w-3xl justify-around text-xs">
-                @foreach (($appKey === 'mdp' ? [
-                    ['mdp.today', __('Hoy')], ['mdp.week', __('Semana')], ['mdp.history', __('Libreta')], ['mdp.order', __('Lectura')], ['mdp.settings', __('Ajustes')],
-                ] : [
-                    ['cards.today', __('Hoy')], ['cards.box', __('Caja')], ['cards.tracking', __('Planilla')], ['cards.progress', __('Progreso')], ['cards.settings', __('Ajustes')],
-                ]) as [$routeName, $label])
-                    <a href="{{ route($routeName) }}" @class(['flex flex-1 flex-col items-center py-2', 'font-semibold text-[color:var(--app-color)]' => request()->routeIs($routeName), 'text-stone-500' => ! request()->routeIs($routeName)])>{{ $label }}</a>
+    @if ($showTabs)
+        <nav class="pb-safe fixed inset-x-0 bottom-0 z-30 border-t border-stone-200/70 bg-white/95 backdrop-blur-md md:hidden" aria-label="{{ __('Secciones') }}">
+            <div class="mx-auto flex max-w-2xl px-2">
+                @foreach ($tabs as [$routeName, $label, $icon, $active])
+                    @php $on = request()->routeIs(...$active); @endphp
+                    <a href="{{ route($routeName) }}" @class(['group flex flex-1 flex-col items-center gap-0.5 pb-2 pt-2 text-[0.6875rem] font-medium transition', 'text-app' => $on, 'text-stone-400' => ! $on]) @if ($on) aria-current="page" @endif>
+                        <span @class(['grid h-8 w-14 place-items-center rounded-full transition', 'bg-app/10' => $on])>
+                            <x-ui.icon :name="$icon" class="h-[1.375rem] w-[1.375rem]" />
+                        </span>
+                        {{ $label }}
+                    </a>
                 @endforeach
             </div>
         </nav>

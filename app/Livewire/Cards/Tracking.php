@@ -38,6 +38,7 @@ class Tracking extends Component
     {
         $enrollment = $this->enrollment();
         $first = CarbonImmutable::create($this->year, $this->month, 1);
+        $today = $this->today();
 
         return view('livewire.cards.tracking', [
             'enrollment' => $enrollment,
@@ -45,6 +46,9 @@ class Tracking extends Component
             'daysInMonth' => $first->daysInMonth,
             'label' => $first->translatedFormat('F Y'),
             'restDays' => collect(range(1, $first->daysInMonth))->filter(fn ($d) => $first->day($d)->dayOfWeek === $enrollment->rest_weekday)->all(),
+            // Huecos antes del día 1 en un calendario que empieza en lunes.
+            'leadingBlanks' => $first->dayOfWeekIso - 1,
+            'todayDay' => $today->year === $this->year && $today->month === $this->month ? $today->day : null,
         ])->layout('components.layouts.app', $this->layoutData(__('Planilla')));
     }
 }

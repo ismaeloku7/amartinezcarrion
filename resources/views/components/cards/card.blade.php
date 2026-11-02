@@ -1,5 +1,5 @@
 @props(['card', 'side' => 'front', 'small' => false])
-<div {{ $attributes->merge(['class' => 'overflow-hidden rounded-xl border-2 bg-white shadow-sm']) }} style="border-color: {{ $card->color() }}">
+<div {{ $attributes->merge(['class' => 'overflow-hidden rounded-2xl border-2 bg-white shadow-soft']) }} style="border-color: {{ $card->color() }}">
     @if ($side === 'front' && $card->imageUrl())
         {{-- The printed card itself: header, title and illustration are part of the image. --}}
         <img src="{{ $card->imageUrl() }}" alt="{{ __('Ficha :n', ['n' => $card->number]) }}: {{ $card->title }}" class="block w-full">

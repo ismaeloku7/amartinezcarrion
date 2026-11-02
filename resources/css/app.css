@@ -5,6 +5,94 @@
 @source '../views/**/*.blade.php';
 @source '../../app/Livewire/**/*.php';
 
+/*
+ * Línea gráfica mobile first.
+ * Cada app (portal, devocional, fichas) fija su color en --app-color desde el layout;
+ * aquí se expone como color de Tailwind (bg-app, text-app, bg-app/10…) para poder usar tintes.
+ */
+@theme inline {
+    --color-app: var(--app-color, #1f3a5f);
+}
+
 @theme {
     --font-sans: ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+    --color-canvas: #f5f6fa;
+    --color-ink: #1c1f2a;
+    --color-muted: #8a8fa3;
+    --color-fill: #f1f2f6;
+    --shadow-soft: 0 1px 2px rgb(28 31 42 / 0.04), 0 8px 24px -10px rgb(28 31 42 / 0.12);
+    --shadow-float: 0 12px 32px -12px rgb(28 31 42 / 0.28);
+}
+
+@layer base {
+    html {
+        -webkit-tap-highlight-color: transparent;
+    }
+
+    input[type='checkbox'],
+    input[type='radio'] {
+        accent-color: var(--app-color);
+        width: 1.125rem;
+        height: 1.125rem;
+    }
+
+    ::selection {
+        background: color-mix(in srgb, var(--app-color) 20%, transparent);
+    }
+}
+
+/* Campo de formulario: relleno gris, sin borde, 16px para que iOS no haga zoom al enfocar. */
+@utility field {
+    display: block;
+    width: 100%;
+    min-height: 3rem;
+    border-radius: 1rem;
+    border: 1.5px solid transparent;
+    background-color: var(--color-fill);
+    padding: 0.75rem 1rem;
+    font-size: 1rem;
+    line-height: 1.5rem;
+    color: var(--color-ink);
+    transition: border-color 150ms, background-color 150ms, box-shadow 150ms;
+
+    &::placeholder {
+        color: var(--color-muted);
+    }
+
+    &:focus {
+        outline: none;
+        background-color: #fff;
+        border-color: var(--app-color);
+        box-shadow: 0 0 0 4px color-mix(in srgb, var(--app-color) 12%, transparent);
+    }
+
+    &:is(select) {
+        appearance: none;
+        padding-right: 2.5rem;
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke-width='2' stroke='%238a8fa3'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' d='m19.5 8.25-7.5 7.5-7.5-7.5'/%3E%3C/svg%3E");
+        background-repeat: no-repeat;
+        background-position: right 0.9rem center;
+        background-size: 1rem;
+    }
+}
+
+@utility field-label {
+    display: block;
+    margin-bottom: 0.375rem;
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: #4a4f60;
+}
+
+/* Margen inferior para que el contenido no quede bajo la barra de pestañas y la zona segura. */
+@utility pb-tabbar {
+    padding-bottom: calc(6rem + env(safe-area-inset-bottom));
+}
+
+@utility pb-safe {
+    padding-bottom: env(safe-area-inset-bottom);
+}
+
+@utility pt-safe {
+    padding-top: env(safe-area-inset-top);
 }

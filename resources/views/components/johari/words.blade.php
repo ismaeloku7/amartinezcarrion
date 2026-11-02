@@ -1,13 +1,13 @@
 @props(['words', 'selected', 'n'])
 <div>
-    <div class="mb-3 flex items-center justify-between text-sm">
+    <div class="sticky top-[calc(3.5rem+env(safe-area-inset-top))] z-10 -mx-4 mb-3 flex items-center justify-between bg-canvas/90 px-4 py-2 text-sm backdrop-blur">
         <span class="text-stone-600">{{ __('Elige exactamente :n palabras', ['n' => $n]) }}</span>
-        <span class="font-medium {{ count($selected) === $n ? 'text-emerald-700' : 'text-stone-700' }}">{{ count($selected) }} / {{ $n }}</span>
+        <span class="rounded-full px-2.5 py-0.5 font-semibold {{ count($selected) === $n ? 'bg-emerald-100 text-emerald-700' : 'bg-app/10 text-app' }}">{{ count($selected) }} / {{ $n }}</span>
     </div>
     <div class="flex flex-wrap gap-2">
         @foreach ($words as $w)
             @php $on = in_array($w->key, $selected, true); @endphp
-            <button type="button" wire:click="toggle('{{ $w->key }}')" title="{{ $w->hint }}" class="rounded-full border px-3 py-1.5 text-sm transition {{ $on ? 'border-[color:var(--app-color)] bg-[color:var(--app-color)] text-white' : 'border-stone-300 bg-white hover:bg-stone-50' }} {{ !$on && count($selected) >= $n ? 'opacity-50' : '' }}">{{ $w->label }}</button>
+            <button type="button" wire:click="toggle('{{ $w->key }}')" title="{{ $w->hint }}" aria-pressed="{{ $on ? 'true' : 'false' }}" class="min-h-10 rounded-full px-4 py-2 text-sm font-medium transition active:scale-95 {{ $on ? 'bg-app text-white shadow-[0_6px_14px_-6px_var(--app-color)]' : 'bg-white text-stone-700 shadow-soft' }} {{ !$on && count($selected) >= $n ? 'opacity-40' : '' }}">{{ $w->label }}</button>
         @endforeach
     </div>
 </div>

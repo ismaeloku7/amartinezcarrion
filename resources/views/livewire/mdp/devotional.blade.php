@@ -4,12 +4,17 @@
     fmt() { const m = Math.floor(this.seconds / 60), s = this.seconds % 60; return `${m}:${s.toString().padStart(2, '0')}` } }">
 
     {{-- progress --}}
-    <ol class="flex gap-1">
-        @foreach ($steps as $s)
-            <li class="h-1.5 flex-1 rounded-full {{ array_search($s, $steps) <= array_search($step, $steps) ? 'bg-red-700' : 'bg-stone-200' }}"></li>
-        @endforeach
-    </ol>
-    <div class="text-xs text-stone-500">{{ $day->date->translatedFormat('l, j \d\e F') }} · {{ __('Fase :n', ['n' => $phase]) }}</div>
+    <div class="sticky top-[calc(3.5rem+env(safe-area-inset-top))] z-10 -mx-4 bg-canvas/90 px-4 pb-3 pt-1 backdrop-blur">
+        <ol class="flex gap-1">
+            @foreach ($steps as $s)
+                <li class="h-1.5 flex-1 rounded-full transition {{ array_search($s, $steps) <= array_search($step, $steps) ? 'bg-app' : 'bg-stone-200' }}"></li>
+            @endforeach
+        </ol>
+        <div class="mt-2 flex justify-between text-xs text-muted">
+            <span class="first-letter:uppercase">{{ $day->date->translatedFormat('l, j \d\e F') }}</span>
+            <span>{{ array_search($step, $steps) + 1 }}/{{ count($steps) }} · {{ __('Fase :n', ['n' => $phase]) }}</span>
+        </div>
+    </div>
 
     @if ($step === 'prayer')
         <x-ui.card :title="__('Oración inicial')">
@@ -21,17 +26,27 @@
     @if ($step === 'reading')
         <x-ui.card :title="__('Tiempo de lectura')">
             <p class="text-sm text-stone-600">{{ __('De 15 a 20 minutos, con lectura lenta y pausada, fijándote en los verbos. No importa cuánto leas, sino que llegue a tu interior.') }}</p>
-            <div class="my-6 text-center">
-                <div class="font-mono text-5xl tabular-nums" x-text="fmt()"></div>
-                <div class="mt-3 flex justify-center gap-2">
-                    <x-ui.button type="button" x-show="!running" x-on:click="start()">{{ __('Iniciar') }}</x-ui.button>
-                    <x-ui.button type="button" x-show="running" x-on:click="stop()" variant="secondary">{{ __('Pausar') }}</x-ui.button>
+            {{-- Reloj circular: el anillo se completa a los 20 minutos. --}}
+            <div class="my-6 flex flex-col items-center">
+                <div class="relative grid h-52 w-52 place-items-center">
+                    <svg class="absolute inset-0 -rotate-90" viewBox="0 0 100 100" aria-hidden="true">
+                        <circle cx="50" cy="50" r="45" fill="none" stroke-width="6" class="stroke-stone-100" />
+                        <circle cx="50" cy="50" r="45" fill="none" stroke-width="6" stroke-linecap="round" class="stroke-app transition-all duration-1000" pathLength="100" stroke-dasharray="100" :stroke-dashoffset="100 - Math.min(100, seconds / 12)" />
+                    </svg>
+                    <div class="text-center">
+                        <div class="text-5xl font-semibold tabular-nums tracking-tight" x-text="fmt()"></div>
+                        <div class="mt-1 text-xs text-muted">{{ __('15–20 min') }}</div>
+                    </div>
+                </div>
+                <div class="mt-5">
+                    <x-ui.button type="button" x-show="!running" x-on:click="start()" class="w-40"><x-ui.icon name="play" class="h-4 w-4" />{{ __('Iniciar') }}</x-ui.button>
+                    <x-ui.button type="button" x-show="running" x-on:click="stop()" variant="soft" class="w-40"><x-ui.icon name="pause" class="h-4 w-4" />{{ __('Pausar') }}</x-ui.button>
                 </div>
             </div>
             @if ($phase === 2)
                 <div class="grid gap-3 sm:grid-cols-2">
-                    <label class="block"><span class="mb-1 block text-sm font-medium">{{ __('Inicio de lectura') }}</span><input wire:model="readingFrom" placeholder="Jn 1:1" class="w-full rounded-lg border border-stone-300 px-3 py-2 text-sm"></label>
-                    <label class="block"><span class="mb-1 block text-sm font-medium">{{ __('Fin de lectura') }}</span><input wire:model="readingTo" placeholder="Jn 1:18" class="w-full rounded-lg border border-stone-300 px-3 py-2 text-sm"></label>
+                    <label class="block"><span class="field-label">{{ __('Inicio de lectura') }}</span><input wire:model="readingFrom" placeholder="Jn 1:1" class="field"></label>
+                    <label class="block"><span class="field-label">{{ __('Fin de lectura') }}</span><input wire:model="readingTo" placeholder="Jn 1:18" class="field"></label>
                 </div>
             @endif
             <p class="mt-3 text-xs text-stone-500">{{ __('Puedes ir anotando los textos mientras lees: pasa al siguiente paso cuando quieras, el tiempo queda guardado.') }}</p>
@@ -42,11 +57,11 @@
         <x-ui.card :title="__('Anotación de los textos')">
             <p class="text-sm text-stone-600">{{ __('Copia literalmente los textos que conectan con tu experiencia. Frases de 8 a 10 palabras, nunca más de :max.', ['max' => $maxWords]) }}</p>
             <form wire:submit="addText" class="mt-3 space-y-2" x-data="{ t: @entangle('newText') }">
-                <textarea wire:model="newText" x-model="t" rows="2" class="w-full rounded-lg border border-stone-300 px-3 py-2 text-base" placeholder="{{ __('Escribe el texto literal…') }}"></textarea>
+                <textarea wire:model="newText" x-model="t" rows="2" class="field" placeholder="{{ __('Escribe el texto literal…') }}"></textarea>
                 <div class="flex items-center justify-between text-xs">
                     <span x-data x-text="(() => { const n = t.trim() ? t.trim().split(/\s+/).length : 0; return n + ' {{ __('palabras') }}' + (n > {{ $warnWords }} ? ' · {{ __('intenta acortarlo') }}' : '') })()" :class="t.trim().split(/\s+/).filter(Boolean).length > {{ $maxWords }} ? 'text-red-600' : (t.trim().split(/\s+/).filter(Boolean).length > {{ $warnWords }} ? 'text-amber-600' : 'text-stone-500')"></span>
                     @if ($isFull && $phase === 2)
-                        <select wire:model="noteType" class="rounded border border-stone-300 px-2 py-1 text-xs">
+                        <select wire:model="noteType" class="rounded-full border-0 bg-fill py-1.5 pl-3 pr-7 text-xs">
                             <option value="">{{ __('Sin anotación') }}</option>
                             <option value="rf">Rf · {{ __('Reflexión') }}</option>
                             <option value="pd">Pd · {{ __('Predicación') }}</option>
@@ -55,13 +70,13 @@
                     @endif
                 </div>
                 @error('newText')<p class="text-xs text-red-600">{{ $message }}</p>@enderror
-                <x-ui.button type="submit" variant="secondary" x-bind:disabled="t.trim().split(/\s+/).filter(Boolean).length > {{ $maxWords }} || !t.trim()">{{ __('Añadir texto') }}</x-ui.button>
+                <x-ui.button type="submit" variant="soft" block x-bind:disabled="t.trim().split(/\s+/).filter(Boolean).length > {{ $maxWords }} || !t.trim()">{{ __('Añadir texto') }}</x-ui.button>
             </form>
             <ul class="mt-4 divide-y divide-stone-100">
                 @foreach ($texts as $t)
                     <li class="flex items-start justify-between gap-3 py-2 text-sm">
                         <span><x-mdp.text :text="$t" /> <span class="text-xs text-stone-400">({{ $t->word_count }})</span></span>
-                        <button type="button" wire:click="removeText({{ $t->id }})" class="text-xs text-stone-400 hover:text-red-600">{{ __('Quitar') }}</button>
+                        <button type="button" wire:click="removeText({{ $t->id }})" class="-m-2 shrink-0 p-2 text-xs text-stone-400 hover:text-red-600">{{ __('Quitar') }}</button>
                     </li>
                 @endforeach
             </ul>
@@ -73,13 +88,13 @@
             <p class="text-sm text-stone-600">{{ __('Toca la primera y la última palabra de la parte más significativa de cada texto.') }}</p>
             <ul class="mt-3 space-y-3">
                 @foreach ($texts as $t)
-                    <li class="rounded-lg border border-stone-200 p-2 {{ $underliningText === $t->id ? 'ring-2 ring-red-300' : '' }}">
-                        <p class="leading-relaxed">
+                    <li class="rounded-2xl bg-fill p-3 {{ $underliningText === $t->id ? 'ring-2 ring-app/40' : '' }}">
+                        <p class="text-lg leading-loose">
                             @foreach ($t->words() as $i => $w)
-                                <button type="button" wire:click="tapWord({{ $t->id }}, {{ $i }})" @class(['rounded px-0.5', 'underline decoration-2 underline-offset-2' => $t->underline && $i >= $t->underline[0] && $i <= $t->underline[1], 'bg-red-100' => $underliningText === $t->id && $underlineStart === $i])>{{ $w }}</button>
+                                <button type="button" wire:click="tapWord({{ $t->id }}, {{ $i }})" @class(['rounded px-0.5', 'underline decoration-2 underline-offset-2' => $t->underline && $i >= $t->underline[0] && $i <= $t->underline[1], 'bg-app/15' => $underliningText === $t->id && $underlineStart === $i])>{{ $w }}</button>
                             @endforeach
                         </p>
-                        @if ($t->underline)<button type="button" wire:click="clearUnderline({{ $t->id }})" class="mt-1 text-xs text-stone-400">{{ __('Borrar subrayado') }}</button>@endif
+                        @if ($t->underline)<button type="button" wire:click="clearUnderline({{ $t->id }})" class="mt-1 py-1 text-xs text-stone-400">{{ __('Borrar subrayado') }}</button>@endif
                     </li>
                 @endforeach
             </ul>
@@ -93,7 +108,7 @@
             <ul class="mt-3 space-y-2">
                 @foreach ($texts as $t)
                     <li>
-                        <button type="button" wire:click="selectText({{ $t->id }})" class="w-full rounded-lg border p-3 text-left {{ $t->is_day_text ? 'border-red-700 bg-red-50 text-red-900' : 'border-stone-200 hover:bg-stone-50' }}">
+                        <button type="button" wire:click="selectText({{ $t->id }})" class="w-full rounded-2xl p-4 text-left text-[0.9375rem] leading-relaxed transition {{ $t->is_day_text ? 'bg-app text-white shadow-float' : 'bg-fill text-stone-800 active:bg-stone-200' }}">
                             <x-mdp.text :text="$t" />
                         </button>
                     </li>
@@ -104,20 +119,20 @@
 
     @if ($step === 'visualize')
         <x-ui.card :title="__('Visualización')">
-            @if ($dayText)<p class="my-4 text-center text-2xl font-medium leading-snug text-red-800">{{ $dayText->body }}</p>@endif
+            @if ($dayText)<p class="my-6 text-center font-serif text-2xl font-medium leading-snug text-red-900">{{ $dayText->body }}</p>@endif
             <p class="text-sm text-stone-600">{{ __('Piensa en la idea que te transmite este texto. Concéntrate en el mensaje y visualízate transformado por él: qué se produciría en ti si lo incorporaras plenamente.') }}</p>
         </x-ui.card>
     @endif
 
     @if ($step === 'written_prayer')
         <x-ui.card :title="__('Oración escrita')">
-            @if ($dayText)<p class="mb-3 rounded bg-red-50 p-2 text-sm text-red-900">{{ $dayText->body }}</p>@endif
+            @if ($dayText)<p class="mb-4 rounded-2xl bg-app/5 p-4 font-serif text-[0.9375rem] leading-relaxed text-red-900">{{ $dayText->body }}</p>@endif
             <p class="text-sm text-stone-600">{{ __('Pide a Dios que te ayude con su Espíritu para que el mensaje se haga realidad en tu vida, comenzando por «este día».') }}</p>
-            <textarea wire:model="prayer" rows="5" class="mt-3 w-full rounded-lg border border-stone-300 px-3 py-2 text-base" placeholder="{{ __('Señor, en este día…') }}"></textarea>
+            <textarea wire:model="prayer" rows="5" class="mt-3 field" placeholder="{{ __('Señor, en este día…') }}"></textarea>
             @error('prayer')<p class="text-xs text-red-600">{{ $message }}</p>@enderror
             @if ($phase === 2)
-                <label class="mt-3 block"><span class="mb-1 block text-sm font-medium">{{ __('Frase a subrayar de la oración') }}</span>
-                    <input wire:model="prayerUnderline" class="w-full rounded-lg border border-stone-300 px-3 py-2 text-sm" placeholder="{{ __('Copia aquí la frase más significativa') }}"></label>
+                <label class="mt-3 block"><span class="field-label">{{ __('Frase a subrayar de la oración') }}</span>
+                    <input wire:model="prayerUnderline" class="field" placeholder="{{ __('Copia aquí la frase más significativa') }}"></label>
             @endif
             <p class="mt-2 text-xs text-stone-500">{{ __('La oración es privada y se guarda cifrada.') }}</p>
         </x-ui.card>
@@ -127,25 +142,23 @@
         <x-ui.card :title="__('Devocional completado')">
             @if ($dayText)
                 <div class="text-xs uppercase tracking-wide text-stone-500">{{ __('Texto del día') }}</div>
-                <p class="mt-1 text-xl font-medium text-red-800">{{ $dayText->body }}</p>
+                <p class="mt-2 font-serif text-[1.375rem] font-medium leading-snug text-red-900">{{ $dayText->body }}</p>
             @endif
             <p class="mt-3 text-sm text-stone-600">{{ __('Repásalo tres veces a lo largo del día. Antes de mirarlo, intenta recordarlo.') }}</p>
-            <div class="mt-4 flex gap-2">
-                <x-ui.button :href="route('mdp.today')">{{ __('Ir a hoy') }}</x-ui.button>
-                <x-ui.button :href="route('mdp.week')" variant="secondary">{{ __('Ficha de la semana') }}</x-ui.button>
+            <div class="mt-5 space-y-2">
+                <x-ui.button :href="route('mdp.today')" block>{{ __('Ir a hoy') }}</x-ui.button>
+                <x-ui.button :href="route('mdp.week')" variant="soft" block>{{ __('Ficha de la semana') }}</x-ui.button>
             </div>
         </x-ui.card>
     @endif
 
     @if ($step !== 'done')
-        <div class="flex items-center justify-between">
-            <x-ui.button type="button" wire:click="back" variant="ghost" :disabled="$step === $steps[0]">{{ __('Atrás') }}</x-ui.button>
-            <div class="flex gap-2">
-                @if (in_array($step, ['texts', 'select']) && $texts->isNotEmpty())
-                    <x-ui.button type="button" wire:click="finishMinimum" variant="ghost" wire:confirm="{{ __('¿Terminar hoy con el mínimo? Cuenta como día hecho.') }}">{{ __('Hoy solo el mínimo') }}</x-ui.button>
-                @endif
-                <x-ui.button type="button" wire:click="next" x-on:click="running && stop()">{{ __('Siguiente') }}</x-ui.button>
-            </div>
-        </div>
+        @if (in_array($step, ['texts', 'select']) && $texts->isNotEmpty())
+            <x-ui.button type="button" wire:click="finishMinimum" variant="ghost" size="sm" block wire:confirm="{{ __('¿Terminar hoy con el mínimo? Cuenta como día hecho.') }}">{{ __('Hoy solo el mínimo') }}</x-ui.button>
+        @endif
+        <x-ui.action-bar class="mt-2!">
+            <x-ui.button type="button" wire:click="back" variant="secondary" :disabled="$step === $steps[0]" class="w-12 shrink-0 px-0!" aria-label="{{ __('Atrás') }}"><x-ui.icon name="chevron-left" class="h-5 w-5" /></x-ui.button>
+            <x-ui.button type="button" wire:click="next" x-on:click="running && stop()" class="flex-1" size="lg">{{ __('Siguiente') }}<x-ui.icon name="arrow-right" class="h-4 w-4" /></x-ui.button>
+        </x-ui.action-bar>
     @endif
 </div>

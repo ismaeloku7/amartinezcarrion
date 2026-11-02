@@ -26,7 +26,7 @@ class Review extends Component
 
             return;
         }
-        if ($day->reviewed_at) {
+        if ($day->reviewed_at || $day->chosen_card_id) {
             $this->phase = 'choose';
         }
     }

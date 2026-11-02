@@ -73,10 +73,17 @@ class CardsService
         $date = CarbonImmutable::parse($date)->startOfDay();
         $isRest = $enrollment->isRestDay($date);
 
-        return CardsDay::firstOrCreate(
+        $day = CardsDay::firstOrCreate(
             ['enrollment_id' => $enrollment->id, 'date' => $date->toDateString()],
             ['is_rest_day' => $isRest, 'group_index' => $isRest ? null : $this->groupForDate($enrollment, $date)],
         );
+
+        // The day may have been opened before the first card was incorporated: assign the group now.
+        if (! $day->is_rest_day && ! $day->group_index && $enrollment->availableGroups() !== []) {
+            $day->forceFill(['group_index' => $this->groupForDate($enrollment, $date)])->save();
+        }
+
+        return $day;
     }
 
     /** Cards of a group that are already unlocked. */
@@ -110,7 +117,12 @@ class CardsService
             throw new \InvalidArgumentException(__('Todavía no has incorporado esta ficha.'));
         }
 
-        $day->forceFill(['chosen_card_id' => $card->id])->save();
+        // Changing the card restarts the day: the three review reminders and the evening rating
+        // refer to the card that is chosen at the moment they are sent.
+        $changed = $day->chosen_card_id !== null && $day->chosen_card_id !== $card->id;
+        $day->forceFill($changed
+            ? ['chosen_card_id' => $card->id, 'reviews_done' => 0, 'rating' => null]
+            : ['chosen_card_id' => $card->id])->save();
     }
 
     public function markReview(CardsDay $day): CardsDay

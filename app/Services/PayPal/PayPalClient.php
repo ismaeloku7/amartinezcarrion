@@ -41,6 +41,11 @@ class PayPalClient
         return $this->decode($request->post($this->baseUrl().$path, $data));
     }
 
+    public function patch(string $path, array $data): array
+    {
+        return $this->decode($this->request()->patch($this->baseUrl().$path, $data));
+    }
+
     /** POST with a hand-built body, for calls where the raw JSON must not be re-encoded. */
     public function postRaw(string $path, string $json): array
     {
@@ -80,7 +85,7 @@ class PayPalClient
             throw new PayPalException($response);
         }
 
-        return $response->json() ?? [];
+        return $response->status() === 204 || $response->body() === '' ? [] : ($response->json() ?? []);
     }
 
     public static function requestId(string $prefix): string

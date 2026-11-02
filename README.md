@@ -57,9 +57,9 @@ php artisan test
    - Webhook en la app de PayPal apuntando a `https://dominio/paypal/webhook` con los eventos
      `BILLING.SUBSCRIPTION.*` (activated, updated, cancelled, suspended, expired, payment.failed),
      `PAYMENT.SALE.COMPLETED`, `CHECKOUT.ORDER.APPROVED` y `PAYMENT.CAPTURE.COMPLETED`.
-   - Para cada plan mensual o anual, crear en PayPal un producto y un plan de suscripción con el mismo
-     importe y periodicidad, y pegar su `P-…` en el panel (Planes) o en las variables `PAYPAL_PLAN_*`
-     antes del primer seed. Los planes de pago único no necesitan nada en PayPal: se cobran por importe.
+   - Los planes mensuales y anuales se crean solos en PayPal al guardarlos en el panel (Planes). Para
+     los del catálogo inicial: `php artisan paypal:sync-plans`. Los planes de pago único no necesitan
+     nada en PayPal: se cobran por importe.
 7. Web Push: `php artisan webpush:vapid` una vez y guardar `VAPID_PUBLIC_KEY`, `VAPID_PRIVATE_KEY`
    y `VAPID_SUBJECT` en `.env`. Las PWA requieren HTTPS.
 8. Primer administrador: crear el usuario y marcar `is_admin` desde tinker, o editar

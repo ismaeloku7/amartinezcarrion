@@ -40,6 +40,7 @@ Reglas:
 - Al añadir un producto a un plan desde el panel, los suscriptores activos de ese plan
   obtienen el acceso automáticamente.
 - Las compras de pago único generan acceso sin fecha de fin.
+- Cupones de descuento por plan (ver 05-paypal.md); PayPal solo recibe el importe final.
 - Puede haber productos gratuitos (acceso para cualquier usuario registrado) y
   contenidos públicos (sin registro).
 - Períodos de prueba configurables por plan; se trasladan al plan de PayPal como ciclo TRIAL
@@ -56,6 +57,12 @@ Reglas:
   source_id, starts_at, ends_at (nullable).
 - `paypal_subscriptions`: user_id, plan_id, paypal_id (I-…), status, paid_through_at.
 - `purchases`: user_id, plan_id, paypal_order_id, paypal_capture_id, paid_at.
+- `coupons` (+ `coupon_plan`): code, type (percent|fixed), value, duration (once|forever),
+  max_redemptions, once_per_user, starts_at, expires_at, active.
+- `coupon_redemptions`: coupon_id, user_id, plan_id, importes, paypal_order_id o
+  paypal_subscription_id, confirmed_at.
+- `plan_paypal_variants`: plan_id, first_cents, recurring_cents, paypal_plan_id (planes de
+  PayPal derivados para cupones).
 - `push_subscriptions`: user_id, app, endpoint, keys, locale.
 - `languages`: code, name, active, default.
 

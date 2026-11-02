@@ -11,7 +11,7 @@ Laravel 13 · Livewire 4 · Tailwind 4 · Filament 5 · PayPal (REST API) · Web
 | Devocional (MDP) | `/mdp` | Método Devocional Proyectivo. PWA instalable por separado |
 | Fichas | `/fichas` | Programa de las 42 fichas. PWA instalable por separado |
 | Tests | `/tests` | Motor de tests; implementado el tipo Ventana de Johari |
-| Admin | `/admin` | Panel Filament: usuarios, idiomas, productos, planes, accesos, fichas, listas de palabras, tests |
+| Admin | `/admin` | Panel Filament: usuarios, idiomas, productos, planes, cupones, accesos, fichas, listas de palabras, tests |
 
 La especificación funcional está en `docs/`.
 

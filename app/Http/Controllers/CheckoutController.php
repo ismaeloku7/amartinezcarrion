@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\PaypalSubscription;
 use App\Models\Plan;
+use App\Services\Coupons\CouponException;
+use App\Services\Coupons\CouponService;
 use App\Services\PayPal\PayPalBilling;
 use App\Services\PayPal\PayPalClient;
 use Illuminate\Http\RedirectResponse;
@@ -11,25 +13,41 @@ use Illuminate\Http\Request;
 
 class CheckoutController extends Controller
 {
-    public function __construct(private PayPalBilling $billing) {}
+    public function __construct(private PayPalBilling $billing, private CouponService $coupons) {}
 
     /** Send the user to PayPal to approve a plan (subscription or single purchase). */
     public function checkout(Request $request, Plan $plan): RedirectResponse
     {
         abort_unless(PayPalClient::enabled() && $plan->isPurchasable(), 404);
         $user = $request->user();
+        $paywall = route('paywall', ['product' => $plan->products->first()?->key ?? 'mdp']);
+
+        $discount = null;
+        if ($request->filled('coupon')) {
+            try {
+                $discount = $this->coupons->apply($request->input('coupon'), $plan, $user);
+            } catch (CouponException $e) {
+                return redirect()->to($paywall.'?cupon='.urlencode($request->input('coupon')))->with('coupon_error', $e->getMessage());
+            }
+        }
+
+        if ($discount && ! $plan->isRecurring() && $discount->firstCents === 0) {
+            $this->billing->grantFree($user, $plan, $discount);
+
+            return redirect()->route('home')->with('status', __('Cupón aplicado. Ya tienes acceso.'));
+        }
 
         $returnUrl = route('checkout.success', ['plan' => $plan->id]);
         $cancelUrl = route('checkout.cancel');
 
         try {
             $approveUrl = $plan->isRecurring()
-                ? $this->billing->createSubscription($user, $plan, $returnUrl, $cancelUrl)
-                : $this->billing->createOrder($user, $plan, $returnUrl, $cancelUrl);
+                ? $this->billing->createSubscription($user, $plan, $returnUrl, $cancelUrl, $discount)
+                : $this->billing->createOrder($user, $plan, $returnUrl, $cancelUrl, $discount);
         } catch (\Throwable $e) {
             report($e);
 
-            return redirect()->route('paywall', ['product' => $plan->products->first()?->key ?? 'mdp'])
+            return redirect()->to($paywall)
                 ->with('status', __('No se pudo iniciar el pago con PayPal. Inténtalo de nuevo en unos minutos.'));
         }
 

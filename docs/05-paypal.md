@@ -116,6 +116,29 @@ El pago único no necesita nada en PayPal: se cobra por importe en el momento.
    `P-…` de sandbox no existen en live, así que el portal los crea de nuevo.
 4. Hacer una compra real de un plan mensual y cancelarla después para verificar el ciclo completo.
 
+## Cupones y descuentos
+
+PayPal no tiene cupones: el descuento se calcula en el portal y a PayPal solo le llega el
+importe final. No hay que crear ni configurar nada en PayPal para los cupones.
+
+- Se gestionan en `/admin/coupons`: código, porcentaje o importe fijo, planes en los que
+  vale (vacío = todos), usos máximos, un uso por usuario, fechas de validez y, para las
+  suscripciones, si descuenta solo el primer periodo o todos.
+- El usuario lo escribe en la página de planes («¿Tienes un cupón?») o llega por enlace:
+  `https://dominio/planes/mdp?cupon=VERANO20`. Los precios se muestran ya rebajados y el
+  botón de pago lleva el cupón.
+- **Pago único**: la orden de PayPal se crea por el importe rebajado, con el precio
+  completo y el descuento desglosados en el recibo. Un cupón del 100 % concede el acceso
+  directamente, sin pasar por PayPal.
+- **Suscripciones**: como los planes de PayPal tienen precio fijo, el portal crea una
+  variante del plan (`plan_paypal_variants`) con el precio rebajado: un primer ciclo al
+  precio del cupón y después el precio normal («solo el primer periodo»), o el precio
+  rebajado en todos los ciclos («todos los periodos»). Se crea una sola vez por combinación
+  de precios y se reutiliza; el plan base no cambia. Un cupón que deje una suscripción a
+  0 € en todos los periodos se rechaza: ese acceso se da a mano desde el panel (Accesos).
+- Un uso solo cuenta cuando PayPal confirma el pago (`coupon_redemptions.confirmed_at`);
+  los pagos abandonados no gastan el cupón.
+
 ## Notas de funcionamiento
 
 - El id del usuario viaja a PayPal en `custom_id`, y el id del plan del portal en

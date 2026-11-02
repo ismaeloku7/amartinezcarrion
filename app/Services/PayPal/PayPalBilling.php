@@ -8,6 +8,8 @@ use App\Models\Plan;
 use App\Models\Purchase;
 use App\Models\User;
 use App\Services\AccessService;
+use App\Services\Coupons\CouponService;
+use App\Services\Coupons\Discount;
 use Carbon\Carbon;
 use Illuminate\Support\Arr;
 
@@ -18,21 +20,43 @@ use Illuminate\Support\Arr;
  */
 class PayPalBilling
 {
-    public function __construct(private PayPalClient $client, private AccessService $access) {}
+    public function __construct(
+        private PayPalClient $client,
+        private AccessService $access,
+        private PayPalPlans $plans,
+        private CouponService $coupons,
+    ) {}
 
     // ---------------------------------------------------------------- one-off purchases
 
     /** Create a PayPal order for a single-payment plan and return the approval URL. */
-    public function createOrder(User $user, Plan $plan, string $returnUrl, string $cancelUrl): string
+    public function createOrder(User $user, Plan $plan, string $returnUrl, string $cancelUrl, ?Discount $discount = null): string
     {
+        $total = $discount?->firstCents ?? $plan->price_cents;
+        $unit = [
+            'reference_id' => (string) $plan->id,
+            'custom_id' => (string) $user->id,
+            'description' => mb_substr($plan->name, 0, 127),
+            'amount' => ['currency_code' => $plan->currency, 'value' => self::money($total)],
+        ];
+
+        if ($discount) {
+            // PayPal has no coupons: the receipt shows the full price and the discount as a line.
+            $unit['amount']['breakdown'] = [
+                'item_total' => ['currency_code' => $plan->currency, 'value' => self::money($discount->originalCents)],
+                'discount' => ['currency_code' => $plan->currency, 'value' => self::money($discount->savesCents())],
+            ];
+            $unit['items'] = [[
+                'name' => mb_substr($plan->name, 0, 127),
+                'quantity' => '1',
+                'category' => 'DIGITAL_GOODS',
+                'unit_amount' => ['currency_code' => $plan->currency, 'value' => self::money($discount->originalCents)],
+            ]];
+        }
+
         $order = $this->client->post('/v2/checkout/orders', [
             'intent' => 'CAPTURE',
-            'purchase_units' => [[
-                'reference_id' => (string) $plan->id,
-                'custom_id' => (string) $user->id,
-                'description' => mb_substr($plan->name, 0, 127),
-                'amount' => ['currency_code' => $plan->currency, 'value' => self::money($plan->price_cents)],
-            ]],
+            'purchase_units' => [$unit],
             'payment_source' => ['paypal' => ['experience_context' => [
                 'brand_name' => config('paypal.brand_name'),
                 'locale' => self::locale(),
@@ -43,7 +67,28 @@ class PayPalBilling
             ]]],
         ], PayPalClient::requestId('order-'.$user->id.'-'.$plan->id));
 
+        if ($discount) {
+            $this->coupons->reserve($discount, $user, paypalOrderId: $order['id']);
+        }
+
         return self::link($order, ['payer-action', 'approve']);
+    }
+
+    /** A 100 % coupon on a single payment: nothing to charge, so PayPal is not involved. */
+    public function grantFree(User $user, Plan $plan, Discount $discount): Purchase
+    {
+        $purchase = Purchase::create([
+            'user_id' => $user->id,
+            'plan_id' => $plan->id,
+            'amount_cents' => 0,
+            'currency' => $plan->currency,
+            'paid_at' => now(),
+        ]);
+
+        $this->coupons->reserve($discount, $user)->update(['confirmed_at' => now(), 'purchase_id' => $purchase->id]);
+        $this->access->grantPlan($user, $plan, Entitlement::SOURCE_PURCHASE, (string) $purchase->id);
+
+        return $purchase;
     }
 
     /** Capture an approved order and grant access. Returns the purchase, or null when not paid yet. */
@@ -93,6 +138,7 @@ class PayPalBilling
             ],
         );
 
+        $this->coupons->confirmOrder($order['id'], $purchase);
         $this->access->grantPlan($user, $plan, Entitlement::SOURCE_PURCHASE, (string) $purchase->id);
 
         return $purchase;
@@ -101,10 +147,13 @@ class PayPalBilling
     // ---------------------------------------------------------------- subscriptions
 
     /** Create a PayPal subscription for a recurring plan and return the approval URL. */
-    public function createSubscription(User $user, Plan $plan, string $returnUrl, string $cancelUrl): string
+    public function createSubscription(User $user, Plan $plan, string $returnUrl, string $cancelUrl, ?Discount $discount = null): string
     {
+        // Coupons change the price, and PayPal plans cannot: subscribe to a derived plan instead.
+        $paypalPlanId = $discount?->changesRecurringPlan() ? $this->plans->variantFor($discount) : $plan->paypal_plan_id;
+
         $subscription = $this->client->post('/v1/billing/subscriptions', [
-            'plan_id' => $plan->paypal_plan_id,
+            'plan_id' => $paypalPlanId,
             'custom_id' => (string) $user->id,
             'subscriber' => ['email_address' => $user->email],
             'application_context' => [
@@ -119,9 +168,13 @@ class PayPalBilling
 
         PaypalSubscription::updateOrCreate(
             ['paypal_id' => $subscription['id']],
-            ['user_id' => $user->id, 'plan_id' => $plan->id, 'paypal_plan_id' => $plan->paypal_plan_id,
+            ['user_id' => $user->id, 'plan_id' => $plan->id, 'paypal_plan_id' => $paypalPlanId,
                 'status' => $subscription['status'] ?? PaypalSubscription::STATUS_APPROVAL_PENDING],
         );
+
+        if ($discount) {
+            $this->coupons->reserve($discount, $user, paypalSubscriptionId: $subscription['id']);
+        }
 
         return self::link($subscription, ['approve']);
     }
@@ -146,7 +199,7 @@ class PayPalBilling
 
         $record = PaypalSubscription::query()->where('paypal_id', $paypalId)->first();
         $user = $record?->user ?? User::find($data['custom_id'] ?? null);
-        $plan = $record?->plan ?? Plan::query()->where('paypal_plan_id', $data['plan_id'] ?? '')->first();
+        $plan = $record?->plan ?? $this->plans->planForPaypalId($data['plan_id'] ?? null);
         if (! $user || ! $plan) {
             return null;
         }
@@ -170,6 +223,7 @@ class PayPalBilling
         );
 
         if ($status === PaypalSubscription::STATUS_ACTIVE) {
+            $this->coupons->confirmSubscription($paypalId);
             $this->access->grantPlan($user, $plan, Entitlement::SOURCE_SUBSCRIPTION, $paypalId);
         } elseif (in_array($status, [PaypalSubscription::STATUS_CANCELLED, PaypalSubscription::STATUS_EXPIRED], true)) {
             $endsAt = $paidThrough && $paidThrough->isFuture() ? $paidThrough : now();

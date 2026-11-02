@@ -4,6 +4,8 @@ namespace App\Services\PayPal;
 
 use App\Models\Language;
 use App\Models\Plan;
+use App\Models\PlanPaypalVariant;
+use App\Services\Coupons\Discount;
 
 /**
  * Keeps the PayPal side of a recurring plan in step with the panel: a catalog
@@ -60,8 +62,57 @@ class PayPalPlans
         }
     }
 
-    public function payload(Plan $plan): array
+    /**
+     * PayPal plan for a coupon: same product, a first cycle at the discounted price when
+     * the coupon is "once", and the (possibly discounted) regular price afterwards.
+     * Created once per price combination and reused.
+     */
+    public function variantFor(Discount $discount): string
     {
+        $plan = $discount->plan;
+        $variant = PlanPaypalVariant::query()
+            ->where('plan_id', $plan->id)
+            ->where('first_cents', $discount->firstCents)
+            ->where('recurring_cents', $discount->recurringCents)
+            ->first();
+
+        if ($variant) {
+            return $variant->paypal_plan_id;
+        }
+
+        $this->ensureProduct($plan);
+        $created = $this->client->post(
+            '/v1/billing/plans',
+            $this->payload($plan, $discount->firstCents, $discount->recurringCents),
+            PayPalClient::requestId('plan-'.$plan->id.'-'.$discount->firstCents.'-'.$discount->recurringCents),
+        );
+
+        PlanPaypalVariant::create([
+            'plan_id' => $plan->id,
+            'first_cents' => $discount->firstCents,
+            'recurring_cents' => $discount->recurringCents,
+            'paypal_plan_id' => $created['id'],
+        ]);
+
+        return $created['id'];
+    }
+
+    /** The portal plan behind a PayPal plan id, whether it is the base plan or a coupon variant. */
+    public function planForPaypalId(?string $paypalPlanId): ?Plan
+    {
+        if (! $paypalPlanId) {
+            return null;
+        }
+
+        return Plan::query()->where('paypal_plan_id', $paypalPlanId)->first()
+            ?? PlanPaypalVariant::query()->where('paypal_plan_id', $paypalPlanId)->first()?->plan;
+    }
+
+    public function payload(Plan $plan, ?int $firstCents = null, ?int $recurringCents = null): array
+    {
+        $recurringCents ??= (int) $plan->price_cents;
+        $firstCents ??= $recurringCents;
+        $unit = $plan->interval === Plan::INTERVAL_YEAR ? 'YEAR' : 'MONTH';
         $cycles = [];
         $sequence = 1;
 
@@ -75,17 +126,30 @@ class PayPalPlans
             ];
         }
 
+        if ($firstCents !== $recurringCents) {
+            // PayPal only prices the first period differently through a (paid) trial cycle.
+            $cycles[] = [
+                'frequency' => ['interval_unit' => $unit, 'interval_count' => 1],
+                'tenure_type' => 'TRIAL',
+                'sequence' => $sequence++,
+                'total_cycles' => 1,
+                'pricing_scheme' => ['fixed_price' => ['value' => PayPalBilling::money($firstCents), 'currency_code' => $plan->currency]],
+            ];
+        }
+
         $cycles[] = [
-            'frequency' => ['interval_unit' => $plan->interval === Plan::INTERVAL_YEAR ? 'YEAR' : 'MONTH', 'interval_count' => 1],
+            'frequency' => ['interval_unit' => $unit, 'interval_count' => 1],
             'tenure_type' => 'REGULAR',
             'sequence' => $sequence,
             'total_cycles' => 0,
-            'pricing_scheme' => ['fixed_price' => ['value' => PayPalBilling::money($plan->price_cents), 'currency_code' => $plan->currency]],
+            'pricing_scheme' => ['fixed_price' => ['value' => PayPalBilling::money($recurringCents), 'currency_code' => $plan->currency]],
         ];
+
+        $isVariant = $firstCents !== (int) $plan->price_cents || $recurringCents !== (int) $plan->price_cents;
 
         return [
             'product_id' => $plan->paypal_product_id,
-            'name' => self::name($plan),
+            'name' => $isVariant ? mb_substr(self::name($plan).' ('.__('con cupón').')', 0, 127) : self::name($plan),
             'description' => self::description($plan),
             'status' => 'ACTIVE',
             'billing_cycles' => $cycles,
@@ -102,7 +166,7 @@ class PayPalPlans
     {
         $cycles = collect($remote['billing_cycles'] ?? []);
         $regular = $cycles->firstWhere('tenure_type', 'REGULAR');
-        $trial = $cycles->firstWhere('tenure_type', 'TRIAL');
+        $trial = $cycles->first(fn (array $c) => ($c['tenure_type'] ?? null) === 'TRIAL' && (float) ($c['pricing_scheme']['fixed_price']['value'] ?? 0) == 0.0);
 
         if (! $regular) {
             return false;

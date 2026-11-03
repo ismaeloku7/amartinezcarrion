@@ -52,7 +52,7 @@
                 <p class="mt-3 text-xs leading-relaxed text-stone-500">{{ __('Léelo de nuevo, mejor en voz baja, y recupera la sensación que te produjo al elegirlo.') }}</p>
             </div>
             <div class="mt-4 grid grid-cols-2 gap-2">
-                <x-ui.button :href="route('mdp.devotional', ['date' => $today->toDateString()])" variant="soft" size="sm">{{ $isToday ? __('Ver la página de hoy') : __('Ver la página') }}</x-ui.button>
+                <x-ui.button :href="route('mdp.devotional', ['date' => $today->toDateString()])" variant="soft" size="sm">{{ __('Ver más') }}</x-ui.button>
                 <x-ui.button :href="route('mdp.week')" variant="soft" size="sm">{{ __('Ficha de la semana') }}</x-ui.button>
             </div>
         </x-ui.card>

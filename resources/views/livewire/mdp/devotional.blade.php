@@ -68,22 +68,20 @@
                 @error('newText')<p class="mt-1 text-xs text-red-600">{{ $message }}</p>@enderror
             </div>
 
-            @if ($isFull)
-                <div class="mt-5">
-                    <label class="block"><span class="field-label">{{ __('Oración escrita') }}</span><textarea wire:model="prayer" rows="4" class="field" placeholder="{{ __('Señor, en este día…') }}"></textarea></label>
-                    @error('prayer')<p class="text-xs text-red-600">{{ $message }}</p>@enderror
-                    <label class="mt-2 block"><span class="field-label">{{ __('Frase a subrayar de la oración') }}</span><input wire:model="prayerUnderline" class="field"></label>
-                </div>
-            @endif
+            <div class="mt-5">
+                <label class="block"><span class="field-label">{{ __('Oración escrita') }}</span><textarea wire:model="prayer" rows="4" class="field" placeholder="{{ __('Señor, en este día…') }}"></textarea></label>
+                @error('prayer')<p class="text-xs text-red-600">{{ $message }}</p>@enderror
+                <label class="mt-2 block"><span class="field-label">{{ __('Frase a subrayar de la oración') }}</span><input wire:model="prayerUnderline" class="field"></label>
+                <p class="mt-1 text-xs text-muted">{{ __('La oración es privada y se guarda cifrada.') }}</p>
+            </div>
 
             <div class="mt-5 flex flex-col gap-2">
                 <x-ui.button wire:click="savePage" block>{{ __('Guardar') }}</x-ui.button>
                 @unless ($day->isCompleted())
                     <x-ui.button wire:click="markDone" variant="soft" block>{{ __('Marcar como hecho') }}</x-ui.button>
                 @endunless
-                @unless ($isPast)
-                    <x-ui.button wire:click="startSteps" variant="ghost" block>{{ __('Hacer el devocional paso a paso') }}</x-ui.button>
-                @endunless
+                <x-ui.button wire:click="startSteps" variant="ghost" block>{{ __('Hacer el devocional paso a paso') }}</x-ui.button>
+                <x-ui.button :href="$isPast ? route('mdp.day', ['date' => $day->date->toDateString()]) : route('mdp.today')" variant="ghost" block>{{ $isPast ? __('Volver al día') : __('Ir a hoy') }}</x-ui.button>
                 <x-ui.button :href="route('mdp.history')" variant="ghost" block>{{ __('Volver a la libreta') }}</x-ui.button>
             </div>
         </x-ui.card>
@@ -237,7 +235,7 @@
             @endif
             <p class="mt-3 text-sm text-stone-600">{{ __('Repásalo tres veces a lo largo del día. Antes de mirarlo, intenta recordarlo.') }}</p>
             <div class="mt-5 space-y-2">
-                <x-ui.button :href="route('mdp.today')" block>{{ __('Ir a hoy') }}</x-ui.button>
+                <x-ui.button :href="$isPast ? route('mdp.day', ['date' => $day->date->toDateString()]) : route('mdp.today')" block>{{ $isPast ? __('Volver al día') : __('Ir a hoy') }}</x-ui.button>
                 <x-ui.button :href="route('mdp.week')" variant="soft" block>{{ __('Ficha de la semana') }}</x-ui.button>
                 <x-ui.button wire:click="openPage" variant="ghost" block>{{ __('Revisar o corregir la página') }}</x-ui.button>
             </div>

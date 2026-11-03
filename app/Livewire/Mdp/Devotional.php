@@ -63,8 +63,8 @@ class Devotional extends Component
         $this->prayer = $day->prayer ?? '';
         $this->prayerUnderline = $day->prayer_underline ?? '';
 
-        // A finished day, or a past day, opens as an editable page instead of the step-by-step flow.
-        $this->step = ($day->isCompleted() || $requested->toDateString() < $today->toDateString()) ? 'page' : $this->steps()[0];
+        // A finished day opens as an editable page; a pending day (today or past) runs step by step.
+        $this->step = $day->isCompleted() ? 'page' : $this->steps()[0];
 
         if (! $day->started_at) {
             $day->forceFill(['started_at' => now()])->save();

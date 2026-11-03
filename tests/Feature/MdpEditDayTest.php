@@ -27,6 +27,8 @@ class MdpEditDayTest extends TestCase
         CarbonImmutable::setTestNow('2026-11-03 08:00:00');
 
         Livewire::actingAs($user)->test(Devotional::class, ['date' => '2026-11-02'])
+            ->assertSet('step', 'prayer') // a pending past day runs step by step, like today
+            ->call('openPage')
             ->assertSet('step', 'page')
             ->set('readingFrom', 'Sal 23:1')->set('readingTo', 'Sal 23:6')
             ->set('newText', 'El Señor es mi pastor nada me faltará')->call('addText')
@@ -50,5 +52,20 @@ class MdpEditDayTest extends TestCase
         Livewire::actingAs($user)->test(Devotional::class)->assertSet('step', 'prayer');
         Livewire::actingAs($user)->test(Devotional::class, ['date' => '2026-11-04'])->assertRedirect(route('mdp.today'));
         Livewire::actingAs($user)->test(Devotional::class, ['date' => '2026-10-20'])->assertRedirect(route('mdp.today'));
+    }
+
+    public function test_the_day_screen_moves_between_days_since_the_start(): void
+    {
+        CarbonImmutable::setTestNow('2026-11-01 08:00:00');
+        Product::create(['key' => 'mdp', 'type' => 'practice', 'name' => ['es' => 'MDP']]);
+        $user = User::factory()->create(['timezone' => 'UTC']);
+        app(AccessService::class)->grantManual($user, Product::firstWhere('key', 'mdp'));
+        app(MdpService::class)->enroll($user, ['rest_weekday' => 6]);
+        CarbonImmutable::setTestNow('2026-11-03 08:00:00');
+
+        $this->actingAs($user)->get('/mdp/dia/2026-11-02')->assertOk()->assertSee('Volver a hoy')->assertSee('/mdp/dia/2026-11-01', false)->assertSee('/mdp/dia/2026-11-03', false);
+        $this->actingAs($user)->get('/mdp/dia/2026-11-01')->assertOk()->assertDontSee('/mdp/dia/2026-10-31', false);
+        $this->actingAs($user)->get('/mdp/dia/2026-11-04')->assertRedirect('/mdp');
+        $this->actingAs($user)->get('/mdp')->assertOk()->assertDontSee('Volver a hoy');
     }
 }

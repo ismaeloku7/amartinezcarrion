@@ -12,7 +12,7 @@ Laravel 13 · Livewire 4 · Tailwind 4 · Filament 5 · PayPal (REST API) · Web
 | Fichas | `/fichas` | Programa de las 42 fichas. PWA instalable por separado |
 | Tests | `/tests` | Ventana de Johari y cuestionarios puntuados (eneagrama, con análisis por IA opcional) |
 | Materiales | `/materiales` | Artículos por temáticas, con bloques especiales |
-| Admin | `/admin` | Panel Filament: usuarios, idiomas, productos, planes, cupones, accesos, fichas, listas de palabras, tests |
+| Admin | `/admin` | Panel Filament: usuarios, idiomas, productos, planes, cupones, accesos, fichas, listas de palabras, tests, temáticas y materiales |
 
 La especificación funcional está en `docs/`.
 

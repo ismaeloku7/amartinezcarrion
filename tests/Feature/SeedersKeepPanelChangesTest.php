@@ -8,6 +8,7 @@ use App\Models\Plan;
 use App\Models\Product;
 use App\Models\Tests\Test;
 use Database\Seeders\DatabaseSeeder;
+use Database\Seeders\EnneagramSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
@@ -57,5 +58,22 @@ class SeedersKeepPanelChangesTest extends TestCase
         $this->assertNotNull(Plan::firstWhere('key', 'books-year'));
         $this->assertNotNull(Card::firstWhere('number', 42));
         $this->assertSame(1, Test::where('key', 'johari')->count());
+    }
+
+    public function test_reseeding_keeps_enneagram_panel_edits(): void
+    {
+        $this->seed(EnneagramSeeder::class);
+        $test = Test::firstWhere('key', 'eneagrama');
+        $test->update(['active' => false, 'ai_enabled' => false]);
+        $test->scales()->where('key', '5')->update(['color' => '#123456']);
+        $test->ownProfiles()->where('scale_key', '5')->first()->setTranslation('title', 'es', 'El observador')->save();
+
+        $this->seed(EnneagramSeeder::class);
+
+        $test->refresh();
+        $this->assertFalse($test->active);
+        $this->assertFalse($test->ai_enabled);
+        $this->assertSame('#123456', $test->scales()->where('key', '5')->value('color'));
+        $this->assertSame('El observador', $test->profiles()['5']->title);
     }
 }

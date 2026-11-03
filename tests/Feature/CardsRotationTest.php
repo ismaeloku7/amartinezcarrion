@@ -88,8 +88,10 @@ class CardsRotationTest extends TestCase
         [$one, $two] = Card::whereIn('number', [1, 2])->orderBy('number')->get();
 
         $this->service->chooseCard($day, $one);
-        $this->service->markReview($day);
-        $this->service->rate($day, 3);
+        foreach (range(1, 3) as $i) {
+            $this->service->markReview($day->fresh()); // a past day: every review time has passed
+        }
+        $this->service->rate($day->fresh(), 3);
         $this->service->chooseCard($day->fresh(), $two);
 
         $day->refresh();

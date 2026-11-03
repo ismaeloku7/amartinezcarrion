@@ -105,7 +105,7 @@ class ReminderService
                     }
                 }
 
-                if ($hm === $e->evening_time && $e->tracking_enabled && $day?->chosen_card_id && $day->rating === null) {
+                if ($hm === $e->evening_time && $e->tracking_enabled && $day?->chosen_card_id && $day->reviews_done >= 3 && $day->rating === null) {
                     $this->send($e->user, 'cards', __('Valoración del día'), __('¿Cuánto has tenido presente la ficha de hoy? Apenas, bastante o mucho.'), route('cards.today'), 'cards-rating');
                     $sent++;
                 }

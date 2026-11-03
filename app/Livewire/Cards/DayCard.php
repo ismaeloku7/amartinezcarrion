@@ -29,6 +29,11 @@ class DayCard extends Component
         $this->cards()->markReview($this->cards()->dayFor($this->enrollment(), $this->today()));
     }
 
+    public function unmarkReview(): void
+    {
+        $this->cards()->unmarkReview($this->cards()->dayFor($this->enrollment(), $this->today()));
+    }
+
     public function render()
     {
         $day = $this->cards()->dayFor($this->enrollment(), $this->today())->load('chosenCard');

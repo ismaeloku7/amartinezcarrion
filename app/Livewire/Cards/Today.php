@@ -15,9 +15,18 @@ class Today extends Component
         $this->cards()->markReview($this->cards()->dayFor($this->enrollment(), $this->today()));
     }
 
+    public function unmarkReview(): void
+    {
+        $this->cards()->unmarkReview($this->cards()->dayFor($this->enrollment(), $this->today()));
+    }
+
     public function rate(int $rating): void
     {
-        $this->cards()->rate($this->cards()->dayFor($this->enrollment(), $this->today()), $rating);
+        try {
+            $this->cards()->rate($this->cards()->dayFor($this->enrollment(), $this->today()), $rating);
+        } catch (\InvalidArgumentException $e) {
+            $this->addError('rating', $e->getMessage());
+        }
     }
 
     public function keepTracking(bool $keep): void
@@ -36,6 +45,7 @@ class Today extends Component
             'today' => $today,
             'day' => $day,
             'reviewDue' => $this->cards()->reviewDue($day),
+            'canRate' => $this->cards()->canRate($day),
             'nextReviewAt' => $this->cards()->nextReviewAt($day),
             'group' => $day->group_index,
             'groupCards' => $day->group_index ? $this->cards()->cardsForGroup($enrollment, $day->group_index) : collect(),

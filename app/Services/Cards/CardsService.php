@@ -162,10 +162,29 @@ class CardsService
         return $day->refresh();
     }
 
+    /** Undo a review marked by mistake. Dropping below three reviews also clears the day's rating. */
+    public function unmarkReview(CardsDay $day): CardsDay
+    {
+        if ($day->reviews_done > 0) {
+            $day->forceFill(['reviews_done' => $day->reviews_done - 1, 'rating' => null])->save();
+        }
+
+        return $day->refresh();
+    }
+
+    /** The evening rating comes after the three reviews, not before. */
+    public function canRate(CardsDay $day): bool
+    {
+        return $day->chosen_card_id !== null && $day->reviews_done >= 3;
+    }
+
     public function rate(CardsDay $day, int $rating): void
     {
         if ($rating < 1 || $rating > 3) {
             throw new \InvalidArgumentException('rating 1..3');
+        }
+        if (! $this->canRate($day)) {
+            throw new \InvalidArgumentException(__('Podrás valorar el día cuando hayas hecho los tres repasos.'));
         }
         $day->forceFill(['rating' => $rating])->save();
     }

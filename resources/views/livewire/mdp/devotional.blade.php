@@ -80,17 +80,17 @@
                     <x-ui.button type="button" x-show="running" x-on:click="stop()" variant="soft" class="w-40"><x-ui.icon name="pause" class="h-4 w-4" />{{ __('Pausar') }}</x-ui.button>
                 </div>
             </div>
-            @if ($phase === 2)
-                <div class="grid gap-3 sm:grid-cols-2">
-                    <label class="block"><span class="field-label">{{ __('Inicio de lectura') }}</span><input wire:model="readingFrom" placeholder="Jn 1:1" class="field"></label>
-                    <label class="block"><span class="field-label">{{ __('Fin de lectura') }}</span><input wire:model="readingTo" placeholder="Jn 1:18" class="field"></label>
-                </div>
-            @endif
+            <x-mdp.reading-range />
             <p class="mt-3 text-xs text-stone-500">{{ __('Puedes ir anotando los textos mientras lees: pasa al siguiente paso cuando quieras, el tiempo queda guardado.') }}</p>
         </x-ui.card>
     @endif
 
     @if ($step === 'texts')
+        @unless ($isFull)
+            <x-ui.card :title="__('Lectura de hoy')">
+                <x-mdp.reading-range class="mt-0" />
+            </x-ui.card>
+        @endunless
         <x-ui.card :title="__('Anotación de los textos')">
             <p class="text-sm text-stone-600">{{ __('Copia literalmente los textos que conectan con tu experiencia. Frases de 8 a 10 palabras, nunca más de :max.', ['max' => $maxWords]) }}</p>
             <form wire:submit="addText" class="mt-3 space-y-2" x-data="{ t: @entangle('newText') }">

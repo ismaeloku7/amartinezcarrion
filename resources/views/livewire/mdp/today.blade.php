@@ -27,7 +27,7 @@
             <a href="{{ route('mdp.devotional') }}" class="mt-5 flex h-12 items-center justify-center gap-2 rounded-full bg-white font-semibold text-app active:scale-[0.98]"><x-ui.icon name="play" class="h-4 w-4" />{{ $day->started_at ? __('Continuar') : __('Empezar') }}</a>
         </div>
     @else
-        <x-ui.card :eyebrow="__('Texto del día')">
+        <x-ui.card :eyebrow="($day->reading_from || $day->reading_to) ? __('Texto del día') . ' · ' . trim($day->reading_from . ' – ' . $day->reading_to, ' –') : __('Texto del día')">
             @if ($dayText)
                 <p class="font-serif text-[1.375rem] font-medium leading-snug text-red-900">{{ $dayText->body }}</p>
             @endif

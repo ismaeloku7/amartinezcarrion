@@ -116,8 +116,8 @@ class Devotional extends Component
     {
         $day = $this->day();
 
-        if ($this->step === 'reading') {
-            $day->forceFill(['reading_from' => $this->readingFrom ?: null, 'reading_to' => $this->readingTo ?: null])->save();
+        if (in_array($this->step, ['reading', 'texts'], true)) {
+            $this->saveReadingRange();
         }
         if ($this->step === 'select' && $day->texts()->where('is_day_text', true)->doesntExist()) {
             throw ValidationException::withMessages(['select' => __('Elige el texto del día.')]);
@@ -205,6 +205,25 @@ class Devotional extends Component
         $day->forceFill(['status' => MdpDay::STATUS_MINIMUM, 'finished_at' => now()])->save();
         $this->mdp()->applyWeekAutoSelection($this->mdp()->weekFor($this->enrollment(), $day->date));
         $this->step = 'done';
+    }
+
+    /** Saved as soon as a field loses focus, so the header survives a reload. */
+    public function updatedReadingFrom(): void
+    {
+        $this->saveReadingRange();
+    }
+
+    public function updatedReadingTo(): void
+    {
+        $this->saveReadingRange();
+    }
+
+    protected function saveReadingRange(): void
+    {
+        $this->day()->forceFill([
+            'reading_from' => trim($this->readingFrom) ?: null,
+            'reading_to' => trim($this->readingTo) ?: null,
+        ])->save();
     }
 
     public function saveDuration(int $seconds): void

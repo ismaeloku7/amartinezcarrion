@@ -4,6 +4,60 @@
     tick() { this.seconds++; if (this.seconds % 30 === 0) $wire.saveDuration(this.seconds); if (this.seconds === 900 || this.seconds === 1200) { try { navigator.vibrate && navigator.vibrate(200) } catch(e) {} } },
     fmt() { const m = Math.floor(this.seconds / 60), s = this.seconds % 60; return `${m}:${s.toString().padStart(2, '0')}` } }">
 
+    @if ($step === 'page')
+        <x-ui.card :eyebrow="$day->date->translatedFormat('l, j \d\e F Y')" :title="__('Página del día')">
+            @if (session('status'))<x-ui.alert type="success" class="mb-3">{{ session('status') }}</x-ui.alert>@endif
+            <div class="flex flex-wrap items-center gap-2 text-xs">
+                @if ($day->isCompleted())
+                    <span class="rounded-full bg-emerald-50 px-2 py-0.5 text-emerald-700">{{ $day->status === 'minimum' ? __('Hecho (mínimo)') : __('Hecho') }}</span>
+                @else
+                    <span class="rounded-full bg-amber-50 px-2 py-0.5 text-amber-700">{{ __('Sin terminar') }}</span>
+                @endif
+                @if ($day->duration_seconds)<span class="text-muted">{{ __(':m min de lectura', ['m' => intdiv($day->duration_seconds, 60)]) }}</span>@endif
+            </div>
+
+            <x-mdp.reading-range />
+
+            <div class="mt-5">
+                <div class="field-label">{{ __('Textos anotados') }}</div>
+                <p class="mb-2 text-xs text-muted">{{ __('Toca un texto para marcarlo como texto del día.') }}</p>
+                <ul class="space-y-1.5">
+                    @forelse ($texts as $t)
+                        <li class="flex items-start justify-between gap-3 rounded-2xl border px-3 py-2 text-[0.9375rem] {{ $t->is_day_text ? 'border-red-700 bg-red-50 text-red-900' : 'border-stone-200 bg-white' }}" wire:key="page-text-{{ $t->id }}">
+                            <button type="button" wire:click="selectText({{ $t->id }})" class="flex-1 text-left"><x-mdp.text :text="$t" /></button>
+                            <button type="button" wire:click="removeText({{ $t->id }})" wire:confirm="{{ __('¿Quitar este texto?') }}" class="text-xs text-stone-400 hover:text-red-600">{{ __('Quitar') }}</button>
+                        </li>
+                    @empty
+                        <li class="text-sm text-muted">{{ __('Todavía no hay textos en esta página.') }}</li>
+                    @endforelse
+                </ul>
+                <form wire:submit="addText" class="mt-2 flex gap-2">
+                    <input wire:model="newText" class="field flex-1" placeholder="{{ __('Añadir un texto literal (máximo :max palabras)', ['max' => $maxWords]) }}" autocomplete="off">
+                    <x-ui.button type="submit" variant="secondary" size="sm" class="shrink-0">{{ __('Añadir') }}</x-ui.button>
+                </form>
+                @error('newText')<p class="mt-1 text-xs text-red-600">{{ $message }}</p>@enderror
+            </div>
+
+            @if ($isFull)
+                <div class="mt-5">
+                    <label class="block"><span class="field-label">{{ __('Oración escrita') }}</span><textarea wire:model="prayer" rows="4" class="field" placeholder="{{ __('Señor, en este día…') }}"></textarea></label>
+                    @error('prayer')<p class="text-xs text-red-600">{{ $message }}</p>@enderror
+                    <label class="mt-2 block"><span class="field-label">{{ __('Frase a subrayar de la oración') }}</span><input wire:model="prayerUnderline" class="field"></label>
+                </div>
+            @endif
+
+            <div class="mt-5 flex flex-col gap-2">
+                <x-ui.button wire:click="savePage" block>{{ __('Guardar') }}</x-ui.button>
+                @unless ($day->isCompleted())
+                    <x-ui.button wire:click="markDone" variant="soft" block>{{ __('Marcar como hecho') }}</x-ui.button>
+                @endunless
+                @unless ($isPast)
+                    <x-ui.button wire:click="startSteps" variant="ghost" block>{{ __('Hacer el devocional paso a paso') }}</x-ui.button>
+                @endunless
+                <x-ui.button :href="route('mdp.history')" variant="ghost" block>{{ __('Volver a la libreta') }}</x-ui.button>
+            </div>
+        </x-ui.card>
+    @else
     {{-- progress --}}
     <div class="sticky top-[calc(3.5rem+env(safe-area-inset-top))] z-10 -mx-4 bg-canvas/90 px-4 pb-3 pt-1 backdrop-blur">
         <ol class="flex gap-1">
@@ -155,6 +209,7 @@
             <div class="mt-5 space-y-2">
                 <x-ui.button :href="route('mdp.today')" block>{{ __('Ir a hoy') }}</x-ui.button>
                 <x-ui.button :href="route('mdp.week')" variant="soft" block>{{ __('Ficha de la semana') }}</x-ui.button>
+                <x-ui.button wire:click="openPage" variant="ghost" block>{{ __('Revisar o corregir la página') }}</x-ui.button>
             </div>
         </x-ui.card>
     @endif
@@ -167,5 +222,6 @@
             <x-ui.button type="button" wire:click="back" variant="secondary" :disabled="$step === $steps[0]" class="w-12 shrink-0 px-0!" aria-label="{{ __('Atrás') }}"><x-ui.icon name="chevron-left" class="h-5 w-5" /></x-ui.button>
             <x-ui.button type="button" wire:click="next" x-on:click="{{ $step === 'written_prayer' || ($step === 'select' && ! $isFull) ? 'running && stop()' : '' }}" class="flex-1" size="lg">{{ __('Siguiente') }}<x-ui.icon name="arrow-right" class="h-4 w-4" /></x-ui.button>
         </x-ui.action-bar>
+    @endif
     @endif
 </div>

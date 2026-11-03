@@ -40,9 +40,18 @@ class Devotional extends Component
     public function mount(?string $date = null): void
     {
         $enrollment = $this->enrollment();
-        $this->date = $date ? CarbonImmutable::parse($date)->toDateString() : $this->today()->toDateString();
+        $today = $this->today();
+        $requested = $date ? CarbonImmutable::parse($date)->startOfDay() : $today;
 
-        if ($enrollment->isRestDay(CarbonImmutable::parse($this->date))) {
+        // Only days since the start of the practice, and never the future.
+        if ($requested->gt($today) || $requested->lt($enrollment->started_at)) {
+            $this->redirectRoute('mdp.today');
+
+            return;
+        }
+        $this->date = $requested->toDateString();
+
+        if ($enrollment->isRestDay($requested)) {
             $this->redirectRoute('mdp.rest');
 
             return;
@@ -53,11 +62,51 @@ class Devotional extends Component
         $this->readingTo = $day->reading_to ?? '';
         $this->prayer = $day->prayer ?? '';
         $this->prayerUnderline = $day->prayer_underline ?? '';
-        $this->step = $this->steps()[0];
+
+        // A finished day, or a past day, opens as an editable page instead of the step-by-step flow.
+        $this->step = ($day->isCompleted() || $requested->lt($today)) ? 'page' : $this->steps()[0];
 
         if (! $day->started_at) {
             $day->forceFill(['started_at' => now()])->save();
         }
+    }
+
+    public function isPast(): bool
+    {
+        return CarbonImmutable::parse($this->date)->lt($this->today());
+    }
+
+    /** Leave the page view and run the day step by step. */
+    public function startSteps(): void
+    {
+        $this->step = $this->steps()[0];
+    }
+
+    public function openPage(): void
+    {
+        $this->persistStep();
+        $this->step = 'page';
+    }
+
+    public function savePage(): void
+    {
+        $this->validate(['prayer' => ['nullable', 'string', 'max:2000'], 'prayerUnderline' => ['nullable', 'string', 'max:500']]);
+        $this->saveReadingRange();
+        $this->day()->forceFill(['prayer' => $this->prayer ?: null, 'prayer_underline' => $this->prayerUnderline ?: null])->save();
+        session()->flash('status', __('Página guardada.'));
+    }
+
+    /** Mark a page as done from the page view (e.g. a past day filled in later). */
+    public function markDone(): void
+    {
+        $day = $this->day();
+        if ($day->texts()->doesntExist()) {
+            throw ValidationException::withMessages(['newText' => __('Anota al menos un texto.')]);
+        }
+        $this->validate(['prayer' => ['nullable', 'string', 'max:2000']]);
+        $day->forceFill(['prayer' => $this->prayer ?: null, 'prayer_underline' => $this->prayerUnderline ?: null])->save();
+        $this->finish();
+        $this->step = 'page';
     }
 
     protected function day(): MdpDay
@@ -238,6 +287,7 @@ class Devotional extends Component
 
         return view('livewire.mdp.devotional', [
             'enrollment' => $enrollment,
+            'isPast' => $this->isPast(),
             'day' => $day,
             'texts' => $day->texts,
             'dayText' => $day->texts->firstWhere('is_day_text', true),

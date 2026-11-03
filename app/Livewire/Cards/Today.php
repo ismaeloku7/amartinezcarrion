@@ -35,6 +35,8 @@ class Today extends Component
             'enrollment' => $enrollment,
             'today' => $today,
             'day' => $day,
+            'reviewDue' => $this->cards()->reviewDue($day),
+            'nextReviewAt' => $this->cards()->nextReviewAt($day),
             'group' => $day->group_index,
             'groupCards' => $day->group_index ? $this->cards()->cardsForGroup($enrollment, $day->group_index) : collect(),
             'trackingPrompt' => $this->cards()->trackingPromptDue($enrollment),

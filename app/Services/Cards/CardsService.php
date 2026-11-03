@@ -125,9 +125,37 @@ class CardsService
             : ['chosen_card_id' => $card->id])->save();
     }
 
+    /**
+     * When the next of the three reviews can be done: the configured time of review
+     * number reviews_done + 1 on that day, in the reader's timezone. Null once all are done
+     * or before a card is chosen.
+     */
+    public function nextReviewAt(CardsDay $day): ?CarbonImmutable
+    {
+        if (! $day->chosen_card_id || $day->reviews_done >= 3) {
+            return null;
+        }
+
+        $enrollment = $day->enrollment;
+        $times = array_values($enrollment->review_times ?: self::DEFAULT_REVIEW_TIMES);
+        $time = $times[$day->reviews_done] ?? end($times);
+        [$hour, $minute] = array_map('intval', explode(':', $time));
+
+        return CarbonImmutable::parse($day->date->toDateString(), $enrollment->user->timezone ?? config('app.timezone'))
+            ->setTime($hour, $minute);
+    }
+
+    /** A review only counts from its scheduled time: choosing the card in the morning is not a review. */
+    public function reviewDue(CardsDay $day): bool
+    {
+        $at = $this->nextReviewAt($day);
+
+        return $at !== null && $day->enrollment->now()->greaterThanOrEqualTo($at);
+    }
+
     public function markReview(CardsDay $day): CardsDay
     {
-        if ($day->reviews_done < 3) {
+        if ($this->reviewDue($day)) {
             $day->increment('reviews_done');
         }
 

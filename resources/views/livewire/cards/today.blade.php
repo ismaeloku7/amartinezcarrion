@@ -44,7 +44,11 @@
                     <div class="text-xs font-medium text-stone-500">{{ __('Repasos de hoy') }}</div>
                     <x-ui.dots :done="$day->reviews_done" class="mt-2" />
                 </div>
-                @if ($day->reviews_done < 3)<x-ui.button :href="route('cards.day')" size="sm">{{ __('Repasar') }}</x-ui.button>@endif
+                @if ($reviewDue)
+                    <x-ui.button :href="route('cards.day')" size="sm">{{ __('Repasar') }}</x-ui.button>
+                @elseif ($nextReviewAt)
+                    <span class="text-right text-xs text-muted">{{ __('Próximo repaso') }}<br><span class="font-semibold text-ink">{{ $nextReviewAt->format('H:i') }}</span></span>
+                @endif
             </div>
             <a href="{{ route('cards.review') }}" class="mt-3 block text-center text-sm text-muted underline underline-offset-2">{{ __('Cambiar la ficha de hoy') }}</a>
             @if ($visualization && $day->chosenCard->number !== 31)

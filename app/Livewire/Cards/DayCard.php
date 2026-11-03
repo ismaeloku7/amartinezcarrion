@@ -13,6 +13,12 @@ class DayCard extends Component
 
     public bool $revealed = false;
 
+    /** Only a due review starts with the "try to recall it" screen; the morning visit shows the card. */
+    public function mount(): void
+    {
+        $this->revealed = ! $this->cards()->reviewDue($this->cards()->dayFor($this->enrollment(), $this->today()));
+    }
+
     public function reveal(): void
     {
         $this->revealed = true;
@@ -30,6 +36,8 @@ class DayCard extends Component
         return view('livewire.cards.day', [
             'day' => $day,
             'card' => $day->chosenCard,
+            'reviewDue' => $this->cards()->reviewDue($day),
+            'nextReviewAt' => $this->cards()->nextReviewAt($day),
             'visualization' => $this->enrollment()->unlocked_until >= 31 ? Card::where('number', 31)->first() : null,
         ])->layout('components.layouts.app', $this->layoutData(__('Ficha del día'), route('cards.today')));
     }

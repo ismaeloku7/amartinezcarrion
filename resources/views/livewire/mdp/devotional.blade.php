@@ -39,7 +39,7 @@
             @if (session('status'))<x-ui.alert type="success" class="mb-3">{{ session('status') }}</x-ui.alert>@endif
             <div class="flex flex-wrap items-center gap-2 text-xs">
                 @if ($day->isCompleted())
-                    <span class="rounded-full bg-emerald-50 px-2 py-0.5 text-emerald-700">{{ $day->status === 'minimum' ? __('Hecho (mínimo)') : __('Hecho') }}</span>
+                    <span class="rounded-full bg-emerald-50 px-2 py-0.5 text-emerald-700">{{ __('Hecho') }}</span>
                 @else
                     <span class="rounded-full bg-amber-50 px-2 py-0.5 text-amber-700">{{ __('Sin terminar') }}</span>
                 @endif
@@ -243,9 +243,6 @@
     @endif
 
     @if ($step !== 'done')
-        @if (in_array($step, ['texts', 'select']) && $texts->isNotEmpty())
-            <x-ui.button type="button" wire:click="finishMinimum" x-on:click="running && stop()" variant="ghost" size="sm" block wire:confirm="{{ __('¿Terminar hoy con el mínimo? Cuenta como día hecho.') }}">{{ __('Hoy solo el mínimo') }}</x-ui.button>
-        @endif
         <x-ui.action-bar class="mt-2!">
             <x-ui.button type="button" wire:click="back" variant="secondary" :disabled="$step === $steps[0]" class="w-12 shrink-0 px-0!" aria-label="{{ __('Atrás') }}"><x-ui.icon name="chevron-left" class="h-5 w-5" /></x-ui.button>
             <x-ui.button type="button" wire:click="next" x-on:click="{{ $step === 'written_prayer' || ($step === 'select' && ! $isFull) ? 'running && stop()' : '' }}" class="flex-1" size="lg">{{ __('Siguiente') }}<x-ui.icon name="arrow-right" class="h-4 w-4" /></x-ui.button>

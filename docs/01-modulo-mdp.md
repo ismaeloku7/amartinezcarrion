@@ -67,7 +67,7 @@ El usuario elige el modo en el alta y puede cambiarlo después sin perder datos.
 | Repaso 1, 2, 3 | Tres horas configurables. Por defecto, si la lectura es de mañana: antes de comer, antes de cenar, antes de dormir. Si es de noche: al levantarse, antes de comer, media tarde |
 | Día de descanso | A la hora de lectura, con el flujo semanal |
 | Cierre de mes | Al completar la cuarta semana |
-| Mínimo del día | Si a cierta hora no se ha registrado el devocional: "10 minutos, o incluso 5" |
+| Mínimo del día | Si a cierta hora no se ha registrado el devocional: "10 minutos, o incluso 5". No hay un «modo mínimo»: el día se termina igual y la libreta marca «Menos tiempo» si la lectura no llegó a 15 minutos. El tiempo se puede corregir desde la libreta |
 | Repaso del día anterior | Junto al aviso de lectura |
 
 Cada aviso de repaso muestra únicamente el texto del día actual (nunca los anteriores).
@@ -78,7 +78,7 @@ Cada aviso de repaso muestra únicamente el texto del día actual (nunca los ant
   rest_weekday (0-6), reading_time, review_times (json, 3 horas), minimum_alert_time,
   timezone, started_at, reading_order_position.
 - `mdp_days`: enrollment_id, date, started_at, duration_seconds, reading_from,
-  reading_to, prayer (cifrada), prayer_underline (json), status (done|minimum|skipped),
+  reading_to, prayer (cifrada), prayer_underline (json), status (pending|done|rest),
   reviews_done (0-3), previous_reviewed (bool).
 - `mdp_texts`: day_id, position, body, underline (json rangos), is_day_text (bool),
   word_count, note_type (null|rf|pd|il), note.

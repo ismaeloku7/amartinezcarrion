@@ -70,7 +70,7 @@ class RestDay extends Component
 
         $previous = $enrollment->days()
             ->where('date', '<', $this->today()->toDateString())
-            ->whereIn('status', [MdpDay::STATUS_DONE, MdpDay::STATUS_MINIMUM])
+            ->where('status', MdpDay::STATUS_DONE)
             ->orderByDesc('date')->with('texts')->first();
 
         return view('livewire.mdp.rest', [

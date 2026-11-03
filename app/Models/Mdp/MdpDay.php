@@ -13,7 +13,8 @@ class MdpDay extends Model
 
     public const STATUS_DONE = 'done';
 
-    public const STATUS_MINIMUM = 'minimum';
+    /** A reading counts as the full time from 15 minutes; shorter days are flagged in the notebook. */
+    public const FULL_READING_SECONDS = 15 * 60;
 
     public const STATUS_REST = 'rest';
 
@@ -53,6 +54,17 @@ class MdpDay extends Model
 
     public function isCompleted(): bool
     {
-        return in_array($this->status, [self::STATUS_DONE, self::STATUS_MINIMUM], true);
+        return $this->status === self::STATUS_DONE;
+    }
+
+    /** Done, but the timer did not reach the full reading time (or was never started). */
+    public function isShortReading(): bool
+    {
+        return $this->isCompleted() && (int) $this->duration_seconds < self::FULL_READING_SECONDS;
+    }
+
+    public function durationMinutes(): int
+    {
+        return (int) round(((int) $this->duration_seconds) / 60);
     }
 }

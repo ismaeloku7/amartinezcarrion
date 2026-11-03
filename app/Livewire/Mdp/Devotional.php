@@ -43,8 +43,8 @@ class Devotional extends Component
         $today = $this->today();
         $requested = $date ? CarbonImmutable::parse($date)->startOfDay() : $today;
 
-        // Only days since the start of the practice, and never the future.
-        if ($requested->gt($today) || $requested->lt($enrollment->started_at)) {
+        // Only days since the start of the practice, and never the future (compared as calendar dates).
+        if ($requested->toDateString() > $today->toDateString() || $requested->toDateString() < $enrollment->started_at->toDateString()) {
             $this->redirectRoute('mdp.today');
 
             return;
@@ -64,7 +64,7 @@ class Devotional extends Component
         $this->prayerUnderline = $day->prayer_underline ?? '';
 
         // A finished day, or a past day, opens as an editable page instead of the step-by-step flow.
-        $this->step = ($day->isCompleted() || $requested->lt($today)) ? 'page' : $this->steps()[0];
+        $this->step = ($day->isCompleted() || $requested->toDateString() < $today->toDateString()) ? 'page' : $this->steps()[0];
 
         if (! $day->started_at) {
             $day->forceFill(['started_at' => now()])->save();
@@ -73,7 +73,7 @@ class Devotional extends Component
 
     public function isPast(): bool
     {
-        return CarbonImmutable::parse($this->date)->lt($this->today());
+        return $this->date < $this->today()->toDateString();
     }
 
     /** Leave the page view and run the day step by step. */

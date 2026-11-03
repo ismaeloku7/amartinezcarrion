@@ -25,8 +25,17 @@
                 <div class="flex items-center gap-3">
                     <span class="text-xs font-medium text-stone-500">{{ __('Repasos') }}</span>
                     <x-ui.dots :done="$day->reviews_done" />
+                    @if ($day->reviews_done > 0)
+                        <button type="button" wire:click="unmarkReview" wire:confirm="{{ __('¿Quitar el último repaso marcado?') }}" class="text-xs text-stone-500 underline underline-offset-2" title="{{ __('Marcado por error') }}">{{ __('Deshacer') }}</button>
+                    @endif
                 </div>
-                @if ($day->reviews_done < 3)<x-ui.button wire:click="markReview"><x-ui.icon name="check" class="h-4 w-4" />{{ __('He repasado') }}</x-ui.button>@endif
+                @if ($reviewDue)
+                    <x-ui.button wire:click="markReview"><x-ui.icon name="check" class="h-4 w-4" />{{ __('He repasado') }}</x-ui.button>
+                @elseif ($nextReviewAt)
+                    <span class="pr-3 text-xs text-muted">{{ __('Repaso :n a las :h', ['n' => $day->reviews_done + 1, 'h' => $nextReviewAt->format('H:i')]) }}</span>
+                @else
+                    <span class="pr-3 text-xs font-medium text-emerald-700">{{ __('Repasos hechos') }}</span>
+                @endif
             </div>
         </x-ui.action-bar>
     @endif

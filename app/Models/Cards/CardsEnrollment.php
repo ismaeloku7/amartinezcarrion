@@ -64,7 +64,13 @@ class CardsEnrollment extends Model
 
     public function today(): CarbonImmutable
     {
-        return CarbonImmutable::now($this->user->timezone ?? config('app.timezone'))->startOfDay();
+        return $this->now()->startOfDay();
+    }
+
+    /** Current time in the reader's timezone. */
+    public function now(): CarbonImmutable
+    {
+        return CarbonImmutable::now($this->user->timezone ?? config('app.timezone'));
     }
 
     /** Days elapsed since the start, for the six-month progress bar. */

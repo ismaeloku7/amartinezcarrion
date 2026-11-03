@@ -42,9 +42,18 @@
             <div class="mt-4 flex items-center justify-between gap-3 rounded-2xl bg-fill p-3.5">
                 <div>
                     <div class="text-xs font-medium text-stone-500">{{ __('Repasos de hoy') }}</div>
-                    <x-ui.dots :done="$day->reviews_done" class="mt-2" />
+                    <div class="mt-2 flex items-center gap-3">
+                        <x-ui.dots :done="$day->reviews_done" />
+                        @if ($day->reviews_done > 0)
+                            <button type="button" wire:click="unmarkReview" wire:confirm="{{ __('¿Quitar el último repaso marcado?') }}" class="text-xs text-stone-500 underline underline-offset-2" title="{{ __('Marcado por error') }}">{{ __('Deshacer') }}</button>
+                        @endif
+                    </div>
                 </div>
-                @if ($day->reviews_done < 3)<x-ui.button :href="route('cards.day')" size="sm">{{ __('Repasar') }}</x-ui.button>@endif
+                @if ($reviewDue)
+                    <x-ui.button :href="route('cards.day')" size="sm">{{ __('Repasar') }}</x-ui.button>
+                @elseif ($nextReviewAt)
+                    <span class="text-right text-xs text-muted">{{ __('Próximo repaso') }}<br><span class="font-semibold text-ink">{{ $nextReviewAt->format('H:i') }}</span></span>
+                @endif
             </div>
             <a href="{{ route('cards.review') }}" class="mt-3 block text-center text-sm text-muted underline underline-offset-2">{{ __('Cambiar la ficha de hoy') }}</a>
             @if ($visualization && $day->chosenCard->number !== 31)
@@ -54,7 +63,11 @@
 
         @if ($enrollment->tracking_enabled)
             <x-ui.card :title="__('Valoración del día')">
+                @if (! $canRate)
+                    <p class="flex items-center gap-2 text-sm text-muted"><x-ui.icon name="lock" class="h-4 w-4 shrink-0" />{{ __('Podrás valorar el día cuando hayas hecho los tres repasos (:n de 3).', ['n' => $day->reviews_done]) }}</p>
+                @else
                 <p class="text-sm text-muted">{{ __('¿En qué medida has tenido presente y aplicado la ficha hoy?') }}</p>
+                @error('rating')<p class="mt-2 text-xs text-red-600">{{ $message }}</p>@enderror
                 <div class="mt-4 grid grid-cols-3 gap-2">
                     @foreach ([1 => __('Apenas'), 2 => __('Bastante'), 3 => __('Mucho')] as $v => $label)
                         <button type="button" wire:click="rate({{ $v }})" class="flex flex-col items-center gap-1 rounded-2xl py-3.5 text-sm font-medium transition active:scale-95 {{ $day->rating === $v ? 'bg-app text-white shadow-float' : 'bg-fill text-stone-700' }}">
@@ -62,6 +75,7 @@
                         </button>
                     @endforeach
                 </div>
+                @endif
             </x-ui.card>
         @endif
     @endif

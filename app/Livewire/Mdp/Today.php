@@ -30,7 +30,7 @@ class Today extends Component
 
         $previous = $enrollment->days()
             ->where('date', '<', $today->toDateString())
-            ->whereIn('status', [MdpDay::STATUS_DONE, MdpDay::STATUS_MINIMUM])
+            ->where('status', MdpDay::STATUS_DONE)
             ->orderByDesc('date')
             ->with('texts')
             ->first();
@@ -45,7 +45,7 @@ class Today extends Component
             'previous' => $previous,
             'week' => $this->mdp()->weekFor($enrollment, $today),
             'pendingMonth' => $this->mdp()->pendingMonthClose($enrollment, $today),
-            'daysDone' => $enrollment->days()->whereIn('status', [MdpDay::STATUS_DONE, MdpDay::STATUS_MINIMUM])->count(),
+            'daysDone' => $enrollment->days()->where('status', MdpDay::STATUS_DONE)->count(),
         ])->layout('components.layouts.app', $this->layoutData(__('Hoy')));
     }
 }

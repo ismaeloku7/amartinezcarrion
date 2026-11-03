@@ -190,9 +190,6 @@
     @endif
 
     @if ($step !== 'done')
-        @if (in_array($step, ['texts', 'select']) && $texts->isNotEmpty())
-            <x-ui.button type="button" wire:click="finishMinimum" x-on:click="running && stop()" variant="ghost" size="sm" block wire:confirm="{{ __('¿Terminar hoy con el mínimo? Cuenta como día hecho.') }}">{{ __('Hoy solo el mínimo') }}</x-ui.button>
-        @endif
         <x-ui.action-bar class="mt-2!">
             <x-ui.button type="button" wire:click="back" variant="secondary" :disabled="$step === $steps[0]" class="w-12 shrink-0 px-0!" aria-label="{{ __('Atrás') }}"><x-ui.icon name="chevron-left" class="h-5 w-5" /></x-ui.button>
             <x-ui.button type="button" wire:click="next" x-on:click="{{ $step === 'written_prayer' || ($step === 'select' && ! $isFull) ? 'running && stop()' : '' }}" class="flex-1" size="lg">{{ __('Siguiente') }}<x-ui.icon name="arrow-right" class="h-4 w-4" /></x-ui.button>

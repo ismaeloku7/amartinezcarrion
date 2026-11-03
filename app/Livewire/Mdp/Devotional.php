@@ -194,19 +194,6 @@ class Devotional extends Component
         $this->step = 'done';
     }
 
-    /** "If some day we cannot dedicate the ideal time": a 5-10 minute version still counts. */
-    public function finishMinimum(): void
-    {
-        $day = $this->day();
-        if ($day->texts()->doesntExist()) {
-            throw ValidationException::withMessages(['newText' => __('Anota al menos un texto, aunque sea uno solo.')]);
-        }
-        $this->mdp()->applyDayAutoSelection($day);
-        $day->forceFill(['status' => MdpDay::STATUS_MINIMUM, 'finished_at' => now()])->save();
-        $this->mdp()->applyWeekAutoSelection($this->mdp()->weekFor($this->enrollment(), $day->date));
-        $this->step = 'done';
-    }
-
     /** Saved as soon as a field loses focus, so the header survives a reload. */
     public function updatedReadingFrom(): void
     {

@@ -51,6 +51,8 @@ php artisan test
    php artisan optimize
    ```
 4. Programador de tareas (cron de Forge): `php artisan schedule:run` cada minuto. Envía los recordatorios push.
+   Cada aviso se puede enviar hasta 60 minutos después de su hora si una ejecución se pierde
+   (deploy, reinicio) y nunca se repite el mismo día (`reminder_logs`).
 5. Cola: `QUEUE_CONNECTION=database` con un worker de Forge, o `sync` si no se quiere worker.
 6. PayPal (guía paso a paso en `docs/05-paypal.md`):
    - `PAYPAL_CLIENT_ID`, `PAYPAL_SECRET`, `PAYPAL_MODE` (`sandbox` o `live`) y `PAYPAL_WEBHOOK_ID` en `.env`.

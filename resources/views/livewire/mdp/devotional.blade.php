@@ -1,7 +1,37 @@
 <div class="space-y-4" x-data="{ seconds: {{ (int) ($day->duration_seconds ?? 0) }}, running: false, timer: null,
-    start() { if (this.running) return; this.running = true; this.timer = setInterval(() => this.tick(), 1000) },
-    stop() { this.running = false; clearInterval(this.timer); $wire.saveDuration(this.seconds) },
-    tick() { this.seconds++; if (this.seconds % 30 === 0) $wire.saveDuration(this.seconds); if (this.seconds === 900 || this.seconds === 1200) { try { navigator.vibrate && navigator.vibrate(200) } catch(e) {} } },
+    storageKey: 'mdp-timer-{{ $day->id }}', base: 0, startedAt: null, lastSaved: 0,
+    init() {
+        /* A run interrupted by a lock, a tab switch or a reload resumes from the stored start time. */
+        try {
+            const saved = JSON.parse(localStorage.getItem(this.storageKey) || 'null');
+            if (saved && saved.startedAt) { this.base = saved.base; this.startedAt = saved.startedAt; this.resume() }
+        } catch (e) {}
+        const catchUp = () => { if (this.running && ! document.hidden) this.sync(true) };
+        document.addEventListener('visibilitychange', catchUp);
+        window.addEventListener('pageshow', catchUp);
+        window.addEventListener('focus', catchUp);
+    },
+    start() {
+        if (this.running) return;
+        this.base = this.seconds; this.startedAt = Date.now();
+        try { localStorage.setItem(this.storageKey, JSON.stringify({ base: this.base, startedAt: this.startedAt })) } catch (e) {}
+        this.resume();
+    },
+    resume() { this.running = true; this.sync(); this.timer = setInterval(() => this.sync(), 1000) },
+    stop() {
+        if (! this.running) return;
+        this.sync(); this.running = false; clearInterval(this.timer); this.startedAt = null;
+        try { localStorage.removeItem(this.storageKey) } catch (e) {}
+        $wire.saveDuration(this.seconds);
+    },
+    /* Elapsed time comes from the clock, not from counting ticks, so it keeps running while the phone is locked. */
+    sync(force = false) {
+        if (! this.startedAt) return;
+        const before = this.seconds;
+        this.seconds = this.base + Math.floor((Date.now() - this.startedAt) / 1000);
+        if ([900, 1200].some(mark => before < mark && this.seconds >= mark)) { try { navigator.vibrate && navigator.vibrate(200) } catch (e) {} }
+        if (force || this.seconds - this.lastSaved >= 30) { this.lastSaved = this.seconds; $wire.saveDuration(this.seconds) }
+    },
     fmt() { const m = Math.floor(this.seconds / 60), s = this.seconds % 60; return `${m}:${s.toString().padStart(2, '0')}` } }">
 
     {{-- progress --}}

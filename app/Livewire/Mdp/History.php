@@ -50,7 +50,11 @@ class History extends Component
             ->orderByDesc('date')
             ->paginate(10);
 
-        return view('livewire.mdp.history', ['days' => $days])
+        return view('livewire.mdp.history', [
+            'days' => $days,
+            'startedAt' => $this->enrollment()->started_at->toDateString(),
+            'today' => $this->today()->toDateString(),
+        ])
             ->layout('components.layouts.app', $this->layoutData(__('Libreta')));
     }
 }

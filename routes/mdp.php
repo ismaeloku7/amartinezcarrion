@@ -8,6 +8,7 @@ Route::prefix('mdp')->name('mdp.')->middleware(['auth', 'access:mdp'])->group(fu
 
     Route::middleware('mdp.enrolled')->group(function () {
         Route::get('/', Mdp\Today::class)->name('today');
+        Route::get('/dia/{date}', Mdp\Today::class)->where('date', '\d{4}-\d{2}-\d{2}')->name('day');
         Route::get('/devocional/{date?}', Mdp\Devotional::class)->name('devotional');
         Route::get('/semana', Mdp\WeekCard::class)->name('week');
         Route::get('/descanso', Mdp\RestDay::class)->name('rest');

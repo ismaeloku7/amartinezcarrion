@@ -115,8 +115,10 @@ class MdpService
 
     public function selectDayText(MdpDay $day, MdpText $text): void
     {
-        $day->texts()->update(['is_day_text' => false]);
-        $text->forceFill(['is_day_text' => true])->save();
+        // Query updates, not $text->save(): re-selecting the current text would be a no-op save
+        // after the reset and leave the day without a text.
+        $day->texts()->whereKeyNot($text->id)->update(['is_day_text' => false]);
+        $day->texts()->whereKey($text->id)->update(['is_day_text' => true]);
     }
 
     /** A day with exactly one text selects it without asking. */

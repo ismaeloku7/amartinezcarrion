@@ -46,7 +46,7 @@
                 @if ($day->duration_seconds)<span class="text-muted">{{ __(':m min de lectura', ['m' => intdiv($day->duration_seconds, 60)]) }}</span>@endif
             </div>
 
-            <x-mdp.reading-range />
+            <x-mdp.reading-range :suggested="$readingFromSuggested" />
 
             <div class="mt-5">
                 <div class="field-label">{{ __('Textos anotados') }}</div>
@@ -132,7 +132,7 @@
                     <x-ui.button type="button" x-show="running" x-on:click="stop()" variant="soft" class="w-40"><x-ui.icon name="pause" class="h-4 w-4" />{{ __('Pausar') }}</x-ui.button>
                 </div>
             </div>
-            <x-mdp.reading-range />
+            <x-mdp.reading-range :suggested="$readingFromSuggested" />
             <p class="mt-3 text-xs text-stone-500">{{ __('Puedes ir anotando los textos mientras lees: pasa al siguiente paso cuando quieras, el tiempo queda guardado.') }}</p>
         </x-ui.card>
     @endif
@@ -140,7 +140,7 @@
     @if ($step === 'texts')
         @unless ($isFull)
             <x-ui.card :title="__('Lectura de hoy')">
-                <x-mdp.reading-range class="mt-0" />
+                <x-mdp.reading-range class="mt-0" :suggested="$readingFromSuggested" />
             </x-ui.card>
         @endunless
         <x-ui.card :title="__('Anotación de los textos')">
@@ -245,7 +245,9 @@
     @if ($step !== 'done')
         <x-ui.action-bar class="mt-2!">
             <x-ui.button type="button" wire:click="back" variant="secondary" :disabled="$step === $steps[0]" class="w-12 shrink-0 px-0!" aria-label="{{ __('Atrás') }}"><x-ui.icon name="chevron-left" class="h-5 w-5" /></x-ui.button>
-            <x-ui.button type="button" wire:click="next" x-on:click="{{ $step === 'written_prayer' || ($step === 'select' && ! $isFull) ? 'running && stop()' : '' }}" class="flex-1" size="lg">{{ __('Siguiente') }}<x-ui.icon name="arrow-right" class="h-4 w-4" /></x-ui.button>
+            {{-- wire:key per step: the button gains an x-on:click on the last step, and morphing that
+                 attribute onto the existing button drops its wire:click, so it must be a fresh element. --}}
+            <x-ui.button type="button" wire:key="next-{{ $step }}" wire:click="next" x-on:click="{{ $step === 'written_prayer' || ($step === 'select' && ! $isFull) ? 'running && stop()' : '' }}" class="flex-1" size="lg">{{ __('Siguiente') }}<x-ui.icon name="arrow-right" class="h-4 w-4" /></x-ui.button>
         </x-ui.action-bar>
     @endif
     @endif

@@ -29,6 +29,9 @@ class Devotional extends Component
 
     public string $readingTo = '';
 
+    /** readingFrom was filled in from where the previous day's reading ended. */
+    public bool $readingFromSuggested = false;
+
     public string $prayer = '';
 
     public string $prayerUnderline = '';
@@ -60,6 +63,12 @@ class Devotional extends Component
         $day = $this->day();
         $this->readingFrom = $day->reading_from ?? '';
         $this->readingTo = $day->reading_to ?? '';
+
+        // A new day starts where the last reading ended; it is saved with the rest of the header.
+        if ($this->readingFrom === '' && ! $day->isCompleted() && ($previous = $this->previousReadingEnd())) {
+            $this->readingFrom = $previous;
+            $this->readingFromSuggested = true;
+        }
         $this->prayer = $day->prayer ?? '';
         $this->prayerUnderline = $day->prayer_underline ?? '';
 
@@ -107,6 +116,17 @@ class Devotional extends Component
         $day->forceFill(['prayer' => $this->prayer ?: null, 'prayer_underline' => $this->prayerUnderline ?: null])->save();
         $this->finish();
         $this->step = 'page';
+    }
+
+    /** Where the most recent earlier day's reading ended, if it was noted. */
+    protected function previousReadingEnd(): ?string
+    {
+        return $this->enrollment()->days()
+            ->whereDate('date', '<', $this->date)
+            ->whereNotNull('reading_to')
+            ->where('reading_to', '!=', '')
+            ->orderByDesc('date')
+            ->value('reading_to');
     }
 
     protected function day(): MdpDay
@@ -246,6 +266,7 @@ class Devotional extends Component
     /** Saved as soon as a field loses focus, so the header survives a reload. */
     public function updatedReadingFrom(): void
     {
+        $this->readingFromSuggested = false;
         $this->saveReadingRange();
     }
 

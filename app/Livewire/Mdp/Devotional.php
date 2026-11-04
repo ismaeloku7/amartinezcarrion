@@ -259,7 +259,6 @@ class Devotional extends Component
         ])->save();
 
         $this->mdp()->applyDayAutoSelection($day);
-        $this->mdp()->applyWeekAutoSelection($this->mdp()->weekFor($this->enrollment(), $day->date));
         $this->step = 'done';
     }
 

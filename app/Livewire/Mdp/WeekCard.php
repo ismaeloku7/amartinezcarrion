@@ -5,18 +5,12 @@ namespace App\Livewire\Mdp;
 use App\Livewire\Mdp\Concerns\HasEnrollment;
 use Livewire\Component;
 
+/** The week's day texts. The week text itself is chosen on the rest day, not here. */
 class WeekCard extends Component
 {
     use HasEnrollment;
 
-    public string $memorizeKey = '';
-
     public int $offset = 0; // 0 = current week, -1 = previous...
-
-    public function mount(): void
-    {
-        $this->memorizeKey = $this->week()->memorize_key ?? '';
-    }
 
     protected function week()
     {
@@ -26,26 +20,13 @@ class WeekCard extends Component
     public function previousWeek(): void
     {
         $this->offset--;
-        $this->memorizeKey = $this->week()->memorize_key ?? '';
     }
 
     public function nextWeek(): void
     {
         if ($this->offset < 0) {
             $this->offset++;
-            $this->memorizeKey = $this->week()->memorize_key ?? '';
         }
-    }
-
-    public function saveMemorizeKey(): void
-    {
-        $this->week()->forceFill(['memorize_key' => trim($this->memorizeKey) ?: null])->save();
-    }
-
-    public function toggleMemorized(): void
-    {
-        $week = $this->week();
-        $week->forceFill(['memorized' => ! $week->memorized])->save();
     }
 
     public function markWeekReview(): void
@@ -56,12 +37,13 @@ class WeekCard extends Component
     public function render()
     {
         $week = $this->week();
-        $this->mdp()->applyWeekAutoSelection($week);
+        $today = $this->today();
 
         return view('livewire.mdp.week', [
             'week' => $week->fresh(['weekText']),
             'dayTexts' => $week->dayTexts(),
             'enrollment' => $this->enrollment(),
+            'isRestDay' => $this->offset === 0 && $this->mdp()->canChooseWeekText($week, $today),
         ])->layout('components.layouts.app', $this->layoutData(__('Ficha de la semana')));
     }
 }

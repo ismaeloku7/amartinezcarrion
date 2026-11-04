@@ -32,11 +32,12 @@ El usuario elige el modo en el alta y puede cambiarlo después sin perder datos.
 - Oración escrita con la expresión "en este día" sugerida y subrayado de una frase.
 - Ficha semanal con los textos del día en colores alternos.
 - Flujo de día de descanso: repaso del día anterior, subrayado de una palabra por texto,
-  selección del texto de la semana (amarillo).
-- Cierre de mes: las 4 fichas juntas, selección del texto del mes (verde).
+  selección del texto de la semana (amarillo). Solo se hace el día de descanso; el resto
+  de la semana la ficha muestra los textos del día, sin texto de la semana.
+- Cierre de mes: las 4 fichas juntas, selección del texto del mes (verde). Solo el día que
+  se cierra el mes, que es el día de descanso de la cuarta semana, después de elegir el
+  texto de esa semana.
 - Galería anual con los 12 textos del mes.
-- Opcional: memorización del texto de la semana con "llave" (2-4 palabras iniciales)
-  y caja de fichas con repaso mensual.
 - Opcional: anotaciones Rf / Pd / Il (reflexión, predicación, ilustración) en violeta.
 - Orden de lectura sugerido (41 libros) intercalado con el AT histórico, con progreso.
 
@@ -53,7 +54,8 @@ El usuario elige el modo en el alta y puede cambiarlo después sin perder datos.
 - Día con un único texto: se marca como texto del día sin pedir selección.
 - La misma regla se aplica a la semana (si solo hay un texto del día en la semana) y
   al mes (si solo hay un texto de la semana en el mes), por ejemplo cuando el usuario
-  empieza a mitad de periodo.
+  empieza a mitad de periodo. Pero solo en su día: la semana el día de descanso y el mes
+  el día que se cierra.
 
 ## Fases
 - Fase 1 (semanas 1-3): pasos básicos. La app muestra solo las pantallas de esta fase.

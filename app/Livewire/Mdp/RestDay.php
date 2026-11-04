@@ -16,6 +16,14 @@ class RestDay extends Component
 
     public string $step = 'previous';
 
+    /** The week text is chosen on the rest day only; any other day goes to the week card. */
+    public function mount(): void
+    {
+        if (! $this->enrollment()->isRestDay($this->today())) {
+            $this->redirectRoute('mdp.week');
+        }
+    }
+
     protected function week()
     {
         return $this->mdp()->weekFor($this->enrollment(), $this->today());
@@ -51,6 +59,7 @@ class RestDay extends Component
     public function selectWeekText(int $textId): void
     {
         $week = $this->week();
+        abort_unless($this->mdp()->canChooseWeekText($week, $this->today()), 403);
         $text = $week->dayTexts()->firstWhere('id', $textId);
         abort_unless($text, 404);
         $this->mdp()->selectWeekText($week, $text);
@@ -80,6 +89,7 @@ class RestDay extends Component
             'dayTexts' => $week->dayTexts(),
             'previous' => $previous,
             'underlines' => $week->word_underlines ?? [],
+            'monthToClose' => $this->mdp()->monthClosingOn($enrollment, $this->today()),
         ])->layout('components.layouts.app', $this->layoutData(__('Día de descanso'), route('mdp.today')));
     }
 }

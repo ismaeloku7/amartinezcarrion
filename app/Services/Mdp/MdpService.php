@@ -153,10 +153,27 @@ class MdpService
         }
     }
 
+    /** The week text is chosen on the week's rest day (its last day), not before. */
+    public function canChooseWeekText(MdpWeek $week, CarbonInterface $today): bool
+    {
+        return $week->ends_on->toDateString() === CarbonImmutable::parse($today)->toDateString();
+    }
+
     public function selectWeekText(MdpWeek $week, MdpText $text): void
     {
         $week->forceFill(['week_text_id' => $text->id])->save();
-        $this->applyMonthAutoSelection($this->monthFor($week->enrollment, $week->starts_on));
+
+        // The rest day that ends the fourth week is also the month's closing day.
+        $month = $this->monthFor($week->enrollment, $week->starts_on);
+        if ($month->ends_on->toDateString() === $week->ends_on->toDateString()) {
+            $this->applyMonthAutoSelection($month);
+        }
+    }
+
+    /** The month text is chosen on the month's last day (the rest day of its fourth week), not before or after. */
+    public function canChooseMonthText(MdpMonth $month, CarbonInterface $today): bool
+    {
+        return $month->ends_on->toDateString() === CarbonImmutable::parse($today)->toDateString();
     }
 
     public function selectMonthText(MdpMonth $month, MdpText $text): void
@@ -164,24 +181,20 @@ class MdpService
         $month->forceFill(['month_text_id' => $text->id, 'closed_at' => now()])->save();
     }
 
-    /** Whether the month that ended before $date still needs its text chosen. */
-    public function pendingMonthClose(MdpEnrollment $enrollment, CarbonInterface $date): ?MdpMonth
+    /** The month that closes on $date and still has no text, or null. */
+    public function monthClosingOn(MdpEnrollment $enrollment, CarbonInterface $date): ?MdpMonth
     {
         $date = CarbonImmutable::parse($date)->startOfDay();
-        $current = $this->monthFor($enrollment, $date);
+        $month = $this->monthFor($enrollment, $date);
 
-        if ($current->index === 1) {
+        if ($month->ends_on->toDateString() !== $date->toDateString()) {
             return null;
         }
 
-        $previous = MdpMonth::query()
-            ->where('enrollment_id', $enrollment->id)
-            ->where('index', $current->index - 1)
-            ->first() ?? $this->monthFor($enrollment, $current->starts_on->subDay());
+        $this->applyMonthAutoSelection($month);
+        $month->refresh();
 
-        $this->applyMonthAutoSelection($previous);
-
-        return $previous->month_text_id ? null : $previous;
+        return $month->month_text_id ? null : $month;
     }
 
     /** Month texts grouped in blocks of twelve: the yearly gallery. */

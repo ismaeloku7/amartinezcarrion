@@ -29,21 +29,14 @@
                 </div>
                 @if ($week->reviews_done < 3 && $offset === 0)<x-ui.button wire:click="markWeekReview" size="sm"><x-ui.icon name="check" class="h-4 w-4" />{{ __('He repasado') }}</x-ui.button>@endif
             </div>
-            <div class="mt-5 border-t border-stone-100 pt-4">
-                <div class="text-sm font-semibold">{{ __('Memorización (opcional)') }}</div>
-                <p class="mt-0.5 text-xs text-muted">{{ __('La «llave» del texto: sus dos, tres o máximo cuatro primeras palabras.') }}</p>
-                <input wire:model="memorizeKey" wire:change="saveMemorizeKey" class="field mt-3" placeholder="{{ __('Llave del texto') }}">
-                <x-ui.button wire:click="toggleMemorized" :variant="$week->memorized ? 'primary' : 'soft'" block class="mt-2">
-                    @if ($week->memorized)<x-ui.icon name="check" class="h-4 w-4" />@endif
-                    {{ $week->memorized ? __('Memorizado') : __('Marcar memorizado') }}
-                </x-ui.button>
-            </div>
         </x-ui.card>
-    @elseif ($dayTexts->count() > 1)
+    @elseif ($isRestDay && $dayTexts->isNotEmpty())
         <x-ui.alert class="flex items-center justify-between gap-3">
-            <span>{{ __('El texto de la semana se elige el día de descanso.') }}</span>
-            <x-ui.button :href="route('mdp.rest')" variant="secondary" size="sm">{{ __('Ir') }}</x-ui.button>
+            <span>{{ __('Hoy es tu día de descanso: toca elegir el texto de la semana.') }}</span>
+            <x-ui.button :href="route('mdp.rest')" variant="secondary" size="sm">{{ __('Elegir') }}</x-ui.button>
         </x-ui.alert>
+    @elseif ($offset === 0 && $dayTexts->isNotEmpty())
+        <x-ui.alert>{{ __('El texto de la semana se elige el día de descanso, el :d.', ['d' => $week->ends_on->translatedFormat('l j')]) }}</x-ui.alert>
     @endif
 
     <div class="grid grid-cols-2 gap-2">

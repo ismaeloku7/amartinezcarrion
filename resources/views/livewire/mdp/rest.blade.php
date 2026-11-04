@@ -1,8 +1,4 @@
 <div class="space-y-5">
-    @unless ($isRest)
-        <x-ui.alert type="warning">{{ __('Hoy no es tu día de descanso, pero puedes completar aquí la semana si no lo hiciste.') }}</x-ui.alert>
-    @endunless
-
     @if ($step === 'previous')
         <x-ui.card :title="__('Repaso del día anterior')">
             @if ($previous)
@@ -57,7 +53,10 @@
                 </div>
                 @if ($week->reviews_done < 3)<x-ui.button wire:click="markReview" size="sm"><x-ui.icon name="check" class="h-4 w-4" />{{ __('He repasado') }}</x-ui.button>@endif
             </div>
-            <x-ui.button :href="route('mdp.today')" variant="soft" block class="mt-4">{{ __('Volver a hoy') }}</x-ui.button>
+            @if ($monthToClose)
+                <x-ui.button :href="route('mdp.month')" block class="mt-4">{{ __('Elegir el texto del mes') }}</x-ui.button>
+            @endif
+            <x-ui.button :href="route('mdp.today')" variant="soft" block class="mt-2">{{ __('Volver a hoy') }}</x-ui.button>
         </x-ui.card>
     @else
         <x-ui.action-bar>

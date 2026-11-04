@@ -60,11 +60,11 @@ class ReminderService
 
         if ($this->due($local, $e->reading_time)) {
             if ($isRest) {
-                $sent += $this->once($e->user, 'mdp-rest', $today, 'mdp', __('Día de descanso'), __('Repasa el día anterior y elige el texto de la semana.'), route('mdp.rest'));
+                $body = __('Repasa el día anterior y elige el texto de la semana.')
+                    .($this->mdp->monthClosingOn($e, $today) ? ' '.__('Hoy también toca elegir el texto del mes.') : '');
+                $sent += $this->once($e->user, 'mdp-rest', $today, 'mdp', __('Día de descanso'), $body, route('mdp.rest'));
             } elseif (! $day?->isCompleted()) {
-                $pending = $this->mdp->pendingMonthClose($e, $today);
-                $body = $pending ? __('Hoy también toca elegir el texto del mes.') : __('Oración, lectura y anotación de los textos. Repasa antes la página de ayer.');
-                $sent += $this->once($e->user, 'mdp-reading', $today, 'mdp', __('Tu devocional de hoy'), $body, route('mdp.today'));
+                $sent += $this->once($e->user, 'mdp-reading', $today, 'mdp', __('Tu devocional de hoy'), __('Oración, lectura y anotación de los textos. Repasa antes la página de ayer.'), route('mdp.today'));
             }
         }
 

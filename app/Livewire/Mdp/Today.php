@@ -70,7 +70,7 @@ class Today extends Component
             'dayText' => $day->texts->firstWhere('is_day_text', true),
             'previous' => $previous,
             'week' => $this->mdp()->weekFor($enrollment, $today),
-            'pendingMonth' => $this->mdp()->pendingMonthClose($enrollment, $today),
+            'pendingMonth' => $isToday ? $this->mdp()->monthClosingOn($enrollment, $today) : null,
             'daysDone' => $enrollment->days()->where('status', MdpDay::STATUS_DONE)->count(),
             'isToday' => $isToday,
             'prevDate' => $today->toDateString() > $enrollment->started_at->toDateString() ? $today->subDay()->toDateString() : null,

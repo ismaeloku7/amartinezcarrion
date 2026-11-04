@@ -15,7 +15,7 @@
 
     @if ($pendingMonth)
         <x-ui.alert type="warning" class="flex items-center justify-between gap-3">
-            <span>{{ __('Han pasado cuatro semanas. Elige el texto del mes.') }}</span>
+            <span>{{ __('Hoy se cierra el mes: después del texto de la semana, elige el texto del mes.') }}</span>
             <x-ui.button :href="route('mdp.month')" variant="secondary" size="sm">{{ __('Elegir') }}</x-ui.button>
         </x-ui.alert>
     @endif

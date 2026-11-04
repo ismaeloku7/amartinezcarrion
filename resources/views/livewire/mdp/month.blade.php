@@ -6,10 +6,13 @@
         </div>
         @if ($month->monthText)
             <p class="mt-3 font-serif text-[1.375rem] font-medium leading-snug text-green-800">{{ $month->monthText->body }}</p>
-        @elseif ($isCurrent)
-            <p class="mt-2 text-sm text-muted">{{ __('Al terminar las cuatro semanas podrás elegir el texto del mes entre los textos de cada semana.') }}</p>
-        @else
-            <p class="mt-2 text-sm text-muted">{{ __('Mira las cuatro fichas juntas y elige el texto con el que más te identificas ahora.') }}</p>
+        @endif
+        @if ($canChoose)
+            <p class="mt-2 text-sm text-muted">{{ __('Hoy se cierra el mes. Mira las cuatro fichas juntas y elige el texto con el que más te identificas ahora.') }}</p>
+        @elseif ($isCurrent && ! $month->monthText)
+            <p class="mt-2 text-sm text-muted">{{ __('El texto del mes se elige el día que se cierra, el :d, entre los textos de cada semana.', ['d' => $month->ends_on->translatedFormat('l j \\d\\e F')]) }}</p>
+        @elseif (! $month->monthText)
+            <p class="mt-2 text-sm text-muted">{{ __('Este mes se cerró sin texto del mes.') }}</p>
         @endif
         <div class="mt-4 grid gap-2.5 sm:grid-cols-2">
             @foreach ($weeks as $w)
@@ -17,7 +20,7 @@
                 <div class="rounded-2xl p-4 {{ $chosen ? 'bg-green-50 ring-2 ring-green-600' : 'bg-amber-50/70' }}">
                     <div class="text-xs font-medium text-stone-500">{{ $w->starts_on->translatedFormat('j M') }}</div>
                     @if ($w->weekText)
-                        @if (! $month->month_text_id && ! $isCurrent)
+                        @if ($canChoose)
                             <button type="button" wire:click="selectMonthText({{ $w->week_text_id }})" class="mt-1 w-full text-left font-serif text-lg leading-snug active:opacity-70">{{ $w->weekText->body }}</button>
                         @else
                             <p class="mt-1 font-serif text-lg leading-snug">{{ $w->weekText->body }}</p>

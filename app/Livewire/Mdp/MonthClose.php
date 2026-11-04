@@ -26,13 +26,13 @@ class MonthClose extends Component
             return $enrollment->months()->where('index', $this->monthIndex)->firstOrFail();
         }
 
-        return $this->mdp()->pendingMonthClose($enrollment, $this->today())
-            ?? $this->mdp()->monthFor($enrollment, $this->today());
+        return $this->mdp()->monthFor($enrollment, $this->today());
     }
 
     public function selectMonthText(int $textId): void
     {
         $month = $this->month();
+        abort_unless($this->mdp()->canChooseMonthText($month, $this->today()), 403);
         $candidates = $month->weeks()->pluck('week_text_id')->filter()->all();
         abort_unless(in_array($textId, $candidates, true), 403);
         $this->mdp()->selectMonthText($month, MdpText::findOrFail($textId));
@@ -41,12 +41,16 @@ class MonthClose extends Component
     public function render()
     {
         $month = $this->month();
-        $this->mdp()->applyMonthAutoSelection($month);
-        $month->refresh();
+        $canChoose = $this->mdp()->canChooseMonthText($month, $this->today());
+        if ($canChoose) {
+            $this->mdp()->applyMonthAutoSelection($month);
+            $month->refresh();
+        }
 
         return view('livewire.mdp.month', [
             'month' => $month,
             'weeks' => $month->weeks(),
+            'canChoose' => $canChoose,
             'isCurrent' => $month->ends_on->gte($this->today()),
             'months' => $this->enrollment()->months()->with('monthText')->orderByDesc('index')->get(),
         ])->layout('components.layouts.app', $this->layoutData(__('Texto del mes'), route('mdp.today')));

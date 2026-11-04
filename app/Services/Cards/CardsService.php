@@ -123,6 +123,11 @@ class CardsService
         $day->forceFill($changed
             ? ['chosen_card_id' => $card->id, 'reviews_done' => 0, 'rating' => null]
             : ['chosen_card_id' => $card->id])->save();
+
+        // Choosing is the morning step: it moves the group rotation on.
+        if (! $day->reviewed_at) {
+            $this->completeMorningReview($day);
+        }
     }
 
     /**

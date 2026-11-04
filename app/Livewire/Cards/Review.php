@@ -7,27 +7,24 @@ use App\Models\Cards\Card;
 use Illuminate\Support\Collection;
 use Livewire\Component;
 
-/** Morning review: flip through the group's cards one by one, then pick the card of the day. */
+/**
+ * Morning: look at the group's cards and choose the card of the day. Only that card is
+ * reviewed afterwards (three times); the group is not gone through card by card.
+ */
 class Review extends Component
 {
     use HasEnrollment;
 
-    public int $index = 0;
+    /** Card opened to see both sides before choosing it. */
+    public ?int $preview = null;
 
     public bool $flipped = false;
-
-    public string $phase = 'review'; // review|choose
 
     public function mount(): void
     {
         $day = $this->cards()->dayFor($this->enrollment(), $this->today());
         if ($day->is_rest_day || ! $day->group_index) {
             $this->redirectRoute('cards.today');
-
-            return;
-        }
-        if ($day->reviewed_at || $day->chosen_card_id) {
-            $this->phase = 'choose';
         }
     }
 
@@ -38,26 +35,21 @@ class Review extends Component
         return $this->cards()->cardsForGroup($this->enrollment(), $day->group_index);
     }
 
+    public function open(int $cardId): void
+    {
+        $this->preview = $this->group()->firstWhere('id', $cardId)?->id;
+        $this->flipped = false;
+    }
+
+    public function close(): void
+    {
+        $this->preview = null;
+        $this->flipped = false;
+    }
+
     public function flip(): void
     {
         $this->flipped = ! $this->flipped;
-    }
-
-    public function nextCard(): void
-    {
-        $this->flipped = false;
-        if ($this->index < $this->group()->count() - 1) {
-            $this->index++;
-        } else {
-            $this->cards()->completeMorningReview($this->cards()->dayFor($this->enrollment(), $this->today()));
-            $this->phase = 'choose';
-        }
-    }
-
-    public function previousCard(): void
-    {
-        $this->flipped = false;
-        $this->index = max(0, $this->index - 1);
     }
 
     public function choose(int $cardId): void
@@ -82,9 +74,8 @@ class Review extends Component
 
         return view('livewire.cards.review', [
             'cards' => $cards,
-            'current' => $cards[$this->index] ?? null,
             'day' => $day,
-            'total' => $cards->count(),
-        ])->layout('components.layouts.app', $this->layoutData(__('Repaso del grupo :n', ['n' => $day->group_index]), route('cards.today')));
+            'previewCard' => $this->preview ? $cards->firstWhere('id', $this->preview) : null,
+        ])->layout('components.layouts.app', $this->layoutData(__('Ficha de hoy · grupo :n', ['n' => $day->group_index]), route('cards.today')));
     }
 }

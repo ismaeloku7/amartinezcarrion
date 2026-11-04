@@ -121,7 +121,7 @@ class ReminderService
 
         if ($this->due($local, $e->morning_time) && ! $day?->chosen_card_id) {
             $group = $this->cards->groupForDate($e, $today);
-            $sent += $this->once($e->user, 'cards-morning', $today, 'cards', __('Repaso de la mañana'), __('Hoy toca el grupo :n. Repasa sus fichas y escoge la del día.', ['n' => $group]), route('cards.review'));
+            $sent += $this->once($e->user, 'cards-morning', $today, 'cards', __('Ficha de hoy'), __('Hoy toca el grupo :n. Escoge la ficha que repasarás hoy.', ['n' => $group]), route('cards.review'));
         }
 
         foreach (array_values($e->review_times ?? []) as $i => $time) {

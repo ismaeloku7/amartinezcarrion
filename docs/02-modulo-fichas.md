@@ -36,10 +36,10 @@ de crecimiento personal (apartado "Arcilla" y fichas del PDF adjunto).
 | PWA | Instalable por separado, con su manifest y notificaciones |
 
 ## Flujo diario
-1. **Mañana** (aviso push): la app indica el grupo que toca. Repaso ficha a ficha
-   (tarjeta que se gira para ver el reverso). Al terminar, vista extendida de todas
-   las fichas del grupo para escoger la del día. Las no seleccionables se muestran
-   pero no se pueden elegir.
+1. **Mañana** (aviso push): la app indica el grupo que toca y muestra sus fichas
+   extendidas para escoger una. Se puede abrir cualquiera para verla por las dos caras
+   antes de escogerla, sin recorrer el grupo ficha a ficha. Las no seleccionables se
+   muestran pero no se pueden elegir. La ficha escogida es la única que se repasa.
 2. **Ficha del día**: pantalla con anverso, reverso y, si existe, el resumen del
    apartado. Si la 31 ya está incorporada, se recuerda aplicar la visualización.
 3. **Tres repasos** (avisos push): la notificación no muestra la ficha. Al abrirla,
@@ -66,7 +66,7 @@ de crecimiento personal (apartado "Arcilla" y fichas del PDF adjunto).
 ## Notificaciones (Web Push)
 | Aviso | Cuándo |
 |---|---|
-| Repaso de la mañana | Hora fija configurable |
+| Elección de la ficha (mañana) | Hora fija configurable |
 | Repasos 1, 2, 3 | Tres horas configurables (por defecto antes de comer, cenar, dormir) |
 | Valoración nocturna | Tras la hora del tercer repaso, solo si la planilla está activa |
 | Nueva ficha pendiente | Opcional: recordatorio semanal de seguir leyendo si no se incorpora ninguna ficha en 7 días |

@@ -29,12 +29,12 @@
         </div>
     @elseif (! $day->chosen_card_id)
         <div class="rounded-3xl bg-app p-6 text-white shadow-float">
-            <div class="text-xs font-semibold uppercase tracking-wider text-white/70">{{ __('Repaso de la mañana · grupo :n', ['n' => $group]) }}</div>
-            <p class="mt-2 text-[0.9375rem] leading-relaxed text-white/90">{{ __('Repasa las :n fichas de este grupo y escoge la que más te apele para hoy.', ['n' => $groupCards->count()]) }}</p>
+            <div class="text-xs font-semibold uppercase tracking-wider text-white/70">{{ __('Ficha de hoy · grupo :n', ['n' => $group]) }}</div>
+            <p class="mt-2 text-[0.9375rem] leading-relaxed text-white/90">{{ __('Escoge una ficha de este grupo para hoy. Esa será la que repases tres veces a lo largo del día.') }}</p>
             <div class="mt-4 flex flex-wrap gap-1.5">
                 @foreach ($groupCards as $c)<span class="grid h-8 min-w-8 place-items-center rounded-lg bg-white/15 px-1.5 text-xs font-semibold">{{ $c->number }}</span>@endforeach
             </div>
-            <a href="{{ route('cards.review') }}" class="mt-5 flex h-12 items-center justify-center gap-2 rounded-full bg-white font-semibold text-app active:scale-[0.98]"><x-ui.icon name="play" class="h-4 w-4" />{{ $day->reviewed_at ? __('Escoger la ficha del día') : __('Empezar el repaso') }}</a>
+            <a href="{{ route('cards.review') }}" class="mt-5 flex h-12 items-center justify-center gap-2 rounded-full bg-white font-semibold text-app active:scale-[0.98]">{{ __('Escoger la ficha de hoy') }}</a>
         </div>
     @else
         <x-ui.card :eyebrow="__('Ficha del día')">

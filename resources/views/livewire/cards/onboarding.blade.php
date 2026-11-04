@@ -6,7 +6,7 @@
     <form wire:submit="start" class="space-y-5">
         <x-ui.card :title="__('Horario')">
             <div class="grid grid-cols-2 items-end gap-3">
-                <label class="block"><span class="field-label">{{ __('Repaso de la mañana') }}</span><input type="time" wire:model="morning_time" class="field"></label>
+                <label class="block"><span class="field-label">{{ __('Elección de la ficha (mañana)') }}</span><input type="time" wire:model="morning_time" class="field"></label>
                 <x-ui.weekday-select model="rest_weekday" :label="__('Día de descanso')" />
                 @foreach ([0, 1, 2] as $i)
                     <label class="block"><span class="field-label">{{ __('Repaso :n', ['n' => $i + 1]) }}</span><input type="time" wire:model="review_times.{{ $i }}" class="field"></label>
